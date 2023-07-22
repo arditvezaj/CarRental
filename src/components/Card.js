@@ -1,4 +1,4 @@
-import { View, Text, FlatList, StyleSheet } from "react-native";
+import { View, Text, FlatList, StyleSheet, Pressable } from "react-native";
 import CarItem from "./CarItem";
 
 const carsDetails = [
@@ -23,6 +23,13 @@ const carsDetails = [
     price: 80,
     imageUrl: require("../../assets/images/bmw.jpeg"),
   },
+  {
+    id: 4,
+    name: "Volvo XC90",
+    date: new Date("29.12.2020"),
+    price: 70,
+    imageUrl: require("../../assets/images/volvo.jpeg"),
+  },
 ];
 
 const Card = () => {
@@ -38,6 +45,7 @@ const Card = () => {
           name={item.name}
           price={item.price}
           imageUrl={item.imageUrl}
+          style={styles.container}
         />
       )}
     />
@@ -45,3 +53,9 @@ const Card = () => {
 };
 
 export default Card;
+
+const styles = StyleSheet.create({
+  container: {
+    gap: 8,
+  },
+});

@@ -1,28 +1,38 @@
-import { View, Text, Image, StyleSheet } from "react-native";
+import { View, Text, Pressable, Image, StyleSheet } from "react-native";
 
 const CarItem = ({ name, price, imageUrl }) => {
   return (
-    <View>
-      <Image source={imageUrl} style={styles.image} />
+    <Pressable
+      style={({ pressed }) => [
+        {
+          opacity: pressed ? 0.5 : 1,
+        },
+      ]}
+    >
       <View style={styles.container}>
-        <Text style={styles.name}>{name}</Text>
-        <Text style={styles.price}>Price: {price}$</Text>
+        <Image source={imageUrl} style={styles.image} />
+        <View style={styles.innerContainer}>
+          <Text style={styles.name}>{name}</Text>
+          <Text style={styles.price}>Price: {price}$</Text>
+        </View>
       </View>
-    </View>
+    </Pressable>
   );
 };
 
 export default CarItem;
 
 const styles = StyleSheet.create({
-  container: {
+  container: { backgroundColor: "black", marginBottom: 30, borderRadius: 8 },
+  innerContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginBottom: 30,
+    padding: 10,
   },
   image: {
-    borderRadius: 8,
-    width: 320
+    borderTopLeftRadius: 8,
+    borderTopRightRadius: 8,
+    width: 320,
   },
   name: {
     marginVertical: 8,
