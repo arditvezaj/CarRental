@@ -1,4 +1,4 @@
-import { SafeAreaView, View, Text, StyleSheet } from "react-native";
+import { SafeAreaView, View, Pressable, StyleSheet } from "react-native";
 import Card from "../components/Card";
 import Title from "../components/Title";
 
@@ -7,6 +7,7 @@ const Home = () => {
     <SafeAreaView>
       <View style={styles.container}>
         <Title name="Car Rental" />
+
         <Card />
       </View>
     </SafeAreaView>
@@ -19,5 +20,5 @@ const styles = StyleSheet.create({
   container: {
     justifyContent: "center",
     alignItems: "center",
-  }
+  },
 });
