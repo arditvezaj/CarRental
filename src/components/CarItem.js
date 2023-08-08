@@ -1,6 +1,6 @@
 import { View, Text, Pressable, Image, StyleSheet } from "react-native";
 
-const CarItem = ({ name, price, imageUrl }) => {
+const CarItem = ({ name, price, imageUrl, onPress }) => {
   return (
     <Pressable
       style={({ pressed }) => [
@@ -8,6 +8,7 @@ const CarItem = ({ name, price, imageUrl }) => {
           opacity: pressed ? 0.5 : 1,
         },
       ]}
+      onPress={onPress}
     >
       <View style={styles.container}>
         <Image source={imageUrl} style={styles.image} />
@@ -23,11 +24,19 @@ const CarItem = ({ name, price, imageUrl }) => {
 export default CarItem;
 
 const styles = StyleSheet.create({
-  container: { backgroundColor: "black", marginBottom: 30, borderRadius: 8 },
+  container: {
+    backgroundColor: "black",
+    marginBottom: 30,
+    borderRadius: 8,
+    justifyContent: "center",
+    alignItems: "center",
+    marginHorizontal: 35,
+  },
   innerContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
     padding: 10,
+    width: "100%",
   },
   image: {
     borderTopLeftRadius: 8,

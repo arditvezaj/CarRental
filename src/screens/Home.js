@@ -1,16 +1,30 @@
-import { SafeAreaView, View, Pressable, StyleSheet } from "react-native";
-import Card from "../components/Card";
+import { View, Pressable, StyleSheet, FlatList } from "react-native";
+import { carsData } from "../data/dummy-data";
 import Title from "../components/Title";
+import CarItem from "../components/CarItem";
 
-const Home = () => {
+const Home = ({ navigation }) => {
+  const renderCarCards = (itemData) => {
+    const pressHandler = () => {
+      navigation.navigate("Car Details", {
+        id: itemData.item.id,
+      });
+    };
+    return (
+      <CarItem
+        name={itemData.item.name}
+        price={itemData.item.price}
+        imageUrl={itemData.item.imageUrl}
+        onPress={pressHandler}
+      />
+    );
+  };
   return (
-    <SafeAreaView>
-      <View style={styles.container}>
-        <Title name="Car Rental" />
-
-        <Card />
-      </View>
-    </SafeAreaView>
+    <FlatList
+      data={carsData}
+      keyExtractor={(item) => item.id}
+      renderItem={renderCarCards}
+    />
   );
 };
 
@@ -18,6 +32,7 @@ export default Home;
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     justifyContent: "center",
     alignItems: "center",
   },

@@ -1,9 +1,7 @@
-import { View, Text, FlatList, StyleSheet, Pressable } from "react-native";
-import CarItem from "./CarItem";
-
-const carsDetails = [
+export const carsData = [
   {
     id: 1,
+    ids: [1],
     name: "Audi Q8",
     date: new Date("12.04.2023"),
     price: 60,
@@ -11,6 +9,7 @@ const carsDetails = [
   },
   {
     id: 2,
+    ids: [2],
     name: "Mercedes 220",
     date: new Date("10.05.2016"),
     price: 40,
@@ -18,6 +17,7 @@ const carsDetails = [
   },
   {
     id: 3,
+    ids: [3],
     name: "BMW X6",
     date: new Date("29.12.2020"),
     price: 80,
@@ -25,37 +25,10 @@ const carsDetails = [
   },
   {
     id: 4,
+    ids: [4],
     name: "Volvo XC90",
     date: new Date("29.12.2020"),
     price: 70,
     imageUrl: require("../../assets/images/volvo.jpeg"),
   },
 ];
-
-const Card = () => {
-  return (
-    <FlatList
-      data={carsDetails}
-      keyExtractor={(item) => {
-        item.id;
-      }}
-      renderItem={({ item }) => (
-        <CarItem
-          key={item.id}
-          name={item.name}
-          price={item.price}
-          imageUrl={item.imageUrl}
-          style={styles.container}
-        />
-      )}
-    />
-  );
-};
-
-export default Card;
-
-const styles = StyleSheet.create({
-  container: {
-    gap: 8,
-  },
-});
