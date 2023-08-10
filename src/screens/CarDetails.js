@@ -25,8 +25,14 @@ const CarDetails = ({ route, navigation }) => {
 
     const carItemProps = {
       name: item.name,
-      imageUrl: item.imageUrl,
+      date: item.date,
+      km: item.km,
+      transmission: item.transmission,
+      fuel: item.fuel,
+      seats: item.seats,
+      engine: item.engine,
       price: item.price,
+      imageUrl: item.imageUrl,
     };
     return <CarInfos {...carItemProps} />;
   };
