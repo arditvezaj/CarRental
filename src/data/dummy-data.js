@@ -10,7 +10,7 @@ export const carsData = [
     engine: 3000,
     km: "130.000",
     seats: 5,
-    imageUrl: require("../../assets/images/audi.jpeg"),
+    imageUrl: require("../../assets/images/cars/audi.jpeg"),
   },
   {
     id: 2,
@@ -23,7 +23,7 @@ export const carsData = [
     engine: 3000,
     km: "120.000",
     seats: 5,
-    imageUrl: require("../../assets/images/mercedes.jpeg"),
+    imageUrl: require("../../assets/images/cars/mercedes.jpeg"),
   },
   {
     id: 3,
@@ -36,7 +36,7 @@ export const carsData = [
     engine: 4000,
     km: "320.000",
     seats: 5,
-    imageUrl: require("../../assets/images/bmw.jpeg"),
+    imageUrl: require("../../assets/images/cars/bmw.jpeg"),
   },
   {
     id: 4,
@@ -49,6 +49,6 @@ export const carsData = [
     engine: 2000,
     km: "220.000",
     seats: 5,
-    imageUrl: require("../../assets/images/volvo.jpeg"),
+    imageUrl: require("../../assets/images/cars/volvo.jpeg"),
   },
 ];
