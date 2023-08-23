@@ -15,10 +15,10 @@ const CarInfos = ({
     <View style={styles.container}>
       <SafeAreaView>
         <Image source={imageUrl} style={styles.image} />
-        <Text style={[styles.text, styles.container]}>{name}</Text>
+        <Text style={styles.carName}>{name}</Text>
         <View style={styles.textOutline}>
-          <Text style={styles.textKey}>Price: </Text>
-          <Text style={styles.text}>{price} $</Text>
+          <Text style={styles.price}>Price: </Text>
+          <Text style={styles.price}>${price}/day </Text>
         </View>
         <View>
           <Text style={styles.textKey}>Specifications</Text>
@@ -66,9 +66,9 @@ const CarInfos = ({
           <Text style={styles.textKey}>Milleage: </Text>
           <Text style={styles.text}>{km}</Text>
         </View>
-        <View style={styles.textOutline}>
-          <Text style={styles.textKey}>Available date: </Text>
-          <Text style={styles.text}>{date}</Text>
+        <View style={styles.date}>
+          <Text>Available date: </Text>
+          <Text>{date}</Text>
         </View>
       </SafeAreaView>
     </View>
@@ -102,6 +102,17 @@ const styles = StyleSheet.create({
   boxText: {
     color: "black",
   },
+  carName: {
+    marginVertical: 5,
+    fontSize: 20,
+    fontWeight: "700",
+    color: "white",
+  },
+  price: {
+    fontSize: 18,
+    fontWeight: "700",
+    color: "white",
+  },
   container: {
     margin: 20,
     justifyContent: "center",
@@ -112,4 +123,10 @@ const styles = StyleSheet.create({
   },
   textKey: { color: "white" },
   text: { color: "white", fontWeight: "bold" },
+  date: {
+    width: "100%",
+    padding: 10,
+    backgroundColor: "white",
+    borderRadius: 6
+  }
 });
