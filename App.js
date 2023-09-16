@@ -1,23 +1,38 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Home from "./src/screens/Home";
 import Login from "./src/screens/Login";
+import CarDetails from "./src/screens/CarDetails";
+import colors from "./src/constants/colors";
+
+const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
-    <View style={styles.container}>
+    <>
       <StatusBar style="light" />
-      <Login />
-      {/* <Home /> */}
-    </View>
+      <NavigationContainer>
+        <Stack.Navigator
+          screenOptions={{
+            headerStyle: {
+              backgroundColor: colors.primary,
+            },
+            headerTintColor: "white",
+            contentStyle: {
+              backgroundColor: colors.primary,
+            },
+          }}
+        >
+          <Stack.Screen
+            name="Home"
+            component={Home}
+            options={{ title: "Car Rental" }}
+          />
+          <Stack.Screen name="Car Details" component={CarDetails} />
+          <Stack.Screen name="Login" component={Login} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#36454F",
-  },
-});
