@@ -13,6 +13,7 @@ const Home = ({ navigation }) => {
     return (
       <CarItem
         name={itemData.item.name}
+        discount={itemData.item.discount}
         price={itemData.item.price}
         imageUrl={itemData.item.imageUrl}
         onPress={pressHandler}

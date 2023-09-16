@@ -2,7 +2,6 @@ import { useLayoutEffect } from "react";
 import { View, Text, StyleSheet, FlatList } from "react-native";
 
 import { carsData } from "../data/dummy-data";
-import CarItem from "../components/CarItem";
 import CarInfos from "../components/CarInfos";
 
 const CarDetails = ({ route, navigation }) => {
@@ -24,6 +23,7 @@ const CarDetails = ({ route, navigation }) => {
     const item = itemData.item;
 
     const carItemProps = {
+      company: item.company,
       name: item.name,
       date: item.date,
       km: item.km,
@@ -32,6 +32,7 @@ const CarDetails = ({ route, navigation }) => {
       seats: item.seats,
       engine: item.engine,
       price: item.price,
+      discount: item.discount,
       imageUrl: item.imageUrl,
     };
     return <CarInfos {...carItemProps} />;
