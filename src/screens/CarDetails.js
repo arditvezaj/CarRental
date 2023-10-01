@@ -1,5 +1,5 @@
 import { useLayoutEffect } from "react";
-import { View, Text, StyleSheet, FlatList } from "react-native";
+import { View, FlatList } from "react-native";
 
 import { carsData } from "../data/dummy-data";
 import CarInfos from "../components/CarInfos";
@@ -8,7 +8,7 @@ const CarDetails = ({ route, navigation }) => {
   const id = route.params.id;
 
   const displayedCars = carsData.filter((carItem) => {
-    return carItem.ids.indexOf(id) >= 0;
+    return carItem.id == id
   });
 
   useLayoutEffect(() => {

@@ -1,7 +1,6 @@
 export const carsData = [
   {
     id: 1,
-    ids: [1],
     company: "Mara Rent a Car",
     name: "Audi Q8",
     date: "12.04.2023",
@@ -16,7 +15,6 @@ export const carsData = [
   },
   {
     id: 2,
-    ids: [2],
     company: "Noli Rent a Car",
     name: "Mercedes 220",
     date: "10.05.2016",
@@ -31,7 +29,6 @@ export const carsData = [
   },
   {
     id: 3,
-    ids: [3],
     company: "Fidani Tours",
     name: "BMW X6",
     date: "29.12.2020",
@@ -46,7 +43,6 @@ export const carsData = [
   },
   {
     id: 4,
-    ids: [4],
     company: "Rent a Car AL",
     name: "Volvo XC90",
     date: "29.12.2020",

@@ -5,6 +5,7 @@ import Home from "./src/screens/Home";
 import Login from "./src/screens/Login";
 import CarDetails from "./src/screens/CarDetails";
 import colors from "./src/constants/colors";
+import "./i18n";
 
 const Stack = createNativeStackNavigator();
 

@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.secondary,
     alignItems: "flex-end",
-    marginVertical: 15,
+    marginVertical: 12,
     borderRadius: 12,
     marginHorizontal: 35,
     shadowOpacity: 1,
@@ -56,21 +56,19 @@ const styles = StyleSheet.create({
     color: "white",
   },
   image: {
-    justifyContent: "flex-end",
-    alignItems: "flex-end",
     borderTopLeftRadius: 12,
     borderTopRightRadius: 12,
     width: 320,
-    height: 140
+    height: 130
   },
   name: {
-    marginVertical: 8,
+    marginVertical: 4,
     fontSize: 17,
     fontWeight: "800",
     color: "white",
   },
   price: {
-    marginVertical: 8,
+    marginVertical: 4,
     color: "white",
   },
 });

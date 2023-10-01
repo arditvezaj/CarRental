@@ -5,17 +5,18 @@ import CarItem from "../components/CarItem";
 
 const Home = ({ navigation }) => {
   const renderCarCards = (itemData) => {
+    const item = itemData.item;
     const pressHandler = () => {
       navigation.navigate("Car Details", {
-        id: itemData.item.id,
+        id: item.id,
       });
     };
     return (
       <CarItem
-        name={itemData.item.name}
-        discount={itemData.item.discount}
-        price={itemData.item.price}
-        imageUrl={itemData.item.imageUrl}
+        name={item.name}
+        discount={item.discount}
+        price={item.price}
+        imageUrl={item.imageUrl}
         onPress={pressHandler}
       />
     );
@@ -30,11 +31,3 @@ const Home = ({ navigation }) => {
 };
 
 export default Home;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-});

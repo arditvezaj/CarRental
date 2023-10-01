@@ -1,4 +1,5 @@
 import { View, Text, SafeAreaView, Image, StyleSheet } from "react-native";
+import { useTranslation } from "react-i18next";
 import colors from "../constants/colors";
 
 const CarInfos = ({
@@ -13,6 +14,7 @@ const CarInfos = ({
   fuel,
   imageUrl,
 }) => {
+  const { t } = useTranslation();
   return (
     <SafeAreaView>
       <View style={styles.outerContainer}>
@@ -32,28 +34,30 @@ const CarInfos = ({
             <Text style={styles.price}>${price}/day </Text>
           </View>
           <View>
-            <Text style={styles.price}>Specifications</Text>
+            <Text style={styles.price}>{t("Specifications")}</Text>
             <View style={styles.boxesContainer}>
               <View style={styles.box}>
                 <Image
                   source={require("../../assets/images/icons/transmision.png")}
                   style={styles.icon}
                 />
-                <Text style={styles.boxText}>{transmission}</Text>
+                <Text style={styles.boxText}>{t(transmission)}</Text>
               </View>
               <View style={styles.box}>
                 <Image
                   source={require("../../assets/images/icons/seats.png")}
                   style={styles.icon}
                 />
-                <Text style={styles.boxText}>{seats} seater</Text>
+                <Text style={styles.boxText}>
+                  {seats} {t("seater")}
+                </Text>
               </View>
               <View style={styles.box}>
                 <Image
                   source={require("../../assets/images/icons/fuel.png")}
                   style={styles.icon}
                 />
-                <Text style={styles.boxText}>{fuel}</Text>
+                <Text style={styles.boxText}>{t(fuel)}</Text>
               </View>
             </View>
           </View>
@@ -70,20 +74,22 @@ const CarInfos = ({
               source={require("../../assets/images/icons/mileage.png")}
               style={styles.smallIcon}
             />
-            <Text>Mileage: </Text>
-            <Text>{km} km</Text>
+            <Text>{t("Mileage")}: </Text>
+            <Text>
+              {km} {t("km")}
+            </Text>
           </View>
           <View style={styles.date}>
             <Image
               source={require("../../assets/images/icons/time.png")}
               style={styles.smallIcon}
             />
-            <Text>Available date: </Text>
+            <Text>{t("Available date")}: </Text>
             <Text>{date}</Text>
           </View>
         </View>
         <View style={styles.bottomButton}>
-          <Text style={styles.buttonText}>Book Now</Text>
+          <Text style={styles.buttonText}>{t("Book Now")}</Text>
         </View>
       </View>
     </SafeAreaView>
@@ -101,13 +107,12 @@ const styles = StyleSheet.create({
     width: "86%",
     borderTopLeftRadius: 6,
     borderTopRightRadius: 6,
-    backgroundColor: colors.secondary
+    backgroundColor: colors.secondary,
   },
   company: {
     fontSize: 22,
     fontWeight: "700",
     color: "white",
-    
   },
   boxesContainer: {
     flexDirection: "row",
