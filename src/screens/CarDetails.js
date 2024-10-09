@@ -8,21 +8,20 @@ const CarDetails = ({ route, navigation }) => {
   const id = route.params.id;
 
   const displayedCars = carsData.filter((carItem) => {
-    return carItem.id == id
+    return carItem.id == id;
   });
 
   useLayoutEffect(() => {
-    const carTitle = carsData.find((car) => car.id === id).title;
+    const carTitle = carsData.find((car) => car.id === id)?.title;
 
     navigation.setOptions({
       name: carTitle,
     });
   }, [id, navigation]);
 
-  const renderCarItem = (itemData) => {
-    const item = itemData.item;
-
+  const renderCarItem = ({ item }) => {
     const carItemProps = {
+      id: item.id,
       company: item.company,
       name: item.name,
       date: item.date,

@@ -1,33 +1,44 @@
-import { View, Pressable, StyleSheet, FlatList } from "react-native";
+import { View, Text, StyleSheet, FlatList } from "react-native";
 import { carsData } from "../data/dummy-data";
-import Title from "../components/Title";
-import CarItem from "../components/CarItem";
+import CarItem from "../components/organisms/CarItem";
+import SearchInput from "../components/molecules/SearchInput";
 
-const Home = ({ navigation }) => {
-  const renderCarCards = (itemData) => {
-    const item = itemData.item;
-    const pressHandler = () => {
-      navigation.navigate("Car Details", {
-        id: item.id,
-      });
-    };
+const Home = () => {
+  const renderItem = ({ item }) => {
     return (
       <CarItem
+        id={item.id}
         name={item.name}
         discount={item.discount}
         price={item.price}
         imageUrl={item.imageUrl}
-        onPress={pressHandler}
       />
     );
   };
+
   return (
-    <FlatList
-      data={carsData}
-      keyExtractor={(item) => item.id}
-      renderItem={renderCarCards}
-    />
+    <View style={styles.container}>
+      <SearchInput />
+      <FlatList
+        data={carsData}
+        keyExtractor={(item) => item.id}
+        renderItem={renderItem}
+        numColumns={2}
+        LisEmptyComponent={<Text>No cars found</Text>}
+        contentContainerStyle={styles.contentList}
+      />
+    </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    marginHorizontal: 10,
+  },
+  contentList: {
+    paddingBottom: 60,
+  },
+});
 
 export default Home;

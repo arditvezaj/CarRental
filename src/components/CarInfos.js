@@ -1,8 +1,19 @@
-import { View, Text, SafeAreaView, Image, StyleSheet } from "react-native";
-import { useTranslation } from "react-i18next";
+import {
+  View,
+  Text,
+  SafeAreaView,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { AntDesign } from "@expo/vector-icons";
+import { useDispatch, useSelector } from "react-redux";
+import { addFavorite, removeFavorite } from "../redux/modules/favorites/slice";
 import colors from "../constants/colors";
 
 const CarInfos = ({
+  id,
   company,
   name,
   price,
@@ -14,84 +25,109 @@ const CarInfos = ({
   fuel,
   imageUrl,
 }) => {
-  const { t } = useTranslation();
+  const navigation = useNavigation();
+  const dispatch = useDispatch();
+  const carIsFavorite = useSelector((state) =>
+    state.favoriteCars.ids.includes(id)
+  );
+
+  const toggleFavorite = () => {
+    if (carIsFavorite) {
+      dispatch(removeFavorite({ id }));
+    } else {
+      dispatch(addFavorite({ id }));
+    }
+  };
+
+  const fields = [
+    { name: "Transmission", value: transmission },
+    { name: "Seats", value: seats + " seater" },
+    { name: "Fuel", value: fuel },
+    { name: "Engine power", value: engine + " cc" },
+    { name: "Available date", value: date },
+  ];
+
   return (
     <SafeAreaView>
-      <View style={styles.outerContainer}>
-        <View style={styles.container}>
-          <View style={styles.companyContainer}>
-            <Text style={styles.company}>{company}</Text>
-          </View>
-          <Image source={imageUrl} style={styles.image} />
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              width: "87%",
-            }}
-          >
-            <Text style={styles.carName}>{name}</Text>
-            <Text style={styles.price}>${price}/day </Text>
-          </View>
-          <View>
-            <Text style={styles.price}>{t("Specifications")}</Text>
-            <View style={styles.boxesContainer}>
-              <View style={styles.box}>
-                <Image
-                  source={require("../../assets/images/icons/transmision.png")}
-                  style={styles.icon}
-                />
-                <Text style={styles.boxText}>{t(transmission)}</Text>
-              </View>
-              <View style={styles.box}>
-                <Image
-                  source={require("../../assets/images/icons/seats.png")}
-                  style={styles.icon}
-                />
-                <Text style={styles.boxText}>
-                  {seats} {t("seater")}
-                </Text>
-              </View>
-              <View style={styles.box}>
-                <Image
-                  source={require("../../assets/images/icons/fuel.png")}
-                  style={styles.icon}
-                />
-                <Text style={styles.boxText}>{t(fuel)}</Text>
-              </View>
+      <View style={styles.container}>
+        <View style={styles.companyContainer}>
+          <Text style={styles.company}>{company}</Text>
+        </View>
+        <TouchableOpacity style={styles.heart} onPress={toggleFavorite}>
+          <AntDesign
+            name={carIsFavorite ? "heart" : "hearto"}
+            size={30}
+            color="white"
+          />
+        </TouchableOpacity>
+        <Image source={imageUrl} style={styles.image} />
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            width: "87%",
+          }}
+        >
+          <Text style={styles.carName}>{name}</Text>
+          <Text style={styles.price}>${price}/day </Text>
+        </View>
+        <View>
+          <Text style={styles.price}>Specifications</Text>
+          <View style={styles.boxesContainer}>
+            <View style={styles.box}>
+              <Image
+                source={require("../../assets/images/icons/transmision.png")}
+                style={styles.icon}
+              />
+              <Text style={styles.boxText}>{transmission}</Text>
+            </View>
+            <View style={styles.box}>
+              <Image
+                source={require("../../assets/images/icons/seats.png")}
+                style={styles.icon}
+              />
+              <Text style={styles.boxText}>{seats} seater</Text>
+            </View>
+            <View style={styles.box}>
+              <Image
+                source={require("../../assets/images/icons/fuel.png")}
+                style={styles.icon}
+              />
+              <Text style={styles.boxText}>{fuel}</Text>
             </View>
           </View>
-          <View style={styles.date}>
-            <Image
-              source={require("../../assets/images/icons/engine.png")}
-              style={styles.smallIcon}
-            />
-            <Text>Engine power: </Text>
-            <Text>{engine} cc</Text>
-          </View>
-          <View style={styles.date}>
-            <Image
-              source={require("../../assets/images/icons/mileage.png")}
-              style={styles.smallIcon}
-            />
-            <Text>{t("Mileage")}: </Text>
-            <Text>
-              {km} {t("km")}
-            </Text>
-          </View>
-          <View style={styles.date}>
-            <Image
-              source={require("../../assets/images/icons/time.png")}
-              style={styles.smallIcon}
-            />
-            <Text>{t("Available date")}: </Text>
-            <Text>{date}</Text>
-          </View>
         </View>
-        <View style={styles.bottomButton}>
-          <Text style={styles.buttonText}>{t("Book Now")}</Text>
+        <View style={styles.date}>
+          <Image
+            source={require("../../assets/images/icons/engine.png")}
+            style={styles.smallIcon}
+          />
+          <Text>Engine power: </Text>
+          <Text>{engine} cc</Text>
+        </View>
+        <View style={styles.date}>
+          <Image
+            source={require("../../assets/images/icons/mileage.png")}
+            style={styles.smallIcon}
+          />
+          <Text>Mileage: </Text>
+          <Text>{km} km</Text>
+        </View>
+        <View style={styles.date}>
+          <Image
+            source={require("../../assets/images/icons/time.png")}
+            style={styles.smallIcon}
+          />
+          <Text>Available date: </Text>
+          <Text>{date}</Text>
         </View>
       </View>
+      <TouchableOpacity
+        style={styles.bottomButton}
+        onPress={() => navigation.navigate("Favorites")}
+      >
+        <Text style={styles.buttonText}>Book Now</Text>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 };
@@ -99,7 +135,12 @@ const CarInfos = ({
 export default CarInfos;
 
 const styles = StyleSheet.create({
-  outerContainer: {},
+  container: {
+    marginHorizontal: 20,
+    marginVertical: 8,
+    justifyContent: "center",
+    alignItems: "center",
+  },
   companyContainer: {
     alignItems: "center",
     marginTop: 10,
@@ -158,11 +199,12 @@ const styles = StyleSheet.create({
     color: "white",
     marginVertical: 5,
   },
-  container: {
-    marginHorizontal: 20,
-    marginVertical: 8,
-    justifyContent: "center",
-    alignItems: "center",
+
+  heart: {
+    position: "absolute",
+    top: 77,
+    right: 37,
+    zIndex: 10,
   },
   textOutline: {
     flexDirection: "row",
