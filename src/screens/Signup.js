@@ -8,10 +8,10 @@ import {
 } from "react-native";
 import colors from "../constants/colors";
 
-const Login = ({ navigation }) => {
+const SignUp = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>Login with your credentials</Text>
+      <Text style={styles.title}>SignUp with your credentials</Text>
       <View style={styles.innerContainer}>
         <Text style={styles.label}>Email:</Text>
         <TextInput style={styles.input} textContentType="emailAddress" />
@@ -25,14 +25,14 @@ const Login = ({ navigation }) => {
           style={styles.button}
           onPress={() => navigation.replace("Home")}
         >
-          <Text style={styles.buttonText}>Login</Text>
+          <Text style={styles.buttonText}>SignUp</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
 };
 
-export default Login;
+export default SignUp;
 
 const styles = StyleSheet.create({
   container: {
@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: "700",
-    color: "#fff",
+    color: "white",
     marginTop: 70,
     textAlign: "center",
   },

@@ -11,10 +11,10 @@ const SearchInput = ({ text, setText, placeholder }) => {
         onChangeText={(e) => setText(e)}
         placeholder={placeholder}
         placeholderTextColor="#808080"
-        style={{ width: "100%" }}
+        style={styles.textInput}
       />
     </View>
-  );
+  )
 };
 
 const styles = StyleSheet.create({
@@ -24,13 +24,16 @@ const styles = StyleSheet.create({
     gap: 10,
     marginHorizontal: 10,
     marginVertical: 15,
-    // width: "100%",
-    borderWidth: 2,
+    borderWidth: 1,
     borderColor: "#E6E8EC",
     borderRadius: 12,
     backgroundColor: "#fff",
     paddingHorizontal: 15,
-    paddingVertical: 10,
+    paddingVertical: 7,
+  },
+  textInput: {
+    width: "100%",
+    fontSize: 14,
   },
 });
 

@@ -10,9 +10,9 @@ const CarItem = ({ id, name, price, discount, imageUrl }) => {
   };
   return (
     <TouchableOpacity onPress={onPressHandler} style={styles.container}>
-      <View style={styles.discountContainer}>
+      {/* <View style={styles.discountContainer}>
         <Text style={styles.discount}>-{discount}%</Text>
-      </View>
+      </View> */}
       <Image source={imageUrl} style={styles.image} />
       <View style={styles.innerContainer}>
         <Text style={styles.name}>{name}</Text>
@@ -27,7 +27,7 @@ export default CarItem;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    height: 200,
+    height: 185,
     backgroundColor: colors.secondary,
     margin: 10,
     borderRadius: 12,
@@ -35,10 +35,8 @@ const styles = StyleSheet.create({
     shadowOffset: 1,
   },
   innerContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    padding: 10,
+    paddingLeft: 12,
+    paddingTop: 8,
   },
   discountContainer: {
     padding: 4,
@@ -56,17 +54,16 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 12,
     borderTopRightRadius: 12,
     width: "100%",
-    height: 150,
+    height: 130,
     objectFit: "cover",
   },
   name: {
-    marginVertical: 4,
-    fontSize: 17,
-    fontWeight: "800",
+    fontSize: 16,
+    fontWeight: "700",
     color: "white",
   },
   price: {
-    marginVertical: 4,
+    marginTop: 3,
     color: "white",
   },
 });
