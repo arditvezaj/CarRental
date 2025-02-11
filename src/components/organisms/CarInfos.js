@@ -1,62 +1,68 @@
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+
 import { AntDesign } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
-import { addFavorite, removeFavorite } from "../redux/modules/favorites/slice";
-import colors from "../constants/colors";
+import {
+  addFavorite,
+  removeFavorite,
+} from "../../redux/modules/favorites/slice";
+import colors from "../../constants/colors";
+import BookButton from "../atoms/BookButton";
 
-const CarInfos = ({
-  id,
-  company,
-  name,
-  price,
-  date,
-  engine,
-  transmission,
-  km,
-  seats,
-  fuel,
-  imageUrl,
-}) => {
-  const navigation = useNavigation();
+const CarInfos = ({ item }) => {
+  const {
+    id,
+    company,
+    name,
+    price,
+    date,
+    engine,
+    transmission,
+    km,
+    seats,
+    fuel,
+    imageUrl,
+  } = item;
+
   const dispatch = useDispatch();
   const carIsFavorite = useSelector((state) =>
     state.favoriteCars.ids.includes(id)
   );
 
   const toggleFavorite = () => {
-    if (carIsFavorite) {
-      dispatch(removeFavorite({ id }));
-    } else {
-      dispatch(addFavorite({ id }));
-    }
+    dispatch(carIsFavorite ? removeFavorite({ id }) : addFavorite({ id }));
   };
 
   const fields = [
     {
       name: "Transmission",
       value: transmission,
-      image: require("../../assets/images/icons/transmision.png"),
+      image: require("../../../assets/images/icons/transmision.png"),
     },
     {
       name: "Seats",
       value: seats + " seater",
-      image: require("../../assets/images/icons/seats.png"),
+      image: require("../../../assets/images/icons/seats.png"),
     },
     {
       name: "Fuel",
       value: fuel,
-      image: require("../../assets/images/icons/fuel.png"),
+      image: require("../../../assets/images/icons/fuel.png"),
     },
     {
       name: "Engine power",
       value: engine + " cc",
-      image: require("../../assets/images/icons/mileage.png"),
+      image: require("../../../assets/images/icons/engine.png"),
+    },
+    {
+      name: "Millage",
+      value: km + " km",
+      image: require("../../../assets/images/icons/mileage.png"),
     },
     {
       name: "Available date",
       value: date,
-      image: require("../../assets/images/icons/time.png"),
+      image: require("../../../assets/images/icons/time.png"),
     },
   ];
 
@@ -68,8 +74,8 @@ const CarInfos = ({
       <TouchableOpacity style={styles.heart} onPress={toggleFavorite}>
         <AntDesign
           name={carIsFavorite ? "heart" : "hearto"}
-          size={30}
-          color="white"
+          size={25}
+          color={colors.secondary}
         />
       </TouchableOpacity>
       <Image source={imageUrl} style={styles.image} />
@@ -94,36 +100,14 @@ const CarInfos = ({
           ))}
         </View>
       </View>
-      <View style={styles.date}>
-        <Image
-          source={require("../../assets/images/icons/engine.png")}
-          style={styles.smallIcon}
-        />
-        <Text>Engine power: </Text>
-        <Text>{engine} cc</Text>
-      </View>
-      <View style={styles.date}>
-        <Image
-          source={require("../../assets/images/icons/mileage.png")}
-          style={styles.smallIcon}
-        />
-        <Text>Mileage: </Text>
-        <Text>{km} km</Text>
-      </View>
-      <View style={styles.date}>
-        <Image
-          source={require("../../assets/images/icons/time.png")}
-          style={styles.smallIcon}
-        />
-        <Text>Available date: </Text>
-        <Text>{date}</Text>
-      </View>
-      <TouchableOpacity
-        style={styles.bottomButton}
-        onPress={() => navigation.navigate("Favorites")}
-      >
-        <Text style={styles.buttonText}>Book Now</Text>
-      </TouchableOpacity>
+      {fields.slice(3, 6).map((field) => (
+        <View style={styles.date} key={field.name}>
+          <Image source={field.image} style={styles.smallIcon} />
+          <Text>{field.name}: </Text>
+          <Text>{field.value}</Text>
+        </View>
+      ))}
+      <BookButton />
     </View>
   );
 };
@@ -132,7 +116,7 @@ export default CarInfos;
 
 const styles = StyleSheet.create({
   container: {
-    marginHorizontal: 20,
+    marginHorizontal: 15,
     marginVertical: 8,
     justifyContent: "center",
     alignItems: "center",
@@ -147,7 +131,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.secondary,
   },
   company: {
-    fontSize: 22,
+    fontSize: 20,
     fontWeight: "700",
     color: "white",
   },
@@ -157,8 +141,8 @@ const styles = StyleSheet.create({
     marginVertical: 5,
   },
   box: {
-    width: 110,
-    height: 110,
+    width: "31.4%",
+    height: 100,
     backgroundColor: "white",
     borderRadius: 6,
     justifyContent: "center",
@@ -198,15 +182,13 @@ const styles = StyleSheet.create({
   },
   heart: {
     position: "absolute",
-    top: 77,
-    right: 15,
+    top: 75,
+    right: 10,
     zIndex: 10,
+    padding: 7,
+    backgroundColor: "#fff",
+    borderRadius: 50,
   },
-  textOutline: {
-    flexDirection: "row",
-  },
-  textKey: { color: "white" },
-  text: { color: "white", fontWeight: "bold" },
   date: {
     width: "100%",
     flexDirection: "row",
@@ -216,18 +198,5 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     borderRadius: 6,
     marginVertical: 5,
-  },
-  bottomButton: {
-    backgroundColor: colors.secondary,
-    alignItems: "center",
-    borderRadius: 8,
-    width: "100%",
-    marginTop: 10,
-  },
-  buttonText: {
-    padding: 18,
-    color: "white",
-    fontWeight: "700",
-    fontSize: 20,
   },
 });

@@ -136,7 +136,7 @@ const Home = () => {
         keyExtractor={(item) => item.id}
         renderItem={renderItem}
         numColumns={2}
-        LisEmptyComponent={<Text>No cars found</Text>}
+        ListEmptyComponent={<Text>No cars found</Text>}
         contentContainerStyle={styles.contentList}
       />
     </View>
@@ -146,7 +146,7 @@ const Home = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginHorizontal: 10,
+    marginHorizontal: 5,
   },
   contentList: {
     paddingBottom: 60,

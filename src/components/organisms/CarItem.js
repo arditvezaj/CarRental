@@ -27,16 +27,17 @@ export default CarItem;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    height: 185,
+    height: 175,
     backgroundColor: colors.secondary,
     margin: 10,
-    borderRadius: 12,
+    borderRadius: 10,
     shadowOpacity: 1,
     shadowOffset: 1,
   },
   innerContainer: {
-    paddingLeft: 12,
-    paddingTop: 8,
+    flex: 1,
+    justifyContent: "center",
+    paddingLeft: 10,
   },
   discountContainer: {
     padding: 4,
@@ -51,19 +52,19 @@ const styles = StyleSheet.create({
     color: "white",
   },
   image: {
-    borderTopLeftRadius: 12,
-    borderTopRightRadius: 12,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
     width: "100%",
-    height: 130,
+    height: 120,
     objectFit: "cover",
   },
   name: {
     fontSize: 16,
-    fontWeight: "700",
-    color: "white",
+    fontWeight: "600",
+    color: "#fff",
   },
   price: {
     marginTop: 3,
-    color: "white",
+    color: "#fff",
   },
 });

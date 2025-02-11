@@ -2,7 +2,7 @@ import { useLayoutEffect } from "react";
 import { View, FlatList } from "react-native";
 
 import { carsData } from "../data/dummy-data";
-import CarInfos from "../components/CarInfos";
+import CarInfos from "../components/organisms/CarInfos";
 
 const CarDetails = ({ route, navigation }) => {
   const id = route.params.id;
@@ -20,21 +20,7 @@ const CarDetails = ({ route, navigation }) => {
   }, [id, navigation]);
 
   const renderCarItem = ({ item }) => {
-    const carItemProps = {
-      id: item.id,
-      company: item.company,
-      name: item.name,
-      date: item.date,
-      km: item.km,
-      transmission: item.transmission,
-      fuel: item.fuel,
-      seats: item.seats,
-      engine: item.engine,
-      price: item.price,
-      discount: item.discount,
-      imageUrl: item.imageUrl,
-    };
-    return <CarInfos {...carItemProps} />;
+    return <CarInfos item={item} />;
   };
 
   return (
