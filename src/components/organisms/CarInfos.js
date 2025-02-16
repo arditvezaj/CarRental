@@ -75,7 +75,7 @@ const CarInfos = ({ item }) => {
         <AntDesign
           name={carIsFavorite ? "heart" : "hearto"}
           size={25}
-          color={colors.secondary}
+          color="#990f02"
         />
       </TouchableOpacity>
       <Image source={imageUrl} style={styles.image} />

@@ -1,20 +1,26 @@
-import { View, TextInput, StyleSheet } from "react-native";
+import { Text, StyleSheet, Pressable } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 import { MaterialIcons } from "@expo/vector-icons";
 
 const SearchInput = ({ text, setText, placeholder }) => {
+  const navigation = useNavigation();
   return (
-    <View style={styles.container}>
+    <Pressable
+      style={styles.container}
+      onPress={() => navigation.navigate("Search Cars")}
+    >
       <MaterialIcons name="search" size={24} color="#B3B3B3" />
-      <TextInput
+      <Text style={styles.text}>Filter cars</Text>
+      {/* <TextInput
         value={text}
         onChangeText={(e) => setText(e)}
         placeholder={placeholder}
         placeholderTextColor="#808080"
         style={styles.textInput}
-      />
-    </View>
-  )
+      /> */}
+    </Pressable>
+  );
 };
 
 const styles = StyleSheet.create({
@@ -23,13 +29,17 @@ const styles = StyleSheet.create({
     alignItems: "center",
     gap: 10,
     marginHorizontal: 10,
-    marginVertical: 15,
+    marginTop: 12,
+    marginBottom: 10,
     borderWidth: 1,
     borderColor: "#E6E8EC",
     borderRadius: 12,
     backgroundColor: "#fff",
     paddingHorizontal: 15,
     paddingVertical: 7,
+  },
+  text: {
+    color: "#B3B3B3",
   },
   textInput: {
     width: "100%",

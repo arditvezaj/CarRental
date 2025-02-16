@@ -5,13 +5,15 @@ import {
   TouchableOpacity,
   SafeAreaView,
   StyleSheet,
+  Image,
 } from "react-native";
 import colors from "../constants/colors";
 
 const Login = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>Login with your credentials</Text>
+      <Image source={require("../../assets/logo.png")} style={styles.logo} />
+      <Text style={styles.title}>Sign In</Text>
       <View style={styles.innerContainer}>
         <Text style={styles.label}>Email:</Text>
         <TextInput style={styles.input} textContentType="emailAddress" />
@@ -39,6 +41,14 @@ const styles = StyleSheet.create({
     flex: 1,
     marginHorizontal: 20,
   },
+  logo: {
+    width: "90%",
+    height: 100,
+    alignSelf: "center",
+    marginTop: 30,
+    objectFit: "cover",
+    borderRadius: 10,
+  },
   title: {
     fontSize: 24,
     fontWeight: "700",
@@ -48,9 +58,7 @@ const styles = StyleSheet.create({
   },
   innerContainer: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    marginBottom: 140,
+    marginTop: 50,
   },
   label: { color: "white", fontSize: 18, fontWeight: "700" },
   input: {

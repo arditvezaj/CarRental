@@ -1,13 +1,5 @@
-import { useEffect, useState } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  FlatList,
-  Button,
-  Alert,
-  Platform,
-} from "react-native";
+import { useState } from "react";
+import { View, Text, StyleSheet, FlatList } from "react-native";
 import { carsData } from "../data/dummy-data";
 import CarItem from "../components/organisms/CarItem";
 import SearchInput from "../components/molecules/SearchInput";
