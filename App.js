@@ -3,7 +3,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Provider } from "react-redux";
-import { FontAwesome } from "@expo/vector-icons";
+import { FontAwesome, FontAwesome5 } from "@expo/vector-icons";
 import store from "./src/redux/store";
 import colors from "./src/constants/colors";
 
@@ -13,11 +13,13 @@ import SignUp from "./src/screens/Signup";
 import CarDetails from "./src/screens/CarDetails";
 import Favorites from "./src/screens/Favorites";
 import SearchCars from "./src/screens/SearchCars";
-import CarBrands from "./src/screens/FilterCars/Brands";
+import CarMakes from "./src/screens/FilterCars/Makes";
+import CarModels from "./src/screens/FilterCars/Models";
 import CarPrices from "./src/screens/FilterCars/Prices";
 import CarFuel from "./src/screens/FilterCars/Fuel";
 import CarTransmission from "./src/screens/FilterCars/Transmission";
 import CarYears from "./src/screens/FilterCars/Years";
+import AddCar from "./src/screens/AddCar";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -51,11 +53,18 @@ const HomeStack = () => (
     <Stack.Screen name="Car Rental" component={Home} />
     <Stack.Screen name="Car Details" component={CarDetails} />
     <Stack.Screen name="Search Cars" component={SearchCars} />
-    <Stack.Screen name="Car Brands" component={CarBrands} />
+    <Stack.Screen name="Car Makes" component={CarMakes} />
+    <Stack.Screen name="Car Models" component={CarModels} />
     <Stack.Screen name="Car Price" component={CarPrices} />
     <Stack.Screen name="Car Fuel" component={CarFuel} />
     <Stack.Screen name="Car Transmission" component={CarTransmission} />
     <Stack.Screen name="Car Year" component={CarYears} />
+  </Stack.Navigator>
+);
+
+const AddCarStack = () => (
+  <Stack.Navigator screenOptions={commonScreenOptions}>
+    <Stack.Screen name="Add Car" component={AddCar} />
   </Stack.Navigator>
 );
 
@@ -85,6 +94,19 @@ const MainTabs = () => (
         ),
       }}
     />
+
+    <Tab.Screen
+      name="AddCarTab"
+      component={AddCarStack}
+      options={{
+        headerShown: false,
+        title: "Add Car",
+        tabBarIcon: ({ color }) => (
+          <FontAwesome5 size={28} name="plus" color={color} />
+        ),
+      }}
+    />
+
     <Tab.Screen
       name="FavoritesTab"
       component={FavoritesStack}

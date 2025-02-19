@@ -30,7 +30,11 @@ const CarYears = () => {
     const newYearFrom = text ? parseInt(text, 10) : null;
     setLocalYearFrom(text);
 
-    if (newYearFrom && yearTo && newYearFrom > parseInt(yearTo, 10)) {
+    if (
+      newYearFrom?.length == 4 &&
+      yearTo?.length == 4 &&
+      newYearFrom > parseInt(yearTo, 10)
+    ) {
       Alert.alert(
         "Invalid Input",
         "Year From must be less than or equal to Year To",
@@ -42,7 +46,7 @@ const CarYears = () => {
               dispatch(setYearFrom(""));
             },
           },
-        ] // Clear the input
+        ]
       );
     } else {
       dispatch(setYearFrom(newYearFrom));
@@ -54,7 +58,11 @@ const CarYears = () => {
     const newYearTo = text ? parseInt(text, 10) : null;
     setLocalYearTo(text);
 
-    if (yearFrom && newYearTo && parseInt(yearFrom, 10) > newYearTo) {
+    if (
+      yearFrom?.length == 4 &&
+      newYearTo?.length == 4 &&
+      parseInt(yearFrom, 10) > newYearTo
+    ) {
       Alert.alert(
         "Invalid Input",
         "Year From must be less than or equal to Year To",

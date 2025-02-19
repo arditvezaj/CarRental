@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import {
   SafeAreaView,
   FlatList,
@@ -9,12 +10,13 @@ import SearchItem from "../components/organisms/SearchItem";
 import { useSelector, useDispatch } from "react-redux";
 import colors from "../constants/colors";
 import { useNavigation } from "@react-navigation/native";
-import { setYearFrom, setYearTo } from "../redux/modules/filters/slice";
+import { setModel } from "../redux/modules/filters/slice";
 
 const SearchCars = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const brand = useSelector((state) => state.filtersReducer.brand);
+  const make = useSelector((state) => state.filtersReducer.make);
+  const model = useSelector((state) => state.filtersReducer.model);
   const priceFrom = useSelector((state) => state.filtersReducer.priceFrom);
   const priceTo = useSelector((state) => state.filtersReducer.priceTo);
   const fuel = useSelector((state) => state.filtersReducer.fuel);
@@ -46,18 +48,25 @@ const SearchCars = () => {
     year = yearFrom + " - " + yearTo;
   }
 
+  useEffect(() => {
+    if (make) {
+      dispatch(setModel("All"));
+    }
+  }, [make]);
+
   const array = [
-    { id: 1, name: "Brand", path: "Car Brands", value: brand },
+    { id: 1, name: "Make", path: "Car Makes", value: make },
+    { id: 2, name: "Model", path: "Car Models", value: model },
     {
-      id: 2,
+      id: 3,
       name: "Price",
       path: "Car Price",
       value: price,
     },
-    { id: 3, name: "Year", path: "Car Year", value: year },
-    { id: 4, name: "Fuel", path: "Car Fuel", value: fuel },
+    { id: 4, name: "Year", path: "Car Year", value: year },
+    { id: 5, name: "Fuel", path: "Car Fuel", value: fuel },
     {
-      id: 5,
+      id: 6,
       name: "Transmission",
       path: "Car Transmission",
       value: transmission,

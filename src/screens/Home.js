@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { View, Text, StyleSheet, FlatList } from "react-native";
+import { Text, StyleSheet, SafeAreaView, FlatList } from "react-native";
 import { carsData } from "../data/dummy-data";
 import CarItem from "../components/organisms/CarItem";
 import SearchInput from "../components/molecules/SearchInput";
@@ -116,7 +116,7 @@ const Home = () => {
   // };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       {/* <Button title="Schedule Notification" onPress={scheduleBNNotification} />
       <Button
         title="Send Push Notification"
@@ -131,7 +131,7 @@ const Home = () => {
         ListEmptyComponent={<Text>No cars found</Text>}
         contentContainerStyle={styles.contentList}
       />
-    </View>
+    </SafeAreaView>
   );
 };
 

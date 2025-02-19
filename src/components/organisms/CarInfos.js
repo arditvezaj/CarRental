@@ -1,6 +1,6 @@
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 
-import { AntDesign } from "@expo/vector-icons";
+import { AntDesign, FontAwesome } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addFavorite,
@@ -17,8 +17,8 @@ const CarInfos = ({ item }) => {
     date,
     engine,
     transmission,
+    year,
     km,
-    seats,
     fuel,
     imageUrl,
   } = item;
@@ -39,9 +39,9 @@ const CarInfos = ({ item }) => {
       image: require("../../../assets/images/icons/transmision.png"),
     },
     {
-      name: "Seats",
-      value: seats + " seater",
-      image: require("../../../assets/images/icons/seats.png"),
+      name: "Year",
+      value: year,
+      image: require("../../../assets/images/icons/transmision.png"),
     },
     {
       name: "Fuel",

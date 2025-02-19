@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import {
   SafeAreaView,
   FlatList,
@@ -5,32 +6,43 @@ import {
   View,
   StyleSheet,
 } from "react-native";
-import { allCarBrands } from "../../constants/filters";
+import { allCarMakes } from "../../constants/filters";
 import InnerSearchItem from "../../components/organisms/InnerSearchItem";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
-import { setBrand } from "../../redux/modules/filters/slice";
+import { setMake } from "../../redux/modules/filters/slice";
 
-const CarBrands = () => {
-  const brand = useSelector((state) => state.filtersReducer.brand);
+const CarMakes = () => {
+  const make = useSelector((state) => state.filtersReducer.make);
   const dispatch = useDispatch();
-  const brandHandler = (value) => dispatch(setBrand(value));
+  const makeHandler = (value) => dispatch(setMake(value));
+  // const [carMakes, setCarMakes] = useState();
+
+  // const carMakesHandler = async () => {
+  //   const response = await fetch("https://carapi.app/api/makes");
+  //   const data = await response.json();
+  //   setCarMakes(data.data);
+  // };
+
+  // useEffect(() => {
+  //   carMakesHandler();
+  // }, []);
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.searchContainer}>
         <MaterialIcons name="search" size={24} color="#B3B3B3" />
-        <TextInput placeholder="Filter brands" style={styles.input} />
+        <TextInput placeholder="Filter makes" style={styles.input} />
       </View>
       <FlatList
-        data={allCarBrands}
+        data={allCarMakes}
         keyExtractor={(item) => item.id}
         showsVerticalScrollIndicator={false}
         renderItem={({ item }) => (
           <InnerSearchItem
             name={item.name}
-            value={brand}
-            setState={brandHandler}
+            value={make}
+            setState={makeHandler}
           />
         )}
       />
@@ -38,7 +50,7 @@ const CarBrands = () => {
   );
 };
 
-export default CarBrands;
+export default CarMakes;
 
 const styles = StyleSheet.create({
   container: {

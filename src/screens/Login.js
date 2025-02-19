@@ -16,10 +16,15 @@ const Login = ({ navigation }) => {
       <Text style={styles.title}>Sign In</Text>
       <View style={styles.innerContainer}>
         <Text style={styles.label}>Email:</Text>
-        <TextInput style={styles.input} textContentType="emailAddress" />
+        <TextInput
+          style={styles.input}
+          placeholder="Email"
+          textContentType="emailAddress"
+        />
         <Text style={styles.label}>Password:</Text>
         <TextInput
           style={styles.input}
+          placeholder="Password"
           textContentType="password"
           secureTextEntry
         />
