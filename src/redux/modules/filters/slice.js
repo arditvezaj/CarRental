@@ -8,6 +8,8 @@ const filtersSlice = createSlice({
     priceTo: "",
     transmission: "All",
     fuel: "All",
+    yearFrom: "",
+    yearTo: "",
   },
   reducers: {
     setBrand: (state, action) => {
@@ -25,9 +27,22 @@ const filtersSlice = createSlice({
     setTransmission: (state, action) => {
       state.transmission = action.payload;
     },
+    setYearFrom: (state, action) => {
+      state.yearFrom = action.payload;
+    },
+    setYearTo: (state, action) => {
+      state.yearTo = action.payload;
+    },
   },
 });
 
-export const { setBrand, setPriceFrom, setPriceTo, setFuel, setTransmission } =
-  filtersSlice.actions;
+export const {
+  setBrand,
+  setPriceFrom,
+  setPriceTo,
+  setFuel,
+  setTransmission,
+  setYearFrom,
+  setYearTo,
+} = filtersSlice.actions;
 export default filtersSlice.reducer;

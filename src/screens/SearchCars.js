@@ -6,12 +6,14 @@ import {
   StyleSheet,
 } from "react-native";
 import SearchItem from "../components/organisms/SearchItem";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import colors from "../constants/colors";
 import { useNavigation } from "@react-navigation/native";
+import { setYearFrom, setYearTo } from "../redux/modules/filters/slice";
 
 const SearchCars = () => {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
   const brand = useSelector((state) => state.filtersReducer.brand);
   const priceFrom = useSelector((state) => state.filtersReducer.priceFrom);
   const priceTo = useSelector((state) => state.filtersReducer.priceTo);
@@ -19,6 +21,8 @@ const SearchCars = () => {
   const transmission = useSelector(
     (state) => state.filtersReducer.transmission
   );
+  const yearFrom = useSelector((state) => state.filtersReducer.yearFrom);
+  const yearTo = useSelector((state) => state.filtersReducer.yearTo);
 
   let price = "";
   if (!priceFrom && !priceTo) {
@@ -31,6 +35,17 @@ const SearchCars = () => {
     price = priceFrom + "€ - " + priceTo + "€";
   }
 
+  let year = "";
+  if (!yearFrom && !yearTo) {
+    year = "All";
+  } else if (yearFrom && !yearTo) {
+    year = "from " + yearFrom;
+  } else if (!yearFrom && yearTo) {
+    year = "up to " + yearTo;
+  } else {
+    year = yearFrom + " - " + yearTo;
+  }
+
   const array = [
     { id: 1, name: "Brand", path: "Car Brands", value: brand },
     {
@@ -39,9 +54,10 @@ const SearchCars = () => {
       path: "Car Price",
       value: price,
     },
-    { id: 3, name: "Fuel", path: "Car Fuel", value: fuel },
+    { id: 3, name: "Year", path: "Car Year", value: year },
+    { id: 4, name: "Fuel", path: "Car Fuel", value: fuel },
     {
-      id: 4,
+      id: 5,
       name: "Transmission",
       path: "Car Transmission",
       value: transmission,

@@ -17,6 +17,7 @@ import CarBrands from "./src/screens/FilterCars/Brands";
 import CarPrices from "./src/screens/FilterCars/Prices";
 import CarFuel from "./src/screens/FilterCars/Fuel";
 import CarTransmission from "./src/screens/FilterCars/Transmission";
+import CarYears from "./src/screens/FilterCars/Years";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -54,6 +55,7 @@ const HomeStack = () => (
     <Stack.Screen name="Car Price" component={CarPrices} />
     <Stack.Screen name="Car Fuel" component={CarFuel} />
     <Stack.Screen name="Car Transmission" component={CarTransmission} />
+    <Stack.Screen name="Car Year" component={CarYears} />
   </Stack.Navigator>
 );
 
@@ -84,10 +86,11 @@ const MainTabs = () => (
       }}
     />
     <Tab.Screen
-      name="Favorites"
+      name="FavoritesTab"
       component={FavoritesStack}
       options={{
         headerShown: false,
+        title: "Favorites",
         tabBarIcon: ({ color }) => (
           <FontAwesome size={28} name="heart" color={color} />
         ),

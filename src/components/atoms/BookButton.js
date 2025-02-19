@@ -7,7 +7,7 @@ const BookButton = () => {
 
   return (
     <TouchableOpacity
-      style={styles.bottomButton}
+      style={styles.button}
       onPress={() => navigation.navigate("Favorites")}
     >
       <Text style={styles.buttonText}>Book Now</Text>
@@ -18,17 +18,18 @@ const BookButton = () => {
 export default BookButton;
 
 const styles = StyleSheet.create({
-  bottomButton: {
+  button: {
+    position: "absolute",
+    bottom: 20,
+    width: "100%",
     backgroundColor: colors.secondary,
     alignItems: "center",
     borderRadius: 8,
-    width: "100%",
-    marginTop: 10,
   },
   buttonText: {
-    padding: 18,
+    padding: 12,
     color: "white",
     fontWeight: "700",
-    fontSize: 20,
+    fontSize: 18,
   },
 });

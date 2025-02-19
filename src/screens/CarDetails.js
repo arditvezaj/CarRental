@@ -1,8 +1,9 @@
 import { useLayoutEffect } from "react";
-import { View, FlatList } from "react-native";
+import { SafeAreaView, FlatList, StyleSheet } from "react-native";
 
 import { carsData } from "../data/dummy-data";
 import CarInfos from "../components/organisms/CarInfos";
+import BookButton from "../components/atoms/BookButton";
 
 const CarDetails = ({ route, navigation }) => {
   const id = route.params.id;
@@ -24,14 +25,23 @@ const CarDetails = ({ route, navigation }) => {
   };
 
   return (
-    <View>
+    <SafeAreaView style={styles.container}>
       <FlatList
         data={displayedCars}
         keyExtractor={(item) => item.id}
         renderItem={renderCarItem}
+        showsVerticalScrollIndicator={false}
       />
-    </View>
+      <BookButton />
+    </SafeAreaView>
   );
 };
 
 export default CarDetails;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    marginHorizontal: 15,
+  },
+});

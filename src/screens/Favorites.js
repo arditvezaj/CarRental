@@ -1,4 +1,4 @@
-import { FlatList, SafeAreaView, StyleSheet } from "react-native";
+import { FlatList, SafeAreaView, Text, StyleSheet } from "react-native";
 import { useSelector } from "react-redux";
 import CarItem from "../components/organisms/CarItem";
 import { carsData } from "../data/dummy-data";
@@ -23,11 +23,15 @@ const Favorites = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <FlatList
-        data={favoriteCarsList}
-        keyExtractor={(item) => item.id}
-        renderItem={renderItem}
-      />
+      {favoriteCarsList.length > 0 ? (
+        <FlatList
+          data={favoriteCarsList}
+          keyExtractor={(item) => item.id}
+          renderItem={renderItem}
+        />
+      ) : (
+        <Text style={styles.text}>No favorite cars.</Text>
+      )}
     </SafeAreaView>
   );
 };
@@ -39,5 +43,11 @@ const styles = StyleSheet.create({
     flex: 1,
     marginHorizontal: 5,
     marginTop: 20,
+  },
+  text: {
+    fontSize: 18,
+    textAlign: "center",
+    marginTop: 20,
+    color: "#fff",
   },
 });

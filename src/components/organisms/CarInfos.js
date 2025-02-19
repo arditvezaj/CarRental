@@ -7,7 +7,6 @@ import {
   removeFavorite,
 } from "../../redux/modules/favorites/slice";
 import colors from "../../constants/colors";
-import BookButton from "../atoms/BookButton";
 
 const CarInfos = ({ item }) => {
   const {
@@ -107,7 +106,6 @@ const CarInfos = ({ item }) => {
           <Text>{field.value}</Text>
         </View>
       ))}
-      <BookButton />
     </View>
   );
 };
@@ -116,16 +114,16 @@ export default CarInfos;
 
 const styles = StyleSheet.create({
   container: {
-    marginHorizontal: 15,
     marginVertical: 8,
     justifyContent: "center",
     alignItems: "center",
+    paddingBottom: 65,
   },
   companyContainer: {
     width: "100%",
     alignItems: "center",
     marginTop: 10,
-    padding: 15,
+    padding: 12,
     borderTopLeftRadius: 6,
     borderTopRightRadius: 6,
     backgroundColor: colors.secondary,
@@ -155,6 +153,7 @@ const styles = StyleSheet.create({
   },
   image: {
     width: "100%",
+    height: 200,
     borderBottomRightRadius: 6,
     borderBottomLeftRadius: 6,
   },
