@@ -1,11 +1,19 @@
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import colors from "../../constants/colors";
 import { FontAwesome } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, NavigationProp } from "@react-navigation/native";
 
-const SearchItem = ({ item }) => {
+interface ItemProps {
+  item: {
+    name: string;
+    path: string;
+    value: string;
+  };
+}
+
+const SearchItem = ({ item }: ItemProps) => {
   const { name, path, value } = item;
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProp<any>>();
 
   return (
     <TouchableOpacity

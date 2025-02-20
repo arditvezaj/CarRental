@@ -1,9 +1,31 @@
-import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+  ImageSourcePropType,
+} from "react-native";
+import { useNavigation, NavigationProp } from "@react-navigation/native";
 import colors from "../../constants/colors";
 
-const CarItem = ({ id, name, price, discount, imageUrl }) => {
-  const navigation = useNavigation();
+export interface CarItemProps {
+  id: string;
+  company?: string;
+  name: string;
+  fuel?: string;
+  year?: number;
+  engine?: number;
+  date?: string;
+  transmission?: string;
+  price?: number;
+  discount?: number;
+  imageUrl: ImageSourcePropType;
+}
+
+const CarItem = ({ id, name, price, imageUrl }: CarItemProps) => {
+  const navigation =
+    useNavigation<NavigationProp<{ "Car Details": { id: string } }>>();
 
   const onPressHandler = () => {
     navigation.navigate("Car Details", { id });
@@ -32,7 +54,7 @@ const styles = StyleSheet.create({
     margin: 10,
     borderRadius: 10,
     shadowOpacity: 1,
-    shadowOffset: 1,
+    // shadowOffset: 1,
   },
   innerContainer: {
     flex: 1,

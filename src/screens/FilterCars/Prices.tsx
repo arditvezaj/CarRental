@@ -5,15 +5,22 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, NavigationProp } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
 import { setPriceFrom, setPriceTo } from "../../redux/modules/filters/slice";
+import colors from "../../constants/colors";
+import { RootState } from "@/src/redux/store";
 
 const CarPrices = () => {
-  const navigation = useNavigation();
-  const priceFrom = useSelector((state) => state.filtersReducer.priceFrom);
-  const priceTo = useSelector((state) => state.filtersReducer.priceTo);
+  const navigation =
+    useNavigation<NavigationProp<{ "Search Cars": undefined }>>();
   const dispatch = useDispatch();
+  const priceFrom = useSelector(
+    (state: RootState) => state.filtersReducer.priceFrom
+  );
+  const priceTo = useSelector(
+    (state: RootState) => state.filtersReducer.priceTo
+  );
 
   return (
     <SafeAreaView style={styles.container}>

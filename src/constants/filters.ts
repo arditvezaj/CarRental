@@ -1,3 +1,57 @@
+export interface CarDetailsProps {
+  id: number;
+  name: string;
+}
+
+export interface CarModelProps {
+  [key: string]: string[] | undefined;
+  Toyota?: string[];
+  Ford?: string[];
+  Honda?: string[];
+  Chevrolet?: string[];
+  "Mercedes-Benz"?: string[];
+  BMW?: string[];
+  Volkswagen?: string[];
+  Audi?: string[];
+  Tesla?: string[];
+  Nissan?: string[];
+  Hyundai?: string[];
+  Kia?: string[];
+  Porsche?: string[];
+  Subaru?: string[];
+  Mazda?: string[];
+  Jaguar?: string[];
+  "Land Rover"?: string[];
+  Lexus?: string[];
+  Ferrari?: string[];
+  Lamborghini?: string[];
+  Maserati?: string[];
+  Bugatti?: string[];
+  Peugeot?: string[];
+  Renault?: string[];
+  Fiat?: string[];
+  "Alfa Romeo"?: string[];
+  Opel?: string[];
+  Skoda?: string[];
+  Citroën?: string[];
+  Mitsubishi?: string[];
+  Chrysler?: string[];
+  Dodge?: string[];
+  Jeep?: string[];
+  Ram?: string[];
+  Acura?: string[];
+  Infiniti?: string[];
+  Suzuki?: string[];
+  Volvo?: string[];
+  Saab?: string[];
+  Bentley?: string[];
+  "Rolls-Royce"?: string[];
+  "Aston Martin"?: string[];
+  Genesis?: string[];
+  McLaren?: string[];
+  Dacia?: string[];
+}
+
 export const popularCarMakes = [
   { id: 1, name: "Toyota" },
   { id: 2, name: "Ford" },
@@ -11,7 +65,7 @@ export const popularCarMakes = [
   { id: 10, name: "Nissan" },
 ];
 
-export const allCarMakes = [
+export const allCarMakes: CarDetailsProps[] = [
   { id: 1, name: "All" },
   { id: 2, name: "Toyota" },
   { id: 3, name: "Ford" },
@@ -60,7 +114,7 @@ export const allCarMakes = [
   { id: 46, name: "Dacia" },
 ];
 
-export const carModels = {
+export const carModels: CarModelProps = {
   Toyota: [
     "Camry",
     "Corolla",
@@ -289,7 +343,7 @@ export const carModels = {
   ],
 };
 
-export const carFuel = [
+export const carFuel: CarDetailsProps[] = [
   { id: 1, name: "All" },
   { id: 2, name: "Petrol" },
   { id: 3, name: "Diesel" },
@@ -298,7 +352,7 @@ export const carFuel = [
   { id: 6, name: "Gas" },
 ];
 
-export const carTransmissions = [
+export const carTransmissions: CarDetailsProps[] = [
   { id: 1, name: "All" },
   { id: 2, name: "Manual" },
   { id: 3, name: "Automatic" },

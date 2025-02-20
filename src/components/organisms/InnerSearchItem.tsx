@@ -1,9 +1,16 @@
 import { Text, TouchableOpacity, StyleSheet } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, NavigationProp } from "@react-navigation/native";
 import { Entypo } from "@expo/vector-icons";
 
-const InnerSearchItem = ({ name, value, setState }) => {
-  const navigation = useNavigation();
+interface InnerSearchItemProps {
+  name: string;
+  value: string;
+  setState: (prevState: string) => void;
+}
+
+const InnerSearchItem = ({ name, value, setState }: InnerSearchItemProps) => {
+  const navigation =
+    useNavigation<NavigationProp<{ "Search Cars": undefined }>>();
 
   const pressHandler = () => {
     setState(name);

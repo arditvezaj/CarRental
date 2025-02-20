@@ -1,28 +1,48 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
-  SafeAreaView,
   View,
   Text,
   TextInput,
   TouchableOpacity,
   StyleSheet,
+  ScrollView,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, NavigationProp } from "@react-navigation/native";
 import DropdownPicker from "../components/molecules/DropdownPicker";
-import { allCarMakes, carTransmissions, carFuel } from "../constants/filters";
+import {
+  allCarMakes,
+  carModels,
+  carTransmissions,
+  carFuel,
+  CarModelProps,
+} from "../constants/filters";
+import colors from "../constants/colors";
 
 const AddCar = () => {
-  const navigation = useNavigation();
+  const navigation =
+    useNavigation<NavigationProp<{ "Car Rental": undefined }>>();
   const [make, setMake] = useState("");
+  const [model, setModel] = useState("");
   const [price, setPrice] = useState("");
   const [transmission, setTransmission] = useState("");
   const [fuel, setFuel] = useState("");
   const [year, setYear] = useState("");
-  const [photo, setPhoto] = useState("");
+  // const [photo, setPhoto] = useState("");
   // const [date, setDate] = useState("");
+  const [models, setModels] = useState<{ name: string }[]>([]);
+
+  function getModelsByMake(make: keyof CarModelProps | string) {
+    const models = carModels[make as keyof CarModelProps] || [];
+    return setModels(models.map((model) => ({ name: model })));
+  }
+
+  useEffect(() => {
+    getModelsByMake(make);
+    setModel("All");
+  }, [make]);
 
   return (
-    <SafeAreaView style={styles.container}>
+    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       <Text style={styles.title}>Car Details</Text>
       <Text style={styles.label}>Make</Text>
       <DropdownPicker
@@ -31,6 +51,17 @@ const AddCar = () => {
         selectedItem={make}
         placeholder="Select Make"
       />
+      {make !== "" && (
+        <>
+          <Text style={styles.label}>Model</Text>
+          <DropdownPicker
+            data={models}
+            onSelect={(item) => setModel(item.name)}
+            selectedItem={model}
+            placeholder="Select Model"
+          />
+        </>
+      )}
       <Text style={styles.label}>Transmission</Text>
       <DropdownPicker
         data={carTransmissions.slice(1)}
@@ -62,14 +93,6 @@ const AddCar = () => {
         value={price}
         onChangeText={(e) => setPrice(e)}
       />
-      <Text style={styles.label}>Price</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Price"
-        keyboardType="numeric"
-        value={price}
-        onChangeText={(e) => setPrice(e)}
-      />
       <View style={styles.buttonsContainer}>
         <TouchableOpacity
           style={styles.closeButton}
@@ -88,7 +111,7 @@ const AddCar = () => {
           <Text style={styles.buttonText}>Add</Text>
         </TouchableOpacity>
       </View>
-    </SafeAreaView>
+    </ScrollView>
   );
 };
 
@@ -121,7 +144,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     marginTop: 20,
-    // gap: 10,
+    paddingBottom: 15,
   },
   button: {
     width: "47%",

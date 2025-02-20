@@ -1,10 +1,18 @@
 import { Text, StyleSheet, Pressable } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, NavigationProp } from "@react-navigation/native";
 
 import { MaterialIcons } from "@expo/vector-icons";
 
-const SearchInput = ({ text, setText, placeholder }) => {
-  const navigation = useNavigation();
+interface SearchInputProps {
+  text: string;
+  setText: (text: string) => void;
+  placeholder: string;
+}
+
+const SearchInput = ({ text, setText, placeholder }: SearchInputProps) => {
+  const navigation =
+    useNavigation<NavigationProp<{ "Search Cars": undefined }>>();
+
   return (
     <Pressable
       style={styles.container}

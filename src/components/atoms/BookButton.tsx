@@ -1,9 +1,9 @@
 import { Text, TouchableOpacity, StyleSheet } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, NavigationProp } from "@react-navigation/native";
 import colors from "../../constants/colors";
 
 const BookButton = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProp<{ Favorites: undefined }>>();
 
   return (
     <TouchableOpacity

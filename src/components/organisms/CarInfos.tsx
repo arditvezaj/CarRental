@@ -7,8 +7,14 @@ import {
   removeFavorite,
 } from "../../redux/modules/favorites/slice";
 import colors from "../../constants/colors";
+import { CarItemProps } from "./CarItem";
+import { RootState } from "@/src/redux/store";
 
-const CarInfos = ({ item }) => {
+interface CarInfosProps {
+  item: CarItemProps;
+}
+
+const CarInfos = ({ item }: CarInfosProps) => {
   const {
     id,
     company,
@@ -18,13 +24,12 @@ const CarInfos = ({ item }) => {
     engine,
     transmission,
     year,
-    km,
     fuel,
     imageUrl,
   } = item;
 
   const dispatch = useDispatch();
-  const carIsFavorite = useSelector((state) =>
+  const carIsFavorite = useSelector((state: RootState) =>
     state.favoriteCars.ids.includes(id)
   );
 
@@ -52,11 +57,6 @@ const CarInfos = ({ item }) => {
       name: "Engine power",
       value: engine + " cc",
       image: require("../../../assets/images/icons/engine.png"),
-    },
-    {
-      name: "Millage",
-      value: km + " km",
-      image: require("../../../assets/images/icons/mileage.png"),
     },
     {
       name: "Available date",

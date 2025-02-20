@@ -11,12 +11,18 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
 import { setYearFrom, setYearTo } from "../../redux/modules/filters/slice";
+import colors from "@/src/constants/colors";
+import { RootState } from "@/src/redux/store";
 
 const CarYears = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const reduxYearFrom = useSelector((state) => state.filtersReducer.yearFrom);
-  const reduxYearTo = useSelector((state) => state.filtersReducer.yearTo);
+  const reduxYearFrom = useSelector(
+    (state: RootState) => state.filtersReducer.yearFrom
+  );
+  const reduxYearTo = useSelector(
+    (state: RootState) => state.filtersReducer.yearTo
+  );
 
   const [yearFrom, setLocalYearFrom] = useState(
     reduxYearFrom ? reduxYearFrom.toString() : ""
@@ -26,12 +32,12 @@ const CarYears = () => {
   );
   const [error, setError] = useState("");
 
-  const handleYearFromChange = (text) => {
+  const handleYearFromChange = (text: string) => {
     const newYearFrom = text ? parseInt(text, 10) : null;
     setLocalYearFrom(text);
 
     if (
-      newYearFrom?.length == 4 &&
+      newYearFrom &&
       yearTo?.length == 4 &&
       newYearFrom > parseInt(yearTo, 10)
     ) {
@@ -54,13 +60,13 @@ const CarYears = () => {
     }
   };
 
-  const handleYearToChange = (text) => {
+  const handleYearToChange = (text: string) => {
     const newYearTo = text ? parseInt(text, 10) : null;
     setLocalYearTo(text);
 
     if (
       yearFrom?.length == 4 &&
-      newYearTo?.length == 4 &&
+      newYearTo &&
       parseInt(yearFrom, 10) > newYearTo
     ) {
       Alert.alert(

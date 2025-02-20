@@ -5,52 +5,68 @@ import {
   TouchableOpacity,
   SafeAreaView,
   StyleSheet,
+  Image,
 } from "react-native";
+import { useNavigation, NavigationProp } from "@react-navigation/native";
 import colors from "../constants/colors";
 
-const SignUp = ({ navigation }) => {
+const Login = () => {
+  const navigation = useNavigation<NavigationProp<{ Home: undefined }>>();
+
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>SignUp with your credentials</Text>
+      <Image source={require("../../assets/logo.png")} style={styles.logo} />
+      <Text style={styles.title}>Sign In</Text>
       <View style={styles.innerContainer}>
         <Text style={styles.label}>Email:</Text>
-        <TextInput style={styles.input} textContentType="emailAddress" />
+        <TextInput
+          style={styles.input}
+          placeholder="Email"
+          textContentType="emailAddress"
+        />
         <Text style={styles.label}>Password:</Text>
         <TextInput
           style={styles.input}
+          placeholder="Password"
           textContentType="password"
           secureTextEntry
         />
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigation.replace("Home")}
+          onPress={() => navigation.navigate("Home")}
         >
-          <Text style={styles.buttonText}>SignUp</Text>
+          <Text style={styles.buttonText}>Login</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
 };
 
-export default SignUp;
+export default Login;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginHorizontal: 20,
   },
+  logo: {
+    width: "90%",
+    height: 100,
+    alignSelf: "center",
+    marginTop: 30,
+    objectFit: "cover",
+    borderRadius: 10,
+  },
   title: {
     fontSize: 24,
     fontWeight: "700",
-    color: "white",
+    color: "#fff",
     marginTop: 70,
     textAlign: "center",
   },
   innerContainer: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    marginBottom: 140,
+    marginTop: 50,
   },
   label: { color: "white", fontSize: 18, fontWeight: "700" },
   input: {

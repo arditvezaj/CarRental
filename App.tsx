@@ -1,4 +1,5 @@
 import { StatusBar } from "expo-status-bar";
+import {} from "@react-navigation/native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -21,10 +22,23 @@ import CarTransmission from "./src/screens/FilterCars/Transmission";
 import CarYears from "./src/screens/FilterCars/Years";
 import AddCar from "./src/screens/AddCar";
 
+interface ScreenOptionsProps {
+  headerStyle: {
+    backgroundColor: string;
+  };
+  headerTintColor: string;
+  headerTitleStyle: {
+    fontWeight: string;
+  };
+  contentStyle: {
+    backgroundColor: string;
+  };
+}
+
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
-const commonScreenOptions = {
+const commonScreenOptions: any = {
   headerStyle: {
     backgroundColor: colors.secondary,
   },
@@ -137,7 +151,6 @@ export default function App() {
               name="Home"
               component={MainTabs}
               options={{ headerShown: false }}
-              screenOptions={commonScreenOptions}
             />
           </Stack.Navigator>
         </NavigationContainer>

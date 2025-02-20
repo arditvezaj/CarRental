@@ -1,26 +1,36 @@
 import { useLayoutEffect } from "react";
 import { SafeAreaView, FlatList, StyleSheet } from "react-native";
-
+import { NavigationProp, RouteProp } from "@react-navigation/native";
 import { carsData } from "../data/dummy-data";
 import CarInfos from "../components/organisms/CarInfos";
 import BookButton from "../components/atoms/BookButton";
+import { CarItemProps } from "../components/organisms/CarItem";
 
-const CarDetails = ({ route, navigation }) => {
-  const id = route.params.id;
+interface CarDetailsProps {
+  route?: RouteProp<{ "Car Details": { id: string } }>;
+  navigation?: NavigationProp<{ "Car Details": { id: string } }>;
+}
+
+interface ItemProps {
+  item: CarItemProps;
+}
+
+const CarDetails = ({ route, navigation }: CarDetailsProps) => {
+  const id = route && route.params.id;
 
   const displayedCars = carsData.filter((carItem) => {
     return carItem.id == id;
   });
 
-  useLayoutEffect(() => {
-    const carTitle = carsData.find((car) => car.id === id)?.title;
+  // useLayoutEffect(() => {
+  //   const carName = carsData.find((car) => car.id === id)?.name;
 
-    navigation.setOptions({
-      name: carTitle,
-    });
-  }, [id, navigation]);
+  //   navigation.setOptions({
+  //     name: carName,
+  //   });
+  // }, [id, navigation]);
 
-  const renderCarItem = ({ item }) => {
+  const renderCarItem = ({ item }: ItemProps) => {
     return <CarInfos item={item} />;
   };
 

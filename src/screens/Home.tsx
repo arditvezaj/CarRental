@@ -1,9 +1,13 @@
 import { useState } from "react";
 import { Text, StyleSheet, SafeAreaView, FlatList } from "react-native";
 import { carsData } from "../data/dummy-data";
-import CarItem from "../components/organisms/CarItem";
+import CarItem, { CarItemProps } from "../components/organisms/CarItem";
 import SearchInput from "../components/molecules/SearchInput";
 import * as Notifications from "expo-notifications";
+
+interface HomeProps {
+  item: CarItemProps;
+}
 
 Notifications.setNotificationHandler({
   handleNotification: async () => {
@@ -18,7 +22,7 @@ Notifications.setNotificationHandler({
 const Home = () => {
   const [text, setText] = useState("");
 
-  const renderItem = ({ item }) => {
+  const renderItem = ({ item }: HomeProps) => {
     return (
       <CarItem
         id={item.id}

@@ -3,19 +3,21 @@ import { carTransmissions } from "../../constants/filters";
 import InnerSearchItem from "../../components/organisms/InnerSearchItem";
 import { useDispatch, useSelector } from "react-redux";
 import { setTransmission } from "../../redux/modules/filters/slice";
+import { RootState } from "@/src/redux/store";
 
 const CarTransmission = () => {
   const transmission = useSelector(
-    (state) => state.filtersReducer.transmission
+    (state: RootState) => state.filtersReducer.transmission
   );
   const dispatch = useDispatch();
-  const transmissionHandler = (value) => dispatch(setTransmission(value));
+  const transmissionHandler = (value: string) =>
+    dispatch(setTransmission(value));
 
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
         data={carTransmissions}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item.id.toString()}
         showsVerticalScrollIndicator={false}
         renderItem={({ item }) => (
           <InnerSearchItem

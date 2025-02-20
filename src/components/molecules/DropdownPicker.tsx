@@ -2,6 +2,7 @@ import { View, Text, StyleSheet, Platform } from "react-native";
 import SelectDropdown from "react-native-select-dropdown";
 import { Entypo } from "@expo/vector-icons";
 import colors from "../../constants/colors";
+import { CarDetailsProps } from "../../constants/filters";
 
 const ChevronIcon = ({ isOpened }: { isOpened: boolean }) => {
   return (
@@ -13,11 +14,11 @@ const ChevronIcon = ({ isOpened }: { isOpened: boolean }) => {
   );
 };
 interface Props {
-  data: string[] | { value: string; name: string }[];
+  data: CarDetailsProps[] | { name: string }[];
   selectedItem: string;
   onSelect: (select: { name: string }) => void;
   placeholder: string;
-  errorMessage: string;
+  errorMessage?: string;
 }
 
 const DropdownPicker = ({
@@ -35,7 +36,8 @@ const DropdownPicker = ({
         <View
           style={[
             styles.container,
-            errorMessage?.length > 0 && { borderColor: "#EE374A" },
+            errorMessage &&
+              errorMessage?.length > 0 && { borderColor: "#EE374A" },
           ]}
         >
           <Text style={styles.buttonText}>

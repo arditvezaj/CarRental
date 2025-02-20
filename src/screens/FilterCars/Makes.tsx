@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import {
   SafeAreaView,
   FlatList,
@@ -11,11 +10,12 @@ import InnerSearchItem from "../../components/organisms/InnerSearchItem";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { setMake } from "../../redux/modules/filters/slice";
+import { RootState } from "@/src/redux/store";
 
 const CarMakes = () => {
-  const make = useSelector((state) => state.filtersReducer.make);
+  const make = useSelector((state: RootState) => state.filtersReducer.make);
   const dispatch = useDispatch();
-  const makeHandler = (value) => dispatch(setMake(value));
+  const makeHandler = (value: string) => dispatch(setMake(value));
   // const [carMakes, setCarMakes] = useState();
 
   // const carMakesHandler = async () => {
@@ -36,7 +36,7 @@ const CarMakes = () => {
       </View>
       <FlatList
         data={allCarMakes}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item.id.toString()}
         showsVerticalScrollIndicator={false}
         renderItem={({ item }) => (
           <InnerSearchItem

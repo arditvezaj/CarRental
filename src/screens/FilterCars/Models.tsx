@@ -10,17 +10,18 @@ import InnerSearchItem from "../../components/organisms/InnerSearchItem";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { setModel } from "../../redux/modules/filters/slice";
-import { carModels } from "../../constants/filters";
+import { carModels, CarModelProps } from "../../constants/filters";
+import { RootState } from "@/src/redux/store";
 
 const CarModels = () => {
-  const make = useSelector((state) => state.filtersReducer.make);
-  const model = useSelector((state) => state.filtersReducer.model);
+  const make = useSelector((state: RootState) => state.filtersReducer.make);
+  const model = useSelector((state: RootState) => state.filtersReducer.model);
   const dispatch = useDispatch();
-  const modelHandler = (value) => dispatch(setModel(value));
-  const [models, setModels] = useState();
+  const modelHandler = (value: string) => dispatch(setModel(value));
+  const [models, setModels] = useState<string[] | undefined>(undefined);
 
-  function getModelsByMake(make) {
-    return setModels(carModels[make]);
+  function getModelsByMake(make: keyof CarModelProps) {
+    setModels(carModels[make] || []);
   }
 
   useEffect(() => {

@@ -9,22 +9,30 @@ import {
 import SearchItem from "../components/organisms/SearchItem";
 import { useSelector, useDispatch } from "react-redux";
 import colors from "../constants/colors";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, NavigationProp } from "@react-navigation/native";
 import { setModel } from "../redux/modules/filters/slice";
+import { RootState } from "../redux/store";
 
 const SearchCars = () => {
-  const navigation = useNavigation();
+  const navigation =
+    useNavigation<NavigationProp<{ "Car Rental": undefined }>>();
   const dispatch = useDispatch();
-  const make = useSelector((state) => state.filtersReducer.make);
-  const model = useSelector((state) => state.filtersReducer.model);
-  const priceFrom = useSelector((state) => state.filtersReducer.priceFrom);
-  const priceTo = useSelector((state) => state.filtersReducer.priceTo);
-  const fuel = useSelector((state) => state.filtersReducer.fuel);
-  const transmission = useSelector(
-    (state) => state.filtersReducer.transmission
+  const make = useSelector((state: RootState) => state.filtersReducer.make);
+  const model = useSelector((state: RootState) => state.filtersReducer.model);
+  const priceFrom = useSelector(
+    (state: RootState) => state.filtersReducer.priceFrom
   );
-  const yearFrom = useSelector((state) => state.filtersReducer.yearFrom);
-  const yearTo = useSelector((state) => state.filtersReducer.yearTo);
+  const priceTo = useSelector(
+    (state: RootState) => state.filtersReducer.priceTo
+  );
+  const fuel = useSelector((state: RootState) => state.filtersReducer.fuel);
+  const transmission = useSelector(
+    (state: RootState) => state.filtersReducer.transmission
+  );
+  const yearFrom = useSelector(
+    (state: RootState) => state.filtersReducer.yearFrom
+  );
+  const yearTo = useSelector((state: RootState) => state.filtersReducer.yearTo);
 
   let price = "";
   if (!priceFrom && !priceTo) {
@@ -55,18 +63,18 @@ const SearchCars = () => {
   }, [make]);
 
   const array = [
-    { id: 1, name: "Make", path: "Car Makes", value: make },
-    { id: 2, name: "Model", path: "Car Models", value: model },
+    { id: "1", name: "Make", path: "Car Makes", value: make },
+    { id: "2", name: "Model", path: "Car Models", value: model },
     {
-      id: 3,
+      id: "3",
       name: "Price",
       path: "Car Price",
       value: price,
     },
-    { id: 4, name: "Year", path: "Car Year", value: year },
-    { id: 5, name: "Fuel", path: "Car Fuel", value: fuel },
+    { id: "4", name: "Year", path: "Car Year", value: year },
+    { id: "5", name: "Fuel", path: "Car Fuel", value: fuel },
     {
-      id: 6,
+      id: "6",
       name: "Transmission",
       path: "Car Transmission",
       value: transmission,
