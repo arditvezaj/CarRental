@@ -13,7 +13,7 @@ import { RootState } from "@/src/redux/store";
 
 const CarPrices = () => {
   const navigation =
-    useNavigation<NavigationProp<{ "Search Cars": undefined }>>();
+    useNavigation<NavigationProp<{ "Filter Cars": undefined }>>();
   const dispatch = useDispatch();
   const priceFrom = useSelector(
     (state: RootState) => state.filtersReducer.priceFrom
@@ -42,7 +42,7 @@ const CarPrices = () => {
       <TouchableOpacity
         style={styles.button}
         onPress={() => {
-          navigation.navigate("Search Cars");
+          navigation.navigate("Filter Cars");
         }}
       >
         <Text style={styles.buttonText}>Done</Text>

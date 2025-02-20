@@ -13,7 +13,7 @@ import Login from "./src/screens/Login";
 import SignUp from "./src/screens/Signup";
 import CarDetails from "./src/screens/CarDetails";
 import Favorites from "./src/screens/Favorites";
-import SearchCars from "./src/screens/SearchCars";
+import FilterCars from "./src/screens/FilterCars";
 import CarMakes from "./src/screens/FilterCars/Makes";
 import CarModels from "./src/screens/FilterCars/Models";
 import CarPrices from "./src/screens/FilterCars/Prices";
@@ -66,7 +66,7 @@ const HomeStack = () => (
   <Stack.Navigator screenOptions={commonScreenOptions}>
     <Stack.Screen name="Car Rental" component={Home} />
     <Stack.Screen name="Car Details" component={CarDetails} />
-    <Stack.Screen name="Search Cars" component={SearchCars} />
+    <Stack.Screen name="Filter Cars" component={FilterCars} />
     <Stack.Screen name="Car Makes" component={CarMakes} />
     <Stack.Screen name="Car Models" component={CarModels} />
     <Stack.Screen name="Car Price" component={CarPrices} />

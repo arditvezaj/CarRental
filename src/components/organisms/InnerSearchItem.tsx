@@ -10,11 +10,11 @@ interface InnerSearchItemProps {
 
 const InnerSearchItem = ({ name, value, setState }: InnerSearchItemProps) => {
   const navigation =
-    useNavigation<NavigationProp<{ "Search Cars": undefined }>>();
+    useNavigation<NavigationProp<{ "Filter Cars": undefined }>>();
 
   const pressHandler = () => {
     setState(name);
-    navigation.navigate("Search Cars");
+    navigation.navigate("Filter Cars");
   };
 
   return (

@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import {
   SafeAreaView,
+  View,
   FlatList,
   TouchableOpacity,
   Text,
@@ -9,11 +10,21 @@ import {
 import SearchItem from "../components/organisms/SearchItem";
 import { useSelector, useDispatch } from "react-redux";
 import colors from "../constants/colors";
+import { FontAwesome } from "@expo/vector-icons";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
-import { setModel } from "../redux/modules/filters/slice";
+import {
+  setMake,
+  setModel,
+  setPriceFrom,
+  setPriceTo,
+  setFuel,
+  setTransmission,
+  setYearFrom,
+  setYearTo,
+} from "../redux/modules/filters/slice";
 import { RootState } from "../redux/store";
 
-const SearchCars = () => {
+const FilterCars = () => {
   const navigation =
     useNavigation<NavigationProp<{ "Car Rental": undefined }>>();
   const dispatch = useDispatch();
@@ -62,6 +73,17 @@ const SearchCars = () => {
     }
   }, [make]);
 
+  const resetHandler = () => {
+    dispatch(setMake(""));
+    dispatch(setModel(""));
+    dispatch(setPriceFrom(""));
+    dispatch(setPriceTo(""));
+    dispatch(setFuel(""));
+    dispatch(setTransmission(""));
+    dispatch(setYearFrom(""));
+    dispatch(setYearTo(""));
+  };
+
   const array = [
     { id: "1", name: "Make", path: "Car Makes", value: make },
     { id: "2", name: "Model", path: "Car Models", value: model },
@@ -88,28 +110,32 @@ const SearchCars = () => {
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => <SearchItem item={item} />}
       />
-      {/* <View style={styles.buttonsContainer}> */}
-      {/* <TouchableOpacity style={styles.button}>
+      <View style={styles.buttonsContainer}>
+        <TouchableOpacity
+          style={[styles.button, { backgroundColor: "#990f02" }]}
+          onPress={resetHandler}
+        >
+          <FontAwesome name="undo" size={20} color="#fff" />
           <Text style={styles.buttonText}>Reset</Text>
-        </TouchableOpacity> */}
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => {
-          navigation.navigate("Car Rental");
-        }}
-      >
-        <Text style={styles.buttonText}>Search</Text>
-      </TouchableOpacity>
-      {/* </View> */}
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => {
+            navigation.navigate("Car Rental");
+          }}
+        >
+          <FontAwesome name="search" size={20} color="#fff" />
+          <Text style={styles.buttonText}>Apply</Text>
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
   );
 };
 
-export default SearchCars;
+export default FilterCars;
 
 const styles = StyleSheet.create({
   container: {
-    // flex: 1,
     marginHorizontal: 20,
   },
   item: {
@@ -120,16 +146,19 @@ const styles = StyleSheet.create({
   buttonsContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
+    alignItems: "center",
     marginTop: 20,
   },
   button: {
-    width: "100%",
+    width: "47%",
     height: 44,
     backgroundColor: colors.secondary,
     borderRadius: 8,
+    flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 40,
+    gap: 10,
+    marginTop: 30,
   },
   buttonText: {
     color: "#fff",

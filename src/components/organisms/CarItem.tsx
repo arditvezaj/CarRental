@@ -49,12 +49,12 @@ export default CarItem;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    height: 175,
+    height: 170,
     backgroundColor: colors.secondary,
     margin: 10,
     borderRadius: 10,
     shadowOpacity: 1,
-    // shadowOffset: 1,
+    shadowOffset: { width: 0, height: 2 },
   },
   innerContainer: {
     flex: 1,

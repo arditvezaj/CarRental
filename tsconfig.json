@@ -11,5 +11,5 @@
   "include": [
     "**/*.ts",
     "**/*.tsx"
-, "src/screens/Home.tsx", "src/screens/SearchCars.tsx"  ]
+, "src/screens/Home.tsx", "src/screens/FilterCars.tsx"  ]
 }

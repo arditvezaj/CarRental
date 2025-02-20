@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { Text, StyleSheet, SafeAreaView, FlatList } from "react-native";
+import { View, Text, StyleSheet, SafeAreaView, FlatList } from "react-native";
 import { carsData } from "../data/dummy-data";
 import CarItem, { CarItemProps } from "../components/organisms/CarItem";
 import SearchInput from "../components/molecules/SearchInput";
 import * as Notifications from "expo-notifications";
+import FilterButton from "../components/atoms/FilterButton";
 
 interface HomeProps {
   item: CarItemProps;
@@ -126,12 +127,16 @@ const Home = () => {
         title="Send Push Notification"
         onPress={sendPushNotificationHandler}
       /> */}
-      <SearchInput text={text} setText={setText} placeholder="Search cars" />
+      <View style={styles.searchContainer}>
+        <SearchInput text={text} setText={setText} />
+        <FilterButton />
+      </View>
       <FlatList
         data={carsData}
         keyExtractor={(item) => item.id}
         renderItem={renderItem}
         numColumns={2}
+        showsVerticalScrollIndicator={false}
         ListEmptyComponent={<Text>No cars found</Text>}
         contentContainerStyle={styles.contentList}
       />
@@ -143,6 +148,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginHorizontal: 5,
+  },
+  searchContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    margin: 10,
+    marginTop: 15,
   },
   contentList: {
     paddingBottom: 60,

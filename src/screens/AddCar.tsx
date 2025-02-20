@@ -17,6 +17,7 @@ import {
   CarModelProps,
 } from "../constants/filters";
 import colors from "../constants/colors";
+import { FontAwesome } from "@expo/vector-icons";
 
 const AddCar = () => {
   const navigation =
@@ -41,9 +42,24 @@ const AddCar = () => {
     setModel("All");
   }, [make]);
 
+  const resetHandler = () => {
+    setMake("");
+    setModel("");
+    setPrice("");
+    setFuel("");
+    setTransmission("");
+    setYear("");
+  };
+
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-      <Text style={styles.title}>Car Details</Text>
+      <View style={styles.titleContainer}>
+        <Text style={styles.title}>Car Details</Text>
+        <TouchableOpacity style={styles.resetButton} onPress={resetHandler}>
+          <FontAwesome name="undo" size={20} color="#fff" />
+          <Text style={styles.buttonText}>Reset</Text>
+        </TouchableOpacity>
+      </View>
       <Text style={styles.label}>Make</Text>
       <DropdownPicker
         data={allCarMakes.slice(1)}
@@ -108,6 +124,7 @@ const AddCar = () => {
             navigation.navigate("Car Rental");
           }}
         >
+          <FontAwesome name="check" size={20} color="#fff" />
           <Text style={styles.buttonText}>Add</Text>
         </TouchableOpacity>
       </View>
@@ -122,11 +139,15 @@ const styles = StyleSheet.create({
     flex: 1,
     marginHorizontal: 20,
   },
+  titleContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginVertical: 10,
+  },
   title: {
     fontSize: 20,
     fontWeight: "700",
-    marginTop: 20,
-    marginBottom: 10,
   },
   label: {
     fontSize: 15,
@@ -151,9 +172,21 @@ const styles = StyleSheet.create({
     height: 44,
     backgroundColor: colors.secondary,
     borderRadius: 8,
+    flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
+    gap: 7,
     marginTop: 10,
+  },
+  resetButton: {
+    width: 100,
+    height: 44,
+    backgroundColor: "#990f02",
+    borderRadius: 8,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    gap: 7,
   },
   closeButton: {
     width: "47%",
