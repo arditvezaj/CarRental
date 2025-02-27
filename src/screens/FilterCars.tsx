@@ -74,12 +74,12 @@ const FilterCars = () => {
   }, [make]);
 
   const resetHandler = () => {
-    dispatch(setMake(""));
-    dispatch(setModel(""));
+    dispatch(setMake("All"));
+    dispatch(setModel("All"));
     dispatch(setPriceFrom(""));
     dispatch(setPriceTo(""));
-    dispatch(setFuel(""));
-    dispatch(setTransmission(""));
+    dispatch(setFuel("All"));
+    dispatch(setTransmission("All"));
     dispatch(setYearFrom(""));
     dispatch(setYearTo(""));
   };

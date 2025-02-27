@@ -1,44 +1,74 @@
+import { useState } from "react";
 import {
   View,
   Text,
-  TextInput,
   TouchableOpacity,
   SafeAreaView,
   StyleSheet,
   Image,
+  Keyboard,
+  TouchableWithoutFeedback,
 } from "react-native";
-import { useNavigation, NavigationProp } from "@react-navigation/native";
+import { useForm } from "react-hook-form";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import colors from "../constants/colors";
+import ControlledInput from "../components/atoms/ControlledInput";
+
+type RootStackParamList = {
+  Home: undefined;
+};
+type NavigationType = NativeStackNavigationProp<RootStackParamList, "Home">;
+
+type SignInForm = {
+  email: string;
+  password: string;
+};
 
 const Login = () => {
-  const navigation = useNavigation<NavigationProp<{ Home: undefined }>>();
+  const navigation = useNavigation<NavigationType>();
+
+  const { control, handleSubmit } = useForm<SignInForm>();
+  const [hidePass, setHidePass] = useState(true);
+
+  const onSignIn = handleSubmit(({ email, password }) => {});
 
   return (
-    <SafeAreaView style={styles.container}>
-      <Image source={require("../../assets/logo.png")} style={styles.logo} />
-      <Text style={styles.title}>Sign In</Text>
-      <View style={styles.innerContainer}>
-        <Text style={styles.label}>Email:</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Email"
-          textContentType="emailAddress"
-        />
-        <Text style={styles.label}>Password:</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Password"
-          textContentType="password"
-          secureTextEntry
-        />
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => navigation.navigate("Home")}
-        >
-          <Text style={styles.buttonText}>Login</Text>
-        </TouchableOpacity>
-      </View>
-    </SafeAreaView>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+      <SafeAreaView style={styles.container}>
+        <Image source={require("../../assets/logo.png")} style={styles.logo} />
+        <Text style={styles.title}>Sign In</Text>
+        <View style={styles.innerContainer}>
+          <ControlledInput
+            control={control}
+            name="email"
+            label="Email"
+            placeholder="Email"
+            textContentType="emailAddress"
+            autoCapitalize="none"
+            autoCorrect={false}
+            keyboardType="email-address"
+            returnKeyType="next"
+          />
+          <ControlledInput
+            name="password"
+            label="Password"
+            control={control}
+            placeholder="Password"
+            textContentType="password"
+            autoCapitalize="none"
+            returnKeyType="done"
+            secureTextEntry={hidePass}
+          />
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => navigation.replace("Home")}
+          >
+            <Text style={styles.buttonText}>Login</Text>
+          </TouchableOpacity>
+        </View>
+      </SafeAreaView>
+    </TouchableWithoutFeedback>
   );
 };
 
@@ -48,6 +78,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginHorizontal: 20,
+    alignItems: "center",
   },
   logo: {
     width: "90%",
@@ -67,20 +98,7 @@ const styles = StyleSheet.create({
   innerContainer: {
     flex: 1,
     marginTop: 50,
-  },
-  label: { color: "white", fontSize: 18, fontWeight: "700" },
-  input: {
-    width: "100%",
-    color: "#000",
-    backgroundColor: "white",
-    height: 44,
-    fontSize: 18,
-    marginBottom: 30,
-    marginTop: 8,
-    padding: 10,
-    borderWidth: 1,
-    borderColor: "#E6E8EC",
-    borderRadius: 8,
+    width: "90%",
   },
   button: {
     width: "100%",

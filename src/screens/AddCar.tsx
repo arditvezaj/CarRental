@@ -7,6 +7,7 @@ import {
   StyleSheet,
   ScrollView,
 } from "react-native";
+import { useForm } from "react-hook-form";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
 import DropdownPicker from "../components/molecules/DropdownPicker";
 import {
@@ -18,10 +19,13 @@ import {
 } from "../constants/filters";
 import colors from "../constants/colors";
 import { FontAwesome } from "@expo/vector-icons";
+import ControlledInput from "../components/atoms/ControlledInput";
 
 const AddCar = () => {
   const navigation =
     useNavigation<NavigationProp<{ "Car Rental": undefined }>>();
+  const { control, handleSubmit, reset, resetField } = useForm();
+
   const [make, setMake] = useState("");
   const [model, setModel] = useState("");
   const [price, setPrice] = useState("");
@@ -49,7 +53,18 @@ const AddCar = () => {
     setFuel("");
     setTransmission("");
     setYear("");
+    reset();
   };
+
+  const cancelHandler = () => {
+    resetHandler();
+    navigation.navigate("Car Rental");
+  };
+
+  const onSubmit = handleSubmit((data: any) => {
+    console.log(data);
+    navigation.navigate("Car Rental");
+  });
 
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
@@ -92,38 +107,29 @@ const AddCar = () => {
         selectedItem={fuel}
         placeholder="Select Fuel"
       />
-      <Text style={styles.label}>Year</Text>
-      <TextInput
-        style={styles.input}
+      <ControlledInput
+        name="year"
+        label="Year"
         placeholder="Year"
         keyboardType="numeric"
-        value={year}
-        onChangeText={(e) => setYear(e)}
         maxLength={4}
+        control={control}
+        rules={{ required: "Year is required" }}
       />
-      <Text style={styles.label}>Price</Text>
-      <TextInput
-        style={styles.input}
+      <ControlledInput
+        name="price"
+        label="Price"
         placeholder="Price"
         keyboardType="numeric"
-        value={price}
-        onChangeText={(e) => setPrice(e)}
+        control={control}
+        rules={{ required: "Price is required" }}
+        returnKeyType="done"
       />
       <View style={styles.buttonsContainer}>
-        <TouchableOpacity
-          style={styles.closeButton}
-          onPress={() => {
-            navigation.navigate("Car Rental");
-          }}
-        >
+        <TouchableOpacity style={styles.closeButton} onPress={cancelHandler}>
           <Text style={styles.buttonText}>Cancel</Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => {
-            navigation.navigate("Car Rental");
-          }}
-        >
+        <TouchableOpacity style={styles.button} onPress={onSubmit}>
           <FontAwesome name="check" size={20} color="#fff" />
           <Text style={styles.buttonText}>Add</Text>
         </TouchableOpacity>
@@ -150,16 +156,9 @@ const styles = StyleSheet.create({
     fontWeight: "700",
   },
   label: {
-    fontSize: 15,
-    marginTop: 15,
-  },
-  input: {
-    height: 44,
-    width: "100%",
-    borderRadius: 8,
-    backgroundColor: "#F2F2F2",
-    paddingHorizontal: 10,
-    marginTop: 7,
+    color: "#000",
+    fontWeight: "500",
+    fontSize: 14,
   },
   buttonsContainer: {
     flexDirection: "row",
@@ -199,7 +198,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: "#fff",
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: "700",
   },
 });

@@ -67,11 +67,12 @@ export default DropdownPicker;
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 8,
+    marginTop: 7,
+    marginBottom: 15,
     borderWidth: 1,
     borderColor: "#e0e0e0",
     backgroundColor: "#f2f2f2",
-    height: 49,
+    height: 45,
     borderRadius: 8,
     flexDirection: "row",
     justifyContent: "center",
@@ -80,7 +81,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     flex: 1,
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: "500",
   },
   menuList: {
@@ -90,14 +91,14 @@ const styles = StyleSheet.create({
   itemContainer: {
     width: "100%",
     paddingHorizontal: 12,
-    paddingVertical: 15,
+    paddingVertical: 13,
     paddingLeft: 20,
     borderWidth: 1,
     borderColor: colors.secondary,
   },
   itemText: {
     flex: 1,
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: "500",
   },
 });
