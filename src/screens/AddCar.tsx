@@ -2,14 +2,12 @@ import { useState, useEffect } from "react";
 import {
   View,
   Text,
-  TextInput,
   TouchableOpacity,
   StyleSheet,
   ScrollView,
 } from "react-native";
 import { useForm } from "react-hook-form";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
-import DropdownPicker from "../components/molecules/DropdownPicker";
 import {
   allCarMakes,
   carModels,
@@ -20,21 +18,34 @@ import {
 import colors from "../constants/colors";
 import { FontAwesome } from "@expo/vector-icons";
 import ControlledInput from "../components/atoms/ControlledInput";
+import ControlledDropdown from "../components/atoms/ControlledDropdown";
+
+interface AddCarFormData {
+  make: string;
+  model: string;
+  transmission: string;
+  fuel: string;
+  year: string;
+  price: string;
+}
 
 const AddCar = () => {
   const navigation =
     useNavigation<NavigationProp<{ "Car Rental": undefined }>>();
-  const { control, handleSubmit, reset, resetField } = useForm();
+  const { control, handleSubmit, reset, watch, setValue } =
+    useForm<AddCarFormData>({
+      defaultValues: {
+        make: "",
+        model: "",
+        transmission: "",
+        fuel: "",
+        year: "",
+        price: "",
+      },
+    });
 
-  const [make, setMake] = useState("");
-  const [model, setModel] = useState("");
-  const [price, setPrice] = useState("");
-  const [transmission, setTransmission] = useState("");
-  const [fuel, setFuel] = useState("");
-  const [year, setYear] = useState("");
-  // const [photo, setPhoto] = useState("");
-  // const [date, setDate] = useState("");
   const [models, setModels] = useState<{ name: string }[]>([]);
+  const selectedMake = watch("make");
 
   function getModelsByMake(make: keyof CarModelProps | string) {
     const models = carModels[make as keyof CarModelProps] || [];
@@ -42,18 +53,15 @@ const AddCar = () => {
   }
 
   useEffect(() => {
-    getModelsByMake(make);
-    setModel("All");
-  }, [make]);
+    if (selectedMake) {
+      getModelsByMake(selectedMake);
+      setValue("model", "");
+    }
+  }, [selectedMake]);
 
   const resetHandler = () => {
-    setMake("");
-    setModel("");
-    setPrice("");
-    setFuel("");
-    setTransmission("");
-    setYear("");
     reset();
+    setModels([]);
   };
 
   const cancelHandler = () => {
@@ -61,10 +69,10 @@ const AddCar = () => {
     navigation.navigate("Car Rental");
   };
 
-  const onSubmit = handleSubmit((data: any) => {
-    console.log(data);
+  const onSubmit = (data: AddCarFormData) => {
+    resetHandler();
     navigation.navigate("Car Rental");
-  });
+  };
 
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
@@ -75,37 +83,39 @@ const AddCar = () => {
           <Text style={styles.buttonText}>Reset</Text>
         </TouchableOpacity>
       </View>
-      <Text style={styles.label}>Make</Text>
-      <DropdownPicker
+      <ControlledDropdown
+        name="make"
+        label="Make"
+        control={control}
         data={allCarMakes.slice(1)}
-        onSelect={(item) => setMake(item.name)}
-        selectedItem={make}
         placeholder="Select Make"
+        rules={{ required: "Make is required" }}
       />
-      {make !== "" && (
-        <>
-          <Text style={styles.label}>Model</Text>
-          <DropdownPicker
-            data={models}
-            onSelect={(item) => setModel(item.name)}
-            selectedItem={model}
-            placeholder="Select Model"
-          />
-        </>
+      {selectedMake && (
+        <ControlledDropdown
+          name="model"
+          label="Model"
+          control={control}
+          data={models}
+          placeholder="Select Model"
+          rules={{ required: "Model is required" }}
+        />
       )}
-      <Text style={styles.label}>Transmission</Text>
-      <DropdownPicker
+      <ControlledDropdown
+        name="transmission"
+        label="Transmission"
+        control={control}
         data={carTransmissions.slice(1)}
-        onSelect={(item) => setTransmission(item.name)}
-        selectedItem={transmission}
         placeholder="Select Transmission"
+        rules={{ required: "Transmission is required" }}
       />
-      <Text style={styles.label}>Fuel</Text>
-      <DropdownPicker
+      <ControlledDropdown
+        name="fuel"
+        label="Fuel"
+        control={control}
         data={carFuel.slice(1)}
-        onSelect={(item) => setFuel(item.name)}
-        selectedItem={fuel}
         placeholder="Select Fuel"
+        rules={{ required: "Fuel is required" }}
       />
       <ControlledInput
         name="year"
@@ -114,7 +124,16 @@ const AddCar = () => {
         keyboardType="numeric"
         maxLength={4}
         control={control}
-        rules={{ required: "Year is required" }}
+        rules={{
+          required: "Year is required",
+          validate: (value: string) => {
+            const year = parseInt(value);
+            return (
+              (year >= 1950 && year <= 2025) ||
+              "Please enter a valid year (1950-2025)"
+            );
+          },
+        }}
       />
       <ControlledInput
         name="price"
@@ -122,14 +141,23 @@ const AddCar = () => {
         placeholder="Price"
         keyboardType="numeric"
         control={control}
-        rules={{ required: "Price is required" }}
+        rules={{
+          required: "Price is required",
+          pattern: {
+            value: /^\d+(\.\d{1,2})?$/,
+            message: "Please enter a valid price",
+          },
+        }}
         returnKeyType="done"
       />
       <View style={styles.buttonsContainer}>
         <TouchableOpacity style={styles.closeButton} onPress={cancelHandler}>
           <Text style={styles.buttonText}>Cancel</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={onSubmit}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={handleSubmit(onSubmit)}
+        >
           <FontAwesome name="check" size={20} color="#fff" />
           <Text style={styles.buttonText}>Add</Text>
         </TouchableOpacity>
@@ -155,15 +183,10 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "700",
   },
-  label: {
-    color: "#000",
-    fontWeight: "500",
-    fontSize: 14,
-  },
   buttonsContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginTop: 20,
+    marginTop: 10,
     paddingBottom: 15,
   },
   button: {

@@ -29,43 +29,58 @@ const DropdownPicker = ({
   errorMessage,
 }: Props) => {
   return (
-    <SelectDropdown
-      data={data}
-      onSelect={onSelect}
-      renderButton={(isOpened) => (
-        <View
-          style={[
-            styles.container,
-            errorMessage &&
-              errorMessage?.length > 0 && { borderColor: "#EE374A" },
-          ]}
-        >
-          <Text style={styles.buttonText}>
-            {selectedItem ? selectedItem : placeholder}
-          </Text>
-          <ChevronIcon isOpened={isOpened} />
-        </View>
+    <View style={styles.wrapper}>
+      <SelectDropdown
+        data={data}
+        onSelect={onSelect}
+        renderButton={(isOpened) => (
+          <View
+            style={[
+              styles.container,
+              errorMessage &&
+                errorMessage.length > 0 && { borderColor: "#EE374A" },
+            ]}
+          >
+            <Text style={styles.buttonText}>
+              {selectedItem ? selectedItem : placeholder}
+            </Text>
+            {/* <Text>{isOpened ? "1" : "0"}</Text> */}
+            <ChevronIcon isOpened={isOpened} />
+          </View>
+        )}
+        renderItem={(item, index) => (
+          <View
+            key={index}
+            style={[
+              styles.itemContainer,
+              selectedItem == item.name && { backgroundColor: "#D2D9DF" },
+            ]}
+          >
+            <Text style={styles.itemText}>{item.name}</Text>
+          </View>
+        )}
+        dropdownStyle={styles.menuList}
+      />
+      {errorMessage && errorMessage.length > 0 && (
+        <Text style={styles.errorText}>{errorMessage}</Text>
       )}
-      renderItem={(item, index) => (
-        <View
-          key={index}
-          style={[
-            styles.itemContainer,
-
-            selectedItem == item.name && { backgroundColor: "#D2D9DF" },
-          ]}
-        >
-          <Text style={styles.itemText}>{item.name}</Text>
-        </View>
-      )}
-      dropdownStyle={styles.menuList}
-    />
+    </View>
   );
 };
 
 export default DropdownPicker;
 
 const styles = StyleSheet.create({
+  wrapper: {
+    width: "100%",
+  },
+  errorText: {
+    color: "#FF0D10",
+    fontSize: 12,
+    marginTop: -12,
+    marginBottom: 10,
+    marginLeft: 2,
+  },
   container: {
     marginTop: 7,
     marginBottom: 15,

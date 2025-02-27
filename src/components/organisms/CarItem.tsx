@@ -49,6 +49,7 @@ export default CarItem;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    maxWidth: "45%",
     height: 170,
     backgroundColor: colors.secondary,
     margin: 10,

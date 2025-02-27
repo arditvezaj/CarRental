@@ -65,7 +65,7 @@ const ControlledInput = ({
               isLogin ? styles.inputLogin : styles.input,
               {
                 marginBottom: error ? 5 : 15,
-                borderColor: error ? "#FF0D10" : "#E6E8EC",
+                borderColor: error ? "#EE374A" : "#E6E8EC",
               },
             ]}
           />
