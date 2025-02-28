@@ -1,18 +1,24 @@
 import { StatusBar } from "expo-status-bar";
 import {} from "@react-navigation/native";
 import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import {
+  createNativeStackNavigator,
+  NativeStackNavigationOptions,
+} from "@react-navigation/native-stack";
+import {
+  createBottomTabNavigator,
+  BottomTabNavigationOptions,
+} from "@react-navigation/bottom-tabs";
 import { Provider } from "react-redux";
-import { FontAwesome, FontAwesome5 } from "@expo/vector-icons";
+import { FontAwesome, FontAwesome5, FontAwesome6 } from "@expo/vector-icons";
 import store from "./src/redux/store";
 import colors from "./src/constants/colors";
 
-import Home from "./src/screens/Home";
 import Login from "./src/screens/Login";
 import SignUp from "./src/screens/Signup";
+import Home from "./src/screens/Home";
 import CarDetails from "./src/screens/CarDetails";
-import Favorites from "./src/screens/Favorites";
+import AddCar from "./src/screens/AddCar";
 import FilterCars from "./src/screens/FilterCars";
 import CarMakes from "./src/screens/FilterCars/Makes";
 import CarModels from "./src/screens/FilterCars/Models";
@@ -20,8 +26,8 @@ import CarPrices from "./src/screens/FilterCars/Prices";
 import CarFuel from "./src/screens/FilterCars/Fuel";
 import CarTransmission from "./src/screens/FilterCars/Transmission";
 import CarYears from "./src/screens/FilterCars/Years";
-import AddCar from "./src/screens/AddCar";
-
+import Favorites from "./src/screens/Favorites";
+import Profile from "./src/screens/Profile";
 interface ScreenOptionsProps {
   headerStyle: {
     backgroundColor: string;
@@ -38,7 +44,10 @@ interface ScreenOptionsProps {
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
-const commonScreenOptions: any = {
+const commonScreenOptions:
+  | NativeStackNavigationOptions
+  | BottomTabNavigationOptions
+  | any = {
   headerStyle: {
     backgroundColor: colors.secondary,
   },
@@ -88,6 +97,12 @@ const FavoritesStack = () => (
   </Stack.Navigator>
 );
 
+const ProfileStack = () => (
+  <Stack.Navigator screenOptions={commonScreenOptions}>
+    <Stack.Screen name="Profile" component={Profile} />
+  </Stack.Navigator>
+);
+
 const MainTabs = () => (
   <Tab.Navigator
     screenOptions={{
@@ -108,7 +123,6 @@ const MainTabs = () => (
         ),
       }}
     />
-
     <Tab.Screen
       name="AddCarTab"
       component={AddCarStack}
@@ -120,7 +134,6 @@ const MainTabs = () => (
         ),
       }}
     />
-
     <Tab.Screen
       name="FavoritesTab"
       component={FavoritesStack}
@@ -129,6 +142,17 @@ const MainTabs = () => (
         title: "Favorites",
         tabBarIcon: ({ color }) => (
           <FontAwesome size={28} name="heart" color={color} />
+        ),
+      }}
+    />
+    <Tab.Screen
+      name="ProfileTab"
+      component={ProfileStack}
+      options={{
+        headerShown: false,
+        title: "Profile",
+        tabBarIcon: ({ color }) => (
+          <FontAwesome6 size={28} name="user-large" color={color} />
         ),
       }}
     />
