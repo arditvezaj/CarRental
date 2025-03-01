@@ -1,5 +1,4 @@
 import { StatusBar } from "expo-status-bar";
-import {} from "@react-navigation/native";
 import { NavigationContainer } from "@react-navigation/native";
 import {
   createNativeStackNavigator,

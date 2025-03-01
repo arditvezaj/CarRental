@@ -1,10 +1,18 @@
 import { useState } from "react";
-import { View, Text, StyleSheet, SafeAreaView, FlatList } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  SafeAreaView,
+  FlatList,
+  ScrollView,
+} from "react-native";
 import { carsData } from "../data/dummy-data";
 import CarItem, { CarItemProps } from "../components/organisms/CarItem";
 import SearchInput from "../components/molecules/SearchInput";
 import * as Notifications from "expo-notifications";
 import FilterButton from "../components/atoms/FilterButton";
+import PremiumCars from "../components/organisms/PremiumCars";
 
 interface HomeProps {
   item: CarItemProps;
@@ -136,8 +144,14 @@ const Home = () => {
         keyExtractor={(item) => item.id}
         renderItem={renderItem}
         numColumns={2}
-        showsVerticalScrollIndicator={false}
+        ListHeaderComponent={
+          <>
+            <PremiumCars />
+            <Text style={styles.title}>Popular Cars</Text>
+          </>
+        }
         ListEmptyComponent={<Text>No cars found</Text>}
+        showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.contentList}
       />
     </SafeAreaView>
@@ -155,6 +169,12 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     margin: 10,
     marginTop: 15,
+  },
+  title: {
+    marginLeft: 10,
+    marginTop: 10,
+    fontSize: 16,
+    fontWeight: "600",
   },
   contentList: {
     paddingBottom: 60,
