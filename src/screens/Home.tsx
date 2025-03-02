@@ -14,10 +14,6 @@ import * as Notifications from "expo-notifications";
 import FilterButton from "../components/atoms/FilterButton";
 import PremiumCars from "../components/organisms/PremiumCars";
 
-interface HomeProps {
-  item: CarItemProps;
-}
-
 Notifications.setNotificationHandler({
   handleNotification: async () => {
     return {
@@ -31,16 +27,8 @@ Notifications.setNotificationHandler({
 const Home = () => {
   const [text, setText] = useState("");
 
-  const renderItem = ({ item }: HomeProps) => {
-    return (
-      <CarItem
-        id={item.id}
-        name={item.name}
-        discount={item.discount}
-        price={item.price}
-        imageUrl={item.imageUrl}
-      />
-    );
+  const renderItem = ({ item }: CarItemProps) => {
+    return <CarItem item={item} />;
   };
 
   // useEffect(() => {

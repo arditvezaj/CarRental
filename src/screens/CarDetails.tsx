@@ -11,10 +11,6 @@ interface CarDetailsProps {
   navigation?: NavigationProp<{ "Car Details": { id: string } }>;
 }
 
-interface ItemProps {
-  item: CarItemProps;
-}
-
 const CarDetails = ({ route, navigation }: CarDetailsProps) => {
   const id = route && route.params.id;
 
@@ -30,7 +26,7 @@ const CarDetails = ({ route, navigation }: CarDetailsProps) => {
   //   });
   // }, [id, navigation]);
 
-  const renderCarItem = ({ item }: ItemProps) => {
+  const renderCarItem = ({ item }: CarItemProps) => {
     return <CarInfos item={item} />;
   };
 

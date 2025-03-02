@@ -5,10 +5,6 @@ import { carsData } from "../data/dummy-data";
 import { CarItemProps } from "../components/organisms/CarItem";
 import { RootState } from "../redux/store";
 
-interface ItemProps {
-  item: CarItemProps;
-}
-
 const Favorites = () => {
   const favoriteCars = useSelector(
     (state: RootState) => state.favoriteCars.ids
@@ -17,16 +13,8 @@ const Favorites = () => {
     return favoriteCars.includes(carItem.id);
   });
 
-  const renderItem = ({ item }: ItemProps) => {
-    return (
-      <CarItem
-        id={item.id}
-        name={item.name}
-        discount={item.discount}
-        price={item.price}
-        imageUrl={item.imageUrl}
-      />
-    );
+  const renderItem = ({ item }: CarItemProps) => {
+    return <CarItem item={item} />;
   };
 
   return (

@@ -19,6 +19,7 @@ import colors from "../constants/colors";
 import { FontAwesome } from "@expo/vector-icons";
 import ControlledInput from "../components/atoms/ControlledInput";
 import ControlledDropdown from "../components/atoms/ControlledDropdown";
+import ControlledPhotoInput from "../components/atoms/ControlledPhotoInput";
 
 interface AddCarFormData {
   make: string;
@@ -27,6 +28,7 @@ interface AddCarFormData {
   fuel: string;
   year: string;
   price: string;
+  photo: string;
 }
 
 const AddCar = () => {
@@ -41,6 +43,7 @@ const AddCar = () => {
         fuel: "",
         year: "",
         price: "",
+        photo: "",
       },
     });
 
@@ -117,38 +120,56 @@ const AddCar = () => {
         placeholder="Select Fuel"
         rules={{ required: "Fuel is required" }}
       />
-      <ControlledInput
-        name="year"
-        label="Year"
-        placeholder="Year"
-        keyboardType="numeric"
-        maxLength={4}
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-between",
+        }}
+      >
+        <View style={{ width: "48%" }}>
+          <ControlledInput
+            name="year"
+            label="Year"
+            placeholder="Year"
+            keyboardType="numeric"
+            maxLength={4}
+            control={control}
+            rules={{
+              required: "Year is required",
+              validate: (value: string) => {
+                const year = parseInt(value);
+                return (
+                  (year >= 1950 && year <= 2025) ||
+                  "Please enter a valid year (1950-2025)"
+                );
+              },
+            }}
+          />
+        </View>
+        <View style={{ width: "48%" }}>
+          <ControlledInput
+            name="price"
+            label="Price"
+            placeholder="Price"
+            keyboardType="numeric"
+            control={control}
+            rules={{
+              required: "Price is required",
+              pattern: {
+                value: /^\d+(\.\d{1,2})?$/,
+                message: "Please enter a valid price",
+              },
+            }}
+            returnKeyType="done"
+          />
+        </View>
+      </View>
+      <ControlledPhotoInput
+        name="photo"
         control={control}
         rules={{
-          required: "Year is required",
-          validate: (value: string) => {
-            const year = parseInt(value);
-            return (
-              (year >= 1950 && year <= 2025) ||
-              "Please enter a valid year (1950-2025)"
-            );
-          },
+          required: "Please upload a photo of the car"
         }}
-      />
-      <ControlledInput
-        name="price"
-        label="Price"
-        placeholder="Price"
-        keyboardType="numeric"
-        control={control}
-        rules={{
-          required: "Price is required",
-          pattern: {
-            value: /^\d+(\.\d{1,2})?$/,
-            message: "Please enter a valid price",
-          },
-        }}
-        returnKeyType="done"
       />
       <View style={styles.buttonsContainer}>
         <TouchableOpacity style={styles.closeButton} onPress={cancelHandler}>
@@ -218,6 +239,15 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginTop: 10,
+  },
+  photoButton: {
+    width: "100%",
+    height: 44,
+    backgroundColor: "#fff",
+    borderRadius: 8,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 5,
   },
   buttonText: {
     color: "#fff",

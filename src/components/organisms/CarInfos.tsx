@@ -10,11 +10,7 @@ import colors from "../../constants/colors";
 import { CarItemProps } from "./CarItem";
 import { RootState } from "@/src/redux/store";
 
-interface CarInfosProps {
-  item: CarItemProps;
-}
-
-const CarInfos = ({ item }: CarInfosProps) => {
+const CarInfos = ({ item }: CarItemProps) => {
   const {
     id,
     company,

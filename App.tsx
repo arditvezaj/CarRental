@@ -1,4 +1,5 @@
 import { StatusBar } from "expo-status-bar";
+import { View, StyleSheet } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import {
   createNativeStackNavigator,
@@ -17,6 +18,7 @@ import Login from "./src/screens/Login";
 import SignUp from "./src/screens/Signup";
 import Home from "./src/screens/Home";
 import CarDetails from "./src/screens/CarDetails";
+import MyCars from "./src/screens/MyCars";
 import AddCar from "./src/screens/AddCar";
 import FilterCars from "./src/screens/FilterCars";
 import CarMakes from "./src/screens/FilterCars/Makes";
@@ -84,6 +86,12 @@ const HomeStack = () => (
   </Stack.Navigator>
 );
 
+const MyCarsStack = () => (
+  <Stack.Navigator screenOptions={commonScreenOptions}>
+    <Stack.Screen name="My Cars" component={MyCars} />
+  </Stack.Navigator>
+);
+
 const AddCarStack = () => (
   <Stack.Navigator screenOptions={commonScreenOptions}>
     <Stack.Screen name="Add Car" component={AddCar} />
@@ -108,7 +116,11 @@ const MainTabs = () => (
       ...commonScreenOptions,
       tabBarActiveTintColor: "#fff",
       tabBarLabelStyle: { marginTop: -10, marginBottom: 0 },
-      tabBarStyle: { height: 90, backgroundColor: colors.secondary },
+      tabBarStyle: {
+        height: 90,
+        backgroundColor: colors.secondary,
+        position: "relative",
+      },
     }}
   >
     <Tab.Screen
@@ -123,14 +135,28 @@ const MainTabs = () => (
       }}
     />
     <Tab.Screen
+      name="MyCarsTab"
+      component={MyCarsStack}
+      options={{
+        headerShown: false,
+        title: "My Cars",
+        tabBarIcon: ({ color }) => (
+          <FontAwesome5 size={28} name="car" color={color} />
+        ),
+      }}
+    />
+    <Tab.Screen
       name="AddCarTab"
       component={AddCarStack}
       options={{
         headerShown: false,
         title: "Add Car",
-        tabBarIcon: ({ color }) => (
-          <FontAwesome5 size={28} name="plus" color={color} />
+        tabBarIcon: () => (
+          <View style={styles.tabIcon}>
+            <FontAwesome5 size={24} name="plus" color={colors.secondary} />
+          </View>
         ),
+        tabBarLabel: () => null,
       }}
     />
     <Tab.Screen
@@ -151,7 +177,7 @@ const MainTabs = () => (
         headerShown: false,
         title: "Profile",
         tabBarIcon: ({ color }) => (
-          <FontAwesome6 size={28} name="user-large" color={color} />
+          <FontAwesome size={28} name="user" color={color} />
         ),
       }}
     />
@@ -181,3 +207,23 @@ export default function App() {
     </>
   );
 }
+
+const styles = StyleSheet.create({
+  tabIcon: {
+    width: 60,
+    height: 60,
+    backgroundColor: "#fff",
+    borderRadius: 30,
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 35,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+});

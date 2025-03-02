@@ -10,20 +10,23 @@ import { useNavigation, NavigationProp } from "@react-navigation/native";
 import colors from "../../constants/colors";
 
 export interface CarItemProps {
-  id: string;
-  company?: string;
-  name: string;
-  fuel?: string;
-  year?: number;
-  engine?: number;
-  date?: string;
-  transmission?: string;
-  price?: number;
-  discount?: number;
-  imageUrl: ImageSourcePropType;
+  item: {
+    id: string;
+    company?: string;
+    name: string;
+    fuel?: string;
+    year?: number;
+    engine?: number;
+    date?: string;
+    transmission?: string;
+    price?: number;
+    discount?: number;
+    imageUrl: ImageSourcePropType;
+  };
 }
 
-const CarItem = ({ id, name, price, imageUrl }: CarItemProps) => {
+const CarItem = ({ item }: CarItemProps) => {
+  const { id, name, price, discount, imageUrl } = item;
   const navigation =
     useNavigation<NavigationProp<{ "Car Details": { id: string } }>>();
 
