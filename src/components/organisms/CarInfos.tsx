@@ -1,6 +1,6 @@
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 
-import { AntDesign, FontAwesome } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addFavorite,
@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
   company: {
     fontSize: 20,
     fontWeight: "700",
-    color: "white",
+    color: "#fff",
   },
   boxesContainer: {
     flexDirection: "row",
@@ -137,7 +137,7 @@ const styles = StyleSheet.create({
   box: {
     width: "31.4%",
     height: 100,
-    backgroundColor: "white",
+    backgroundColor: "#fff",
     borderRadius: 6,
     justifyContent: "center",
     alignItems: "center",
@@ -167,12 +167,12 @@ const styles = StyleSheet.create({
     marginVertical: 5,
     fontSize: 20,
     fontWeight: "700",
-    color: "white",
+    color: "#fff",
   },
   price: {
     fontSize: 18,
     fontWeight: "700",
-    color: "white",
+    color: "#fff",
     marginVertical: 5,
   },
   heart: {
@@ -190,7 +190,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: 10,
     paddingVertical: 8,
-    backgroundColor: "white",
+    backgroundColor: "#fff",
     borderRadius: 6,
     marginVertical: 5,
   },

@@ -9,6 +9,7 @@ import {
 
 import { AntDesign } from "@expo/vector-icons";
 import { ReactNode } from "react";
+import colors from "@/src/constants/colors";
 
 interface Props {
   showModal: boolean;
@@ -30,15 +31,7 @@ const ModalContainer = ({
   return (
     <Modal transparent={true} visible={showModal} onRequestClose={toggleModal}>
       <Pressable onPress={toggleModal} style={[styles.centeredView, style]}>
-        <View
-          style={[
-            styles.modalView,
-            {
-              width: title == "Regierapport" ? "100%" : "90%",
-              paddingHorizontal: title == "Regierapport" ? 15 : 25,
-            },
-          ]}
-        >
+        <View style={styles.modalView}>
           <View style={styles.header}>
             {hasXButton && <View style={{ width: 24 }} />}
             <Text style={styles.title}>{title}</Text>
@@ -65,7 +58,7 @@ const styles = StyleSheet.create({
   modalView: {
     backgroundColor: "#fff",
     borderWidth: 1,
-    borderColor: "#E6E8EC",
+    borderColor: colors.borderColor,
     borderRadius: 15,
     paddingVertical: 15,
     alignItems: "center",

@@ -1,31 +1,23 @@
-import { TextInput, Text, StyleSheet } from "react-native";
-import { Controller, Control } from "react-hook-form";
+import { useState, useCallback } from "react";
+import {
+  View,
+  TextInput,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+} from "react-native";
+import { Controller } from "react-hook-form";
 import { useRoute } from "@react-navigation/native";
+import { ControlledInputProps } from "@/src/constants/types";
+import colors from "@/src/constants/colors";
+import { Ionicons } from "@expo/vector-icons";
 
-type ControlledInputProps = {
-  control: Control<any>;
-  name: string;
-  label: string;
-  placeholder?: string;
-  secureTextEntry?: boolean;
-  keyboardType?: "default" | "email-address" | "numeric" | "phone-pad";
-  leftIcon?: string;
-  rightIcon?: { icon: string; onPress: () => void };
-  rules?: object;
-  textContentType?: any;
-  autoCapitalize?: "none" | "sentences" | "words" | "characters";
-  autoCorrect?: boolean | undefined;
-  autoComplete?: any;
-  returnKeyType?: "done" | "go" | "next" | "search" | "send";
-  maxLength?: number;
-};
-
-const ControlledInput = ({
+const ControlledInput = <T extends Record<string, number>>({
   control,
   name,
   label,
   placeholder,
-  secureTextEntry = false,
+  secureTextEntry: initialSecureTextEntry = false,
   keyboardType = "default",
   rules,
   textContentType,
@@ -34,10 +26,18 @@ const ControlledInput = ({
   autoComplete,
   returnKeyType = "next",
   maxLength,
-}: ControlledInputProps) => {
+}: ControlledInputProps<T>) => {
   const route = useRoute();
+  const isLogin = route.name === "Login";
+  const [secureTextEntry, setSecureTextEntry] = useState(
+    initialSecureTextEntry
+  );
 
-  const isLogin = route.name === "LoginScreen";
+  const isPassword = textContentType === "password" || initialSecureTextEntry;
+
+  const togglePassword = useCallback(() => {
+    setSecureTextEntry((prev) => !prev);
+  }, []);
 
   return (
     <Controller
@@ -49,26 +49,59 @@ const ControlledInput = ({
           <Text style={isLogin ? styles.labelLogin : styles.label}>
             {label}:
           </Text>
-          <TextInput
-            placeholder={placeholder}
-            value={value}
-            onChangeText={onChange}
-            secureTextEntry={secureTextEntry}
-            keyboardType={keyboardType}
-            textContentType={textContentType}
-            autoCapitalize={autoCapitalize}
-            autoComplete={autoComplete}
-            autoCorrect={autoCorrect}
-            returnKeyType={returnKeyType}
-            maxLength={maxLength}
+          <View
             style={[
-              isLogin ? styles.inputLogin : styles.input,
+              isPassword ? styles.passwordInput : null,
+              error && { borderColor: colors.errorBorder },
               {
-                marginBottom: error ? 5 : 15,
-                borderColor: error ? "#EE374A" : "#E6E8EC",
+                marginTop: 6,
+                marginBottom: error ? 5 : 12,
               },
             ]}
-          />
+          >
+            <TextInput
+              placeholder={placeholder}
+              value={value}
+              onChangeText={onChange}
+              secureTextEntry={secureTextEntry}
+              keyboardType={keyboardType}
+              textContentType={textContentType}
+              autoCapitalize={autoCapitalize}
+              autoComplete={autoComplete}
+              autoCorrect={autoCorrect}
+              returnKeyType={returnKeyType}
+              maxLength={maxLength}
+              style={[
+                isLogin ? styles.inputLogin : styles.input,
+                isPassword
+                  ? { flex: 1 }
+                  : {
+                      width: "100%",
+                      borderColor: error
+                        ? colors.errorBorder
+                        : colors.borderColor,
+                    },
+              ]}
+              accessibilityLabel={label}
+            />
+            {isPassword && (
+              <TouchableOpacity
+                onPress={togglePassword}
+                style={styles.iconContainer}
+                accessibilityLabel={
+                  secureTextEntry ? "Show password" : "Hide password"
+                }
+                accessibilityRole="button"
+              >
+                <Ionicons
+                  name={secureTextEntry ? "eye-outline" : "eye-off-outline"}
+                  size={24}
+                  color="gray"
+                  style={styles.icon}
+                />
+              </TouchableOpacity>
+            )}
+          </View>
           {error && <Text style={styles.errorText}>{error.message}</Text>}
         </>
       )}
@@ -89,32 +122,40 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     fontSize: 17,
   },
+  passwordInput: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#fff",
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: colors.borderColor,
+    marginTop: 6,
+  },
   input: {
-    width: "100%",
     backgroundColor: "#fff",
     height: 45,
     fontSize: 15,
-    marginTop: 7,
     padding: 10,
-    borderWidth: 1,
-    borderColor: "#E6E8EC",
     borderRadius: 8,
   },
   inputLogin: {
-    width: "100%",
     backgroundColor: "#fff",
     height: 45,
     fontSize: 17,
-    marginBottom: 30,
-    marginTop: 8,
     padding: 10,
-    borderWidth: 1,
-    borderColor: "#E6E8EC",
     borderRadius: 8,
   },
   errorText: {
-    color: "#FF0D10",
+    color: colors.errorText,
     fontSize: 12,
-    marginBottom: 15,
+    marginBottom: 12,
+  },
+  iconContainer: {
+    padding: 10,
+    marginRight: 5,
+  },
+  icon: {
+    width: 24,
+    height: 24,
   },
 });

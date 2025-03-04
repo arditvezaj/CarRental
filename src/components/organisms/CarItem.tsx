@@ -6,8 +6,9 @@ import {
   TouchableOpacity,
   ImageSourcePropType,
 } from "react-native";
-import { useNavigation, NavigationProp } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import colors from "../../constants/colors";
+import { NavigationType } from "../../constants/types";
 
 export interface CarItemProps {
   item: {
@@ -26,9 +27,8 @@ export interface CarItemProps {
 }
 
 const CarItem = ({ item }: CarItemProps) => {
-  const { id, name, price, discount, imageUrl } = item;
-  const navigation =
-    useNavigation<NavigationProp<{ "Car Details": { id: string } }>>();
+  const { id, name, price, imageUrl } = item;
+  const navigation = useNavigation<NavigationType>();
 
   const onPressHandler = () => {
     navigation.navigate("Car Details", { id });
@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
     zIndex: 999,
   },
   discount: {
-    color: "white",
+    color: "#fff",
   },
   image: {
     borderTopLeftRadius: 10,

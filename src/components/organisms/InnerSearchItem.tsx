@@ -1,6 +1,7 @@
 import { Text, TouchableOpacity, StyleSheet } from "react-native";
-import { useNavigation, NavigationProp } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import { Entypo } from "@expo/vector-icons";
+import { NavigationType } from "@/src/constants/types";
 
 interface InnerSearchItemProps {
   name: string;
@@ -9,8 +10,7 @@ interface InnerSearchItemProps {
 }
 
 const InnerSearchItem = ({ name, value, setState }: InnerSearchItemProps) => {
-  const navigation =
-    useNavigation<NavigationProp<{ "Filter Cars": undefined }>>();
+  const navigation = useNavigation<NavigationType>();
 
   const pressHandler = () => {
     setState(name);

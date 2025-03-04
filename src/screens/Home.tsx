@@ -1,12 +1,5 @@
 import { useState } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  SafeAreaView,
-  FlatList,
-  ScrollView,
-} from "react-native";
+import { View, Text, StyleSheet, SafeAreaView, FlatList } from "react-native";
 import { carsData } from "../data/dummy-data";
 import CarItem, { CarItemProps } from "../components/organisms/CarItem";
 import SearchInput from "../components/molecules/SearchInput";
@@ -14,15 +7,15 @@ import * as Notifications from "expo-notifications";
 import FilterButton from "../components/atoms/FilterButton";
 import PremiumCars from "../components/organisms/PremiumCars";
 
-Notifications.setNotificationHandler({
-  handleNotification: async () => {
-    return {
-      shouldPlaySound: false,
-      shouldSetBadge: false,
-      shouldShowAlert: true,
-    };
-  },
-});
+// Notifications.setNotificationHandler({
+//   handleNotification: async () => {
+//     return {
+//       shouldPlaySound: false,
+//       shouldSetBadge: false,
+//       shouldShowAlert: true,
+//     };
+//   },
+// });
 
 const Home = () => {
   const [text, setText] = useState("");

@@ -29,22 +29,21 @@ const DropdownPicker = ({
   errorMessage,
 }: Props) => {
   return (
-    <View style={styles.wrapper}>
+    <>
       <SelectDropdown
         data={data}
         onSelect={onSelect}
-        renderButton={(isOpened) => (
+        renderButton={(selectedItem, isOpened) => (
           <View
             style={[
               styles.container,
               errorMessage &&
-                errorMessage.length > 0 && { borderColor: "#EE374A" },
+                errorMessage.length > 0 && { borderColor: colors.errorBorder },
             ]}
           >
             <Text style={styles.buttonText}>
-              {selectedItem ? selectedItem : placeholder}
+              {selectedItem ? selectedItem.name : placeholder}
             </Text>
-            {/* <Text>{isOpened ? "1" : "0"}</Text> */}
             <ChevronIcon isOpened={isOpened} />
           </View>
         )}
@@ -64,18 +63,15 @@ const DropdownPicker = ({
       {errorMessage && errorMessage.length > 0 && (
         <Text style={styles.errorText}>{errorMessage}</Text>
       )}
-    </View>
+    </>
   );
 };
 
 export default DropdownPicker;
 
 const styles = StyleSheet.create({
-  wrapper: {
-    width: "100%",
-  },
   errorText: {
-    color: "#FF0D10",
+    color: colors.errorText,
     fontSize: 12,
     marginTop: -12,
     marginBottom: 10,
@@ -85,8 +81,8 @@ const styles = StyleSheet.create({
     marginTop: 7,
     marginBottom: 15,
     borderWidth: 1,
-    borderColor: "#e0e0e0",
-    backgroundColor: "#f2f2f2",
+    borderColor: colors.borderColor,
+    backgroundColor: "#fff",
     height: 45,
     borderRadius: 8,
     flexDirection: "row",
@@ -109,7 +105,7 @@ const styles = StyleSheet.create({
     paddingVertical: 13,
     paddingLeft: 20,
     borderWidth: 1,
-    borderColor: colors.secondary,
+    borderColor: colors.borderColor,
   },
   itemText: {
     flex: 1,

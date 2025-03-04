@@ -25,5 +25,5 @@ export default MyCars;
 
 const styles = StyleSheet.create({
   container: { flex: 1, marginHorizontal: 5 },
-  contentList: { paddingBottom: 60 },
+  contentList: { marginTop: 10, paddingBottom: 60 },
 });

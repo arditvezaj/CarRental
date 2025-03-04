@@ -10,7 +10,7 @@ import {
   BottomTabNavigationOptions,
 } from "@react-navigation/bottom-tabs";
 import { Provider } from "react-redux";
-import { FontAwesome, FontAwesome5, FontAwesome6 } from "@expo/vector-icons";
+import { FontAwesome, FontAwesome5 } from "@expo/vector-icons";
 import store from "./src/redux/store";
 import colors from "./src/constants/colors";
 
@@ -29,30 +29,17 @@ import CarTransmission from "./src/screens/FilterCars/Transmission";
 import CarYears from "./src/screens/FilterCars/Years";
 import Favorites from "./src/screens/Favorites";
 import Profile from "./src/screens/Profile";
-interface ScreenOptionsProps {
-  headerStyle: {
-    backgroundColor: string;
-  };
-  headerTintColor: string;
-  headerTitleStyle: {
-    fontWeight: string;
-  };
-  contentStyle: {
-    backgroundColor: string;
-  };
-}
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
-const commonScreenOptions:
-  | NativeStackNavigationOptions
-  | BottomTabNavigationOptions
-  | any = {
+const commonScreenOptions: Partial<
+  NativeStackNavigationOptions & BottomTabNavigationOptions
+> = {
   headerStyle: {
     backgroundColor: colors.secondary,
   },
-  headerTintColor: "white",
+  headerTintColor: "#fff",
   headerTitleStyle: {
     fontWeight: "bold",
   },
@@ -64,7 +51,7 @@ const commonScreenOptions:
 const LoginStack = () => (
   <Stack.Navigator screenOptions={commonScreenOptions}>
     <Stack.Screen
-      name="LoginScreen"
+      name="Login"
       component={Login}
       options={{ headerShown: false }}
     />

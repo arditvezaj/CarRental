@@ -5,38 +5,38 @@ interface userDetailsProps {
   value: string;
 }
 
-const Profile = () => {
-  const userDetails: userDetailsProps[] = [
-    {
-      label: "Name",
-      value: "John Doe",
-    },
-    {
-      label: "Email",
-      value: "john@doe.com",
-    },
-    {
-      label: "Phone",
-      value: "+1234567890",
-    },
-    {
-      label: "Address",
-      value: "Some Street",
-    },
-    {
-      label: "City",
-      value: "New York",
-    },
-    {
-      label: "State",
-      value: "US",
-    },
-    {
-      label: "Zip",
-      value: "12345",
-    },
-  ];
+const userDetails: userDetailsProps[] = [
+  {
+    label: "Name",
+    value: "John Doe",
+  },
+  {
+    label: "Email",
+    value: "john@doe.com",
+  },
+  {
+    label: "Phone",
+    value: "+1234567890",
+  },
+  {
+    label: "Address",
+    value: "Some Street",
+  },
+  {
+    label: "City",
+    value: "New York",
+  },
+  {
+    label: "State",
+    value: "US",
+  },
+  {
+    label: "Zip",
+    value: "12345",
+  },
+];
 
+const Profile = () => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.innerContainer}>

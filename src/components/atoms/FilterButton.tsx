@@ -1,17 +1,18 @@
 import { TouchableOpacity, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { useNavigation, NavigationProp } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import colors from "@/src/constants/colors";
+import { NavigationType } from "@/src/constants/types";
 
 const FilterButton = () => {
-  const navigation =
-    useNavigation<NavigationProp<{ "Filter Cars": undefined }>>();
+  const navigation = useNavigation<NavigationType>();
+
+  const filterHandler = () => {
+    navigation.navigate("Filter Cars");
+  };
 
   return (
-    <TouchableOpacity
-      style={styles.container}
-      onPress={() => navigation.navigate("Filter Cars")}
-    >
+    <TouchableOpacity style={styles.container} onPress={filterHandler}>
       <Ionicons name="filter" size={22} color="#fff" />
     </TouchableOpacity>
   );

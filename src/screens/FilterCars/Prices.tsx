@@ -5,15 +5,15 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from "react-native";
-import { useNavigation, NavigationProp } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
 import { setPriceFrom, setPriceTo } from "../../redux/modules/filters/slice";
 import colors from "../../constants/colors";
 import { RootState } from "@/src/redux/store";
+import { NavigationType } from "@/src/constants/types";
 
 const CarPrices = () => {
-  const navigation =
-    useNavigation<NavigationProp<{ "Filter Cars": undefined }>>();
+  const navigation = useNavigation<NavigationType>();
   const dispatch = useDispatch();
   const priceFrom = useSelector(
     (state: RootState) => state.filtersReducer.priceFrom
@@ -21,6 +21,10 @@ const CarPrices = () => {
   const priceTo = useSelector(
     (state: RootState) => state.filtersReducer.priceTo
   );
+
+  const filterHandler = () => {
+    navigation.navigate("Filter Cars");
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -39,12 +43,7 @@ const CarPrices = () => {
         value={priceTo}
         onChangeText={(e) => dispatch(setPriceTo(e))}
       />
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => {
-          navigation.navigate("Filter Cars");
-        }}
-      >
+      <TouchableOpacity style={styles.button} onPress={filterHandler}>
         <Text style={styles.buttonText}>Done</Text>
       </TouchableOpacity>
     </SafeAreaView>
@@ -73,7 +72,7 @@ const styles = StyleSheet.create({
     padding: 10,
     borderWidth: 1,
     backgroundColor: "#fff",
-    borderColor: "#E6E8EC",
+    borderColor: colors.borderColor,
     borderRadius: 8,
   },
   button: {

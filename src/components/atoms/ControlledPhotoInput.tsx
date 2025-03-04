@@ -1,20 +1,25 @@
 import { View, Text, TouchableOpacity, Image, StyleSheet } from "react-native";
-import { Control, Controller } from "react-hook-form";
+import { Control, Controller, Path } from "react-hook-form";
 import { useState } from "react";
 import FilesModal from "../organisms/FilesModal";
 import * as ImagePicker from "expo-image-picker";
+import colors from "@/src/constants/colors";
 
-interface ControlledPhotoInputProps {
-  name: string;
+interface ControlledPhotoInputProps<T extends Record<string, string>> {
+  name: Path<T>;
   control: Control<any>;
-  rules?: object;
+  rules?: Partial<{
+    required: string | boolean;
+    pattern: { value: RegExp; message: string };
+    validate: (value: string) => string | boolean;
+  }>;
 }
 
-const ControlledPhotoInput = ({
+const ControlledPhotoInput = <T extends Record<string, string>>({
   name,
   control,
   rules,
-}: ControlledPhotoInputProps) => {
+}: ControlledPhotoInputProps<T>) => {
   const [showModal, setShowModal] = useState(false);
 
   const toggleModal = () => setShowModal((prev) => !prev);
@@ -57,7 +62,10 @@ const ControlledPhotoInput = ({
       render={({ field: { onChange, value }, fieldState: { error } }) => (
         <View style={styles.container}>
           <TouchableOpacity
-            style={[styles.photoButton, error && { borderColor: "#EE374A" }]}
+            style={[
+              styles.photoButton,
+              error && { borderColor: colors.errorBorder },
+            ]}
             onPress={toggleModal}
           >
             {value ? (
@@ -89,7 +97,7 @@ const styles = StyleSheet.create({
     height: 150,
     borderWidth: 2,
     borderStyle: "dashed",
-    borderColor: "#e0e0e0",
+    borderColor: colors.borderColor,
     borderRadius: 8,
     justifyContent: "center",
     alignItems: "center",
@@ -104,7 +112,8 @@ const styles = StyleSheet.create({
     fontWeight: "600",
   },
   errorText: {
-    color: "#FF0D10",
+    color: colors.errorText,
     fontSize: 12,
+    marginTop: 5,
   },
 });

@@ -19,15 +19,12 @@ const Favorites = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      {favoriteCarsList.length > 0 ? (
-        <FlatList
-          data={favoriteCarsList}
-          keyExtractor={(item) => item.id}
-          renderItem={renderItem}
-        />
-      ) : (
-        <Text style={styles.text}>No favorite cars.</Text>
-      )}
+      <FlatList
+        data={favoriteCarsList}
+        keyExtractor={(item) => item.id}
+        renderItem={renderItem}
+        ListEmptyComponent={<Text style={styles.text}>No favorite cars.</Text>}
+      />
     </SafeAreaView>
   );
 };
@@ -41,8 +38,8 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   text: {
-    fontSize: 18,
+    fontSize: 16,
     textAlign: "center",
-    marginTop: 20,
+    marginTop: 10,
   },
 });

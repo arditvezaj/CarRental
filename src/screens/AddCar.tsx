@@ -7,7 +7,7 @@ import {
   ScrollView,
 } from "react-native";
 import { useForm } from "react-hook-form";
-import { useNavigation, NavigationProp } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import {
   allCarMakes,
   carModels,
@@ -15,25 +15,26 @@ import {
   carFuel,
   CarModelProps,
 } from "../constants/filters";
-import colors from "../constants/colors";
 import { FontAwesome } from "@expo/vector-icons";
 import ControlledInput from "../components/atoms/ControlledInput";
 import ControlledDropdown from "../components/atoms/ControlledDropdown";
 import ControlledPhotoInput from "../components/atoms/ControlledPhotoInput";
+import colors from "../constants/colors";
+import { NavigationType } from "../constants/types";
 
 interface AddCarFormData {
   make: string;
   model: string;
   transmission: string;
   fuel: string;
-  year: string;
-  price: string;
+  year: string | number;
+  price: string | number;
   photo: string;
 }
 
 const AddCar = () => {
-  const navigation =
-    useNavigation<NavigationProp<{ "Car Rental": undefined }>>();
+  const navigation = useNavigation<NavigationType>();
+
   const { control, handleSubmit, reset, watch, setValue } =
     useForm<AddCarFormData>({
       defaultValues: {
@@ -92,7 +93,6 @@ const AddCar = () => {
         control={control}
         data={allCarMakes.slice(1)}
         placeholder="Select Make"
-        rules={{ required: "Make is required" }}
       />
       {selectedMake && (
         <ControlledDropdown
@@ -101,7 +101,6 @@ const AddCar = () => {
           control={control}
           data={models}
           placeholder="Select Model"
-          rules={{ required: "Model is required" }}
         />
       )}
       <ControlledDropdown
@@ -110,7 +109,6 @@ const AddCar = () => {
         control={control}
         data={carTransmissions.slice(1)}
         placeholder="Select Transmission"
-        rules={{ required: "Transmission is required" }}
       />
       <ControlledDropdown
         name="fuel"
@@ -118,15 +116,9 @@ const AddCar = () => {
         control={control}
         data={carFuel.slice(1)}
         placeholder="Select Fuel"
-        rules={{ required: "Fuel is required" }}
       />
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "space-between",
-        }}
-      >
-        <View style={{ width: "48%" }}>
+      <View style={styles.inputsContainer}>
+        <View style={styles.input}>
           <ControlledInput
             name="year"
             label="Year"
@@ -146,7 +138,7 @@ const AddCar = () => {
             }}
           />
         </View>
-        <View style={{ width: "48%" }}>
+        <View style={styles.input}>
           <ControlledInput
             name="price"
             label="Price"
@@ -168,7 +160,7 @@ const AddCar = () => {
         name="photo"
         control={control}
         rules={{
-          required: "Please upload a photo of the car"
+          required: "Please upload a photo of the car",
         }}
       />
       <View style={styles.buttonsContainer}>
@@ -204,11 +196,18 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "700",
   },
+  input: {
+    width: "48%",
+  },
+  inputsContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
   buttonsContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginTop: 10,
-    paddingBottom: 15,
+    marginTop: 5,
+    paddingBottom: 35,
   },
   button: {
     width: "47%",
@@ -239,15 +238,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginTop: 10,
-  },
-  photoButton: {
-    width: "100%",
-    height: 44,
-    backgroundColor: "#fff",
-    borderRadius: 8,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 5,
   },
   buttonText: {
     color: "#fff",

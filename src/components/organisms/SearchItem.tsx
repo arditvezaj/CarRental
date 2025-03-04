@@ -15,11 +15,12 @@ const SearchItem = ({ item }: ItemProps) => {
   const { name, path, value } = item;
   const navigation = useNavigation<NavigationProp<any>>();
 
+  const navigationHandler = () => {
+    navigation.navigate(path);
+  };
+
   return (
-    <TouchableOpacity
-      style={styles.container}
-      onPress={() => navigation.navigate(path)}
-    >
+    <TouchableOpacity style={styles.container} onPress={navigationHandler}>
       <Text style={styles.label}>{name}</Text>
       <View style={styles.valueContainer}>
         <Text style={styles.value}>{value}</Text>

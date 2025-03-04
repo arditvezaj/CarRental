@@ -8,6 +8,10 @@ import {
   StyleSheet,
 } from "react-native";
 
+interface CarProps {
+  item: { id: string; name: string; price: number };
+}
+
 const premiumCars = [
   { id: "1", name: "Mercedes Benz", price: 100 },
   {
@@ -20,7 +24,7 @@ const premiumCars = [
 ];
 
 const PremiumCars = () => {
-  const renderItem = ({ item }: any) => {
+  const renderItem = ({ item }: CarProps) => {
     return (
       <TouchableOpacity style={styles.item}>
         <Image

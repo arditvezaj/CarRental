@@ -1,15 +1,17 @@
 import { Text, TouchableOpacity, StyleSheet } from "react-native";
-import { useNavigation, NavigationProp } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import colors from "../../constants/colors";
+import { NavigationType } from "@/src/constants/types";
 
 const BookButton = () => {
-  const navigation = useNavigation<NavigationProp<{ Favorites: undefined }>>();
+  const navigation = useNavigation<NavigationType>();
+
+  const bookHandler = () => {
+    navigation.navigate("Favorites");
+  };
 
   return (
-    <TouchableOpacity
-      style={styles.button}
-      onPress={() => navigation.navigate("Favorites")}
-    >
+    <TouchableOpacity style={styles.button} onPress={bookHandler}>
       <Text style={styles.buttonText}>Book Now</Text>
     </TouchableOpacity>
   );
@@ -28,7 +30,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     padding: 12,
-    color: "white",
+    color: "#fff",
     fontWeight: "700",
     fontSize: 18,
   },

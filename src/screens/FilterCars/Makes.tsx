@@ -12,6 +12,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { setMake } from "../../redux/modules/filters/slice";
 import { RootState } from "@/src/redux/store";
 
+interface CarMakeProps {
+  item: { id: number; name: string };
+}
+
 const CarMakes = () => {
   const make = useSelector((state: RootState) => state.filtersReducer.make);
   const dispatch = useDispatch();
@@ -28,6 +32,10 @@ const CarMakes = () => {
   //   carMakesHandler();
   // }, []);
 
+  const renderItem = ({ item }: CarMakeProps) => (
+    <InnerSearchItem name={item.name} value={make} setState={makeHandler} />
+  );
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.searchContainer}>
@@ -38,13 +46,7 @@ const CarMakes = () => {
         data={allCarMakes}
         keyExtractor={(item) => item.id.toString()}
         showsVerticalScrollIndicator={false}
-        renderItem={({ item }) => (
-          <InnerSearchItem
-            name={item.name}
-            value={make}
-            setState={makeHandler}
-          />
-        )}
+        renderItem={renderItem}
       />
     </SafeAreaView>
   );
@@ -71,11 +73,6 @@ const styles = StyleSheet.create({
     paddingVertical: 14,
     borderBottomWidth: 1,
     borderBottomColor: "#E6E8EC",
-  },
-  label: {
-    color: "#fff",
-    fontSize: 17,
-    fontWeight: "600",
   },
   input: {
     fontSize: 16,

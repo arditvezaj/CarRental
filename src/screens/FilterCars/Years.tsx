@@ -193,11 +193,11 @@ const styles = StyleSheet.create({
     padding: 10,
     borderWidth: 1,
     backgroundColor: "#fff",
-    borderColor: "#E6E8EC",
+    borderColor: colors.borderColor,
     borderRadius: 8,
   },
   errorText: {
-    color: "red",
+    color: colors.errorText,
     fontSize: 14,
     marginBottom: 10,
   },
@@ -209,9 +209,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginTop: 10,
-  },
-  disabledButton: {
-    backgroundColor: "#A0A0A0",
   },
   buttonText: {
     color: "#fff",

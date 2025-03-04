@@ -1,9 +1,9 @@
 import { Text, StyleSheet } from "react-native";
-import { Control, Controller } from "react-hook-form";
+import { Control, Controller, Path } from "react-hook-form";
 import DropdownPicker from "../molecules/DropdownPicker";
 
-interface ControlledDropdownProps {
-  name: string;
+interface ControlledDropdownProps<T extends Record<string, string>> {
+  name: Path<T>;
   control: Control<any>;
   data: { name: string }[];
   label: string;
@@ -11,19 +11,19 @@ interface ControlledDropdownProps {
   rules?: object;
 }
 
-const ControlledDropdown = ({
+const ControlledDropdown = <T extends Record<string, string>>({
   name,
   control,
   data,
   label,
   placeholder,
   rules,
-}: ControlledDropdownProps) => {
+}: ControlledDropdownProps<T>) => {
   return (
     <Controller
       name={name}
       control={control}
-      rules={rules}
+      rules={{ required: label + " is required", ...rules }}
       render={({ field: { onChange, value }, fieldState: { error } }) => (
         <>
           <Text style={styles.label}>{label}:</Text>

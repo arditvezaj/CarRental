@@ -11,14 +11,9 @@ import {
 } from "react-native";
 import { useForm } from "react-hook-form";
 import { useNavigation } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import colors from "../constants/colors";
+import { NavigationType } from "../constants/types";
 import ControlledInput from "../components/atoms/ControlledInput";
-
-type RootStackParamList = {
-  Home: undefined;
-};
-type NavigationType = NativeStackNavigationProp<RootStackParamList, "Home">;
 
 type SignInForm = {
   email: string;
@@ -28,10 +23,21 @@ type SignInForm = {
 const Login = () => {
   const navigation = useNavigation<NavigationType>();
 
-  const { control, handleSubmit } = useForm<SignInForm>();
+  const { control, handleSubmit, reset } = useForm<SignInForm>();
   const [hidePass, setHidePass] = useState(true);
 
-  const onSignIn = handleSubmit(({ email, password }) => {});
+  const togglePassword = () => setHidePass((prevState) => !prevState);
+
+  const signupHandler = () => {
+    reset();
+    navigation.replace("SignUp");
+  };
+
+  const onSubmit = (data: SignInForm) => {
+    // console.log(data);
+    reset();
+    navigation.replace("Home");
+  };
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
@@ -59,12 +65,16 @@ const Login = () => {
             autoCapitalize="none"
             returnKeyType="done"
             secureTextEntry={hidePass}
+            togglePassword={togglePassword}
           />
           <TouchableOpacity
             style={styles.button}
-            onPress={() => navigation.replace("Home")}
+            onPress={handleSubmit(onSubmit)}
           >
             <Text style={styles.buttonText}>Login</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={{ marginTop: 15 }} onPress={signupHandler}>
+            <Text style={styles.link}>Do not have an account? Sign Up</Text>
           </TouchableOpacity>
         </View>
       </SafeAreaView>
@@ -113,5 +123,10 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "700",
     color: "#fff",
+  },
+  link: {
+    color: colors.secondary,
+    textAlign: "center",
+    fontWeight: "500",
   },
 });

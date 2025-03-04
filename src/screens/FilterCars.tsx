@@ -11,7 +11,7 @@ import SearchItem from "../components/organisms/SearchItem";
 import { useSelector, useDispatch } from "react-redux";
 import colors from "../constants/colors";
 import { FontAwesome } from "@expo/vector-icons";
-import { useNavigation, NavigationProp } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import {
   setMake,
   setModel,
@@ -23,10 +23,10 @@ import {
   setYearTo,
 } from "../redux/modules/filters/slice";
 import { RootState } from "../redux/store";
+import { NavigationType } from "../constants/types";
 
 const FilterCars = () => {
-  const navigation =
-    useNavigation<NavigationProp<{ "Car Rental": undefined }>>();
+  const navigation = useNavigation<NavigationType>();
   const dispatch = useDispatch();
   const make = useSelector((state: RootState) => state.filtersReducer.make);
   const model = useSelector((state: RootState) => state.filtersReducer.model);
@@ -103,6 +103,10 @@ const FilterCars = () => {
     },
   ];
 
+  const filterHandler = () => {
+    navigation.navigate("Car Rental");
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
@@ -118,12 +122,7 @@ const FilterCars = () => {
           <FontAwesome name="undo" size={20} color="#fff" />
           <Text style={styles.buttonText}>Reset</Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => {
-            navigation.navigate("Car Rental");
-          }}
-        >
+        <TouchableOpacity style={styles.button} onPress={filterHandler}>
           <FontAwesome name="search" size={20} color="#fff" />
           <Text style={styles.buttonText}>Apply</Text>
         </TouchableOpacity>
@@ -141,7 +140,7 @@ const styles = StyleSheet.create({
   item: {
     padding: 10,
     borderBottomWidth: 1,
-    borderBottomColor: "#E6E8EC",
+    borderBottomColor: colors.borderColor,
   },
   buttonsContainer: {
     flexDirection: "row",

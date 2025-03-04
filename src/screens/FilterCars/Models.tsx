@@ -13,6 +13,10 @@ import { setModel } from "../../redux/modules/filters/slice";
 import { carModels, CarModelProps } from "../../constants/filters";
 import { RootState } from "@/src/redux/store";
 
+type ModelProp = {
+  item: string;
+};
+
 const CarModels = () => {
   const make = useSelector((state: RootState) => state.filtersReducer.make);
   const model = useSelector((state: RootState) => state.filtersReducer.model);
@@ -28,6 +32,10 @@ const CarModels = () => {
     getModelsByMake(make);
   }, []);
 
+  const renderItem = ({ item }: ModelProp) => (
+    <InnerSearchItem name={item} value={model} setState={modelHandler} />
+  );
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.searchContainer}>
@@ -38,9 +46,7 @@ const CarModels = () => {
         data={models}
         keyExtractor={(item) => item}
         showsVerticalScrollIndicator={false}
-        renderItem={({ item }) => (
-          <InnerSearchItem name={item} value={model} setState={modelHandler} />
-        )}
+        renderItem={renderItem}
       />
     </SafeAreaView>
   );
