@@ -15,12 +15,14 @@ export interface CarItemProps {
     id: string;
     company?: string;
     name: string;
+    make?: string;
+    model?: string;
     fuel?: string;
-    year?: number;
-    engine?: number;
-    date?: string;
+    year?: string | number;
+    engine?: string | number;
+    date: Date | string;
     transmission?: string;
-    price?: number;
+    price?: string | number;
     discount?: number;
     imageUrl: ImageSourcePropType;
   };
@@ -61,7 +63,6 @@ export default CarItem;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // maxWidth: "45%",
     height: 170,
     backgroundColor: colors.secondary,
     margin: 10,

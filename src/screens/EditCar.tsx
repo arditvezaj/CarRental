@@ -4,7 +4,7 @@ import { NavigationType } from "../constants/types";
 import CarForm, { CarFormData } from "../components/organisms/CarForm";
 
 interface RouteParams {
-  car: CarFormData;
+  car: { item: CarFormData };
 }
 
 const EditCar = () => {
@@ -17,11 +17,16 @@ const EditCar = () => {
     navigation.goBack();
   };
 
+  const cancelHandler = () => {
+    navigation.goBack();
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <CarForm
-        initialValues={car}
+        initialValues={car.item}
         onSubmit={handleSubmit}
+        onCancel={cancelHandler}
         submitButtonText="Save Changes"
         isEditMode
       />

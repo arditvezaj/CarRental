@@ -12,7 +12,7 @@ const EditProfile = () => {
     name: "John Doe",
     phoneNumber: "+1234567890",
     email: "john@example.com",
-    photo: require("@/assets/logo.png"),
+    imageUrl: require("@/assets/logo.png"),
     birthDate: new Date("1990-01-01"),
   };
 

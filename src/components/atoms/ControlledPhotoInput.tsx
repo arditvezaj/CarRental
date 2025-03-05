@@ -69,7 +69,7 @@ const ControlledPhotoInput = <T extends Record<string, string>>({
             onPress={toggleModal}
           >
             {value ? (
-              <Image source={{ uri: value }} style={styles.preview} />
+              <Image source={value} style={styles.preview} />
             ) : (
               <Text style={styles.buttonText}>Upload Photo</Text>
             )}

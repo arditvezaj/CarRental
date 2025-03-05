@@ -1,5 +1,11 @@
 import { useState, useEffect } from "react";
-import { View, StyleSheet, ScrollView, Text } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  ScrollView,
+} from "react-native";
 import { useForm } from "react-hook-form";
 import ControlledInput from "../atoms/ControlledInput";
 import ControlledPhotoInput from "../atoms/ControlledPhotoInput";
@@ -13,7 +19,7 @@ import {
   CarModelProps,
 } from "../../constants/filters";
 import colors from "../../constants/colors";
-import { TouchableOpacity } from "react-native";
+import { FontAwesome } from "@expo/vector-icons";
 
 export interface CarFormData {
   name: string;
@@ -25,21 +31,25 @@ export interface CarFormData {
   price: string | number;
   date: Date | null;
   engine: string;
-  photo: string;
+  imageUrl: string;
 }
 
 interface CarFormProps {
   initialValues?: Partial<CarFormData>;
   onSubmit: (data: CarFormData) => void;
+  onCancel: () => void;
   submitButtonText: string;
   isEditMode?: boolean;
+  formRef?: React.MutableRefObject<{ reset: () => void } | null>;
 }
 
 const CarForm = ({
   initialValues,
   onSubmit,
+  onCancel,
   submitButtonText,
   isEditMode = false,
+  formRef,
 }: CarFormProps) => {
   const { control, handleSubmit, reset, watch, setValue } =
     useForm<CarFormData>({
@@ -48,12 +58,12 @@ const CarForm = ({
         make: initialValues?.make || "",
         model: initialValues?.model || "",
         price: initialValues?.price || "",
-        date: initialValues?.date || null,
+        date: initialValues?.date ? new Date(initialValues.date) : null,
         engine: initialValues?.engine || "",
         transmission: initialValues?.transmission || "",
         year: initialValues?.year || "",
         fuel: initialValues?.fuel || "",
-        photo: initialValues?.photo || "",
+        imageUrl: initialValues?.imageUrl || "",
       },
     });
 
@@ -68,15 +78,42 @@ const CarForm = ({
   useEffect(() => {
     if (selectedMake) {
       getModelsByMake(selectedMake);
-      setValue("model", "");
+      if (!initialValues?.model) {
+        setValue("model", "");
+      }
     }
   }, [selectedMake]);
 
+  // Initialize models if we have initial make
+  useEffect(() => {
+    if (initialValues?.make) {
+      getModelsByMake(initialValues.make);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (formRef) {
+      formRef.current = {
+        reset: () => {
+          reset();
+          setModels([]);
+        },
+      };
+    }
+  }, [formRef, reset]);
+
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-      <Text style={styles.title}>
-        {isEditMode ? "Edit Car Details" : "Add New Car"}
-      </Text>
+      {isEditMode && <Text style={styles.title}>Edit Car Details</Text>}
+      <ControlledInput
+        name="name"
+        label="Name"
+        placeholder="Name"
+        control={control}
+        rules={{
+          required: "Name is required",
+        }}
+      />
       <ControlledDropdown
         name="make"
         label="Make"
@@ -102,7 +139,7 @@ const CarForm = ({
       />
       <ControlledDropdown
         name="fuel"
-        label="Fuel"
+        label="Fuel type"
         control={control}
         data={carFuel.slice(1)}
         placeholder="Select Fuel"
@@ -111,7 +148,7 @@ const CarForm = ({
         <View style={styles.input}>
           <ControlledInput
             name="engine"
-            label="Engine"
+            label="Engine power (cc)"
             placeholder="Engine"
             keyboardType="numeric"
             maxLength={4}
@@ -131,7 +168,7 @@ const CarForm = ({
         <View style={styles.input}>
           <ControlledInput
             name="year"
-            label="Year"
+            label="First registration"
             placeholder="Year"
             keyboardType="numeric"
             maxLength={4}
@@ -178,17 +215,25 @@ const CarForm = ({
           />
         </View>
       </View>
-
       <ControlledPhotoInput
-        name="photo"
+        name="imageUrl"
         control={control}
         rules={{
           required: "Please upload a photo of the car",
         }}
       />
-      <TouchableOpacity style={styles.button} onPress={handleSubmit(onSubmit)}>
-        <Text style={styles.buttonText}>{submitButtonText}</Text>
-      </TouchableOpacity>
+      <View style={styles.buttonsContainer}>
+        <TouchableOpacity style={styles.closeButton} onPress={onCancel}>
+          <Text style={styles.buttonText}>Cancel</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={handleSubmit(onSubmit)}
+        >
+          <FontAwesome name="check" size={20} color="#fff" />
+          <Text style={styles.buttonText}>{submitButtonText}</Text>
+        </TouchableOpacity>
+      </View>
     </ScrollView>
   );
 };
@@ -203,25 +248,39 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     fontWeight: "700",
-    color: "#fff",
-    marginTop: 15,
-    marginBottom: 10,
+    marginTop: 10,
     textAlign: "center",
   },
+  buttonsContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: 5,
+    paddingBottom: 35,
+  },
   button: {
-    width: "100%",
+    width: "47%",
+    height: 44,
+    backgroundColor: colors.secondary,
+    borderRadius: 8,
+    flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: colors.secondary,
-    padding: 12,
-    borderRadius: 8,
+    gap: 7,
     marginTop: 10,
-    marginBottom: 25,
+  },
+  closeButton: {
+    width: "47%",
+    height: 44,
+    backgroundColor: "grey",
+    borderRadius: 8,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 10,
   },
   buttonText: {
-    fontSize: 18,
-    fontWeight: "700",
     color: "#fff",
+    fontSize: 15,
+    fontWeight: "700",
   },
   input: {
     width: "48%",

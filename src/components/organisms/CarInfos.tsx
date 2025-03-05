@@ -36,6 +36,18 @@ const CarInfos = ({ item, fromMyCars }: CarInfosProps) => {
     dispatch(carIsFavorite ? removeFavorite({ id }) : addFavorite({ id }));
   };
 
+  const formatDate = (date: Date | string) => {
+    if (!date) return "Not available";
+    if (date instanceof Date) {
+      return date.toLocaleDateString("de-DE", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+      });
+    }
+    return date;
+  };
+
   const fields = [
     {
       name: "Transmission",
@@ -59,7 +71,7 @@ const CarInfos = ({ item, fromMyCars }: CarInfosProps) => {
     },
     {
       name: "Available date",
-      value: date,
+      value: formatDate(date),
       image: require("../../../assets/images/icons/time.png"),
     },
   ];

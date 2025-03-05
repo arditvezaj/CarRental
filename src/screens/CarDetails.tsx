@@ -30,7 +30,25 @@ const CarDetails = () => {
   };
 
   const navigationHandler = () => {
-    navigation.navigate("Edit Car", { car: { item: displayedCars[0] } });
+    const carData = displayedCars[0];
+    navigation.navigate("Edit Car", {
+      car: {
+        item: {
+          id: carData.id,
+          name: carData.name,
+          company: carData.company || "",
+          make: carData.make || "",
+          model: carData.model || "",
+          transmission: carData.transmission || "",
+          fuel: carData.fuel || "",
+          year: carData.year?.toString() || "",
+          price: carData.price?.toString() || "",
+          date: new Date(carData.date),
+          engine: carData.engine?.toString() || "",
+          imageUrl: carData.imageUrl,
+        },
+      },
+    });
   };
 
   return (

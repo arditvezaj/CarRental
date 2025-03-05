@@ -29,6 +29,7 @@ const ControlledDropdown = <T extends Record<string, string>>({
           <Text style={styles.label}>{label}:</Text>
           <DropdownPicker
             data={data}
+            value={value}
             onSelect={(item) => onChange(item.name)}
             selectedItem={value}
             placeholder={placeholder}

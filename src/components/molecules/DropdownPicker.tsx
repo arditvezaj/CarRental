@@ -16,6 +16,7 @@ const ChevronIcon = ({ isOpened }: { isOpened: boolean }) => {
 interface Props {
   data: CarDetailsProps[] | { name: string }[];
   selectedItem: string;
+  value: string;
   onSelect: (select: { name: string }) => void;
   placeholder: string;
   errorMessage?: string;
@@ -23,6 +24,7 @@ interface Props {
 
 const DropdownPicker = ({
   data,
+  value,
   selectedItem,
   onSelect,
   placeholder,
@@ -41,9 +43,7 @@ const DropdownPicker = ({
                 errorMessage.length > 0 && { borderColor: colors.errorBorder },
             ]}
           >
-            <Text style={styles.buttonText}>
-              {selectedItem ? selectedItem.name : placeholder}
-            </Text>
+            <Text style={styles.buttonText}>{value ? value : placeholder}</Text>
             <ChevronIcon isOpened={isOpened} />
           </View>
         )}

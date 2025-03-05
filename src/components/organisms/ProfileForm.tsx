@@ -11,7 +11,7 @@ export interface ProfileFormData {
   email: string;
   password?: string;
   confirmPassword?: string;
-  photo: string;
+  imageUrl: string;
   birthDate: Date | null;
 }
 
@@ -39,7 +39,7 @@ const ProfileForm = ({
       email: initialValues?.email || "",
       password: "",
       confirmPassword: "",
-      photo: initialValues?.photo || "",
+      imageUrl: initialValues?.imageUrl || "",
       birthDate: initialValues?.birthDate || null,
     },
   });
@@ -127,7 +127,7 @@ const ProfileForm = ({
       )}
       <ControlledPhotoInput
         control={control}
-        name="photo"
+        name="imageUrl"
         rules={{
           required: "Please upload a photo",
         }}
