@@ -73,13 +73,13 @@ const styles = StyleSheet.create({
   errorText: {
     color: colors.errorText,
     fontSize: 12,
-    marginTop: -12,
+    marginTop: -10,
     marginBottom: 10,
     marginLeft: 2,
   },
   container: {
-    marginTop: 7,
-    marginBottom: 15,
+    marginTop: 6,
+    marginBottom: 12,
     borderWidth: 1,
     borderColor: colors.borderColor,
     backgroundColor: "#fff",
@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     flex: 1,
-    fontSize: 15,
+    fontSize: 14,
     fontWeight: "500",
   },
   menuList: {
@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
   },
   itemText: {
     flex: 1,
-    fontSize: 15,
+    fontSize: 14,
     fontWeight: "500",
   },
 });

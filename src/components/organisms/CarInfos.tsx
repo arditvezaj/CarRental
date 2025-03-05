@@ -9,7 +9,11 @@ import colors from "../../constants/colors";
 import { CarItemProps } from "./CarItem";
 import { RootState } from "@/src/redux/store";
 
-const CarInfos = ({ item }: CarItemProps) => {
+interface CarInfosProps extends CarItemProps {
+  fromMyCars?: boolean;
+}
+
+const CarInfos = ({ item, fromMyCars }: CarInfosProps) => {
   const {
     id,
     company,
@@ -65,13 +69,15 @@ const CarInfos = ({ item }: CarItemProps) => {
       <View style={styles.companyContainer}>
         <Text style={styles.company}>{company}</Text>
       </View>
-      <TouchableOpacity style={styles.heart} onPress={toggleFavorite}>
-        <AntDesign
-          name={carIsFavorite ? "heart" : "hearto"}
-          size={25}
-          color="#990f02"
-        />
-      </TouchableOpacity>
+      {!fromMyCars && (
+        <TouchableOpacity style={styles.heart} onPress={toggleFavorite}>
+          <AntDesign
+            name={carIsFavorite ? "heart" : "hearto"}
+            size={25}
+            color="#990f02"
+          />
+        </TouchableOpacity>
+      )}
       <Image source={imageUrl} style={styles.image} />
       <View style={styles.horizontalContainer}>
         <Text style={styles.carName}>{name}</Text>

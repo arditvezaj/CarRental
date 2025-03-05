@@ -24,16 +24,20 @@ export interface CarItemProps {
     discount?: number;
     imageUrl: ImageSourcePropType;
   };
+  fromMyCars?: boolean;
 }
 
-const CarItem = ({ item }: CarItemProps) => {
+const CarItem = ({ item, fromMyCars }: CarItemProps) => {
   const { id, name, price, imageUrl } = item;
   const navigation = useNavigation<NavigationType>();
   const route = useRoute();
   const isFavorite = route.name == "Favorites";
 
   const onPressHandler = () => {
-    navigation.navigate("Car Details", { id });
+    navigation.navigate("Car Details", {
+      id,
+      fromMyCars: fromMyCars && fromMyCars,
+    });
   };
   return (
     <TouchableOpacity

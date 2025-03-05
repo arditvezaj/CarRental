@@ -2,15 +2,17 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { CompositeNavigationProp } from "@react-navigation/native";
 import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
 import { Control, Path } from "react-hook-form";
+import { CarItemProps } from "../components/organisms/CarItem";
 
 export type RootStackParamList = {
   Home: undefined;
   Login: undefined;
   SignUp: undefined;
   "Car Rental": undefined;
-  "Car Details": { id: string };
+  "Car Details": { id: string; fromMyCars?: boolean };
   "My Cars": undefined;
   "Add Car": undefined;
+  "Edit Car": { car: CarItemProps };
   Favorites: undefined;
   Profile: undefined;
   "Edit Profile": undefined;

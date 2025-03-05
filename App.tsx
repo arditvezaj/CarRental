@@ -20,6 +20,7 @@ import Home from "./src/screens/Home";
 import CarDetails from "./src/screens/CarDetails";
 import MyCars from "./src/screens/MyCars";
 import AddCar from "./src/screens/AddCar";
+import EditCar from "./src/screens/EditCar";
 import FilterCars from "./src/screens/FilterCars";
 import CarMakes from "./src/screens/FilterCars/Makes";
 import CarModels from "./src/screens/FilterCars/Models";
@@ -77,6 +78,8 @@ const HomeStack = () => (
 const MyCarsStack = () => (
   <Stack.Navigator screenOptions={commonScreenOptions}>
     <Stack.Screen name="My Cars" component={MyCars} />
+    <Stack.Screen name="Car Details" component={CarDetails} />
+    <Stack.Screen name="Edit Car" component={EditCar} />
   </Stack.Navigator>
 );
 
@@ -89,6 +92,7 @@ const AddCarStack = () => (
 const FavoritesStack = () => (
   <Stack.Navigator screenOptions={commonScreenOptions}>
     <Stack.Screen name="Favorites" component={Favorites} />
+    <Stack.Screen name="Car Details" component={CarDetails} />
   </Stack.Navigator>
 );
 

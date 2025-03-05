@@ -4,7 +4,7 @@ import CarItem, { CarItemProps } from "../components/organisms/CarItem";
 
 const MyCars = () => {
   const renderItem = ({ item }: CarItemProps) => {
-    return <CarItem item={item} />;
+    return <CarItem item={item} fromMyCars />;
   };
   return (
     <SafeAreaView style={styles.container}>
