@@ -1,5 +1,4 @@
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
-
 import { AntDesign } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -74,13 +73,7 @@ const CarInfos = ({ item }: CarItemProps) => {
         />
       </TouchableOpacity>
       <Image source={imageUrl} style={styles.image} />
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "space-between",
-          width: "100%",
-        }}
-      >
+      <View style={styles.horizontalContainer}>
         <Text style={styles.carName}>{name}</Text>
         <Text style={styles.price}>${price}/day </Text>
       </View>
@@ -162,6 +155,11 @@ const styles = StyleSheet.create({
     width: 30,
     height: 30,
     marginRight: 15,
+  },
+  horizontalContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "100%",
   },
   carName: {
     marginVertical: 5,

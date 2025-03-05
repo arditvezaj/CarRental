@@ -6,7 +6,6 @@ import {
   ViewStyle,
   Pressable,
 } from "react-native";
-
 import { AntDesign } from "@expo/vector-icons";
 import { ReactNode } from "react";
 import colors from "@/src/constants/colors";
@@ -16,8 +15,8 @@ interface Props {
   toggleModal: () => void;
   title: string;
   children: ReactNode;
-  hasXButton?: boolean;
   style?: ViewStyle;
+  hasXButton?: boolean;
 }
 
 const ModalContainer = ({
@@ -25,18 +24,26 @@ const ModalContainer = ({
   toggleModal,
   title,
   children,
-  hasXButton = true,
   style,
+  hasXButton = true,
 }: Props) => {
   return (
     <Modal transparent={true} visible={showModal} onRequestClose={toggleModal}>
       <Pressable onPress={toggleModal} style={[styles.centeredView, style]}>
         <View style={styles.modalView}>
           <View style={styles.header}>
-            {hasXButton && <View style={{ width: 24 }} />}
-            <Text style={styles.title}>{title}</Text>
+            {hasXButton && <View style={styles.xButtonContainer} />}
+            <View style={styles.titleContainer}>
+              <Text style={styles.title}>{title}</Text>
+            </View>
             {hasXButton && (
-              <AntDesign name="closecircleo" size={24} onPress={toggleModal} />
+              <View style={styles.xButtonContainer}>
+                <AntDesign
+                  name="closecircleo"
+                  size={24}
+                  onPress={toggleModal}
+                />
+              </View>
             )}
           </View>
           <Pressable style={styles.buttonContainer}>{children}</Pressable>
@@ -52,15 +59,17 @@ const styles = StyleSheet.create({
   centeredView: {
     flex: 1,
     justifyContent: "center",
-    alignItems: "center",
     backgroundColor: "rgba(0,0,0,0.4)",
   },
   modalView: {
+    width: "90%",
     backgroundColor: "#fff",
     borderWidth: 1,
     borderColor: colors.borderColor,
     borderRadius: 15,
     paddingVertical: 15,
+    paddingHorizontal: 20,
+    marginHorizontal: 20,
     alignItems: "center",
     shadowColor: "#000",
     shadowOffset: {
@@ -74,9 +83,17 @@ const styles = StyleSheet.create({
   header: {
     width: "100%",
     flexDirection: "row",
-    justifyContent: "space-between",
     alignItems: "center",
     marginBottom: 15,
+  },
+  xButtonContainer: {
+    width: 24,
+    height: 24,
+    justifyContent: "center",
+  },
+  titleContainer: {
+    flex: 1,
+    alignItems: "center",
   },
   title: {
     fontSize: 18,

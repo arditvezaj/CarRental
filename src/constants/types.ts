@@ -13,6 +13,7 @@ export type RootStackParamList = {
   "Add Car": undefined;
   Favorites: undefined;
   Profile: undefined;
+  "Edit Profile": undefined;
   "Filter Cars": undefined;
   "Car Makes": undefined;
   "Car Models": undefined;

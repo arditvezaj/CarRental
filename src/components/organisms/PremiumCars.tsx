@@ -7,6 +7,8 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { NavigationType } from "@/src/constants/types";
 
 interface CarProps {
   item: { id: string; name: string; price: number };
@@ -24,9 +26,14 @@ const premiumCars = [
 ];
 
 const PremiumCars = () => {
+  const navigation = useNavigation<NavigationType>();
+
   const renderItem = ({ item }: CarProps) => {
     return (
-      <TouchableOpacity style={styles.item}>
+      <TouchableOpacity
+        style={styles.item}
+        onPress={() => navigation.navigate("Car Details", { id: item.id })}
+      >
         <Image
           source={require("@/assets/images/cars/audi.jpeg")}
           style={styles.image}

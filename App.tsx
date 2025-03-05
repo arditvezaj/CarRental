@@ -29,6 +29,7 @@ import CarTransmission from "./src/screens/FilterCars/Transmission";
 import CarYears from "./src/screens/FilterCars/Years";
 import Favorites from "./src/screens/Favorites";
 import Profile from "./src/screens/Profile";
+import EditProfile from "./src/screens/EditProfile";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -94,6 +95,7 @@ const FavoritesStack = () => (
 const ProfileStack = () => (
   <Stack.Navigator screenOptions={commonScreenOptions}>
     <Stack.Screen name="Profile" component={Profile} />
+    <Stack.Screen name="Edit Profile" component={EditProfile} />
   </Stack.Navigator>
 );
 

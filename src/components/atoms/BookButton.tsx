@@ -22,7 +22,7 @@ export default BookButton;
 const styles = StyleSheet.create({
   button: {
     position: "absolute",
-    bottom: 20,
+    bottom: 25,
     width: "100%",
     backgroundColor: colors.secondary,
     alignItems: "center",

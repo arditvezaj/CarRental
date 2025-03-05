@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import { useForm } from "react-hook-form";
 import { useNavigation } from "@react-navigation/native";
+import ControlledDateTimePicker from "../components/atoms/ControlledDateTimePicker";
 import {
   allCarMakes,
   carModels,
@@ -29,6 +30,7 @@ interface AddCarFormData {
   fuel: string;
   year: string | number;
   price: string | number;
+  date: Date | null;
   photo: string;
 }
 
@@ -44,6 +46,7 @@ const AddCar = () => {
         fuel: "",
         year: "",
         price: "",
+        date: null,
         photo: "",
       },
     });
@@ -74,6 +77,7 @@ const AddCar = () => {
   };
 
   const onSubmit = (data: AddCarFormData) => {
+    console.log(data);
     resetHandler();
     navigation.navigate("Car Rental");
   };
@@ -156,6 +160,14 @@ const AddCar = () => {
           />
         </View>
       </View>
+      <ControlledDateTimePicker
+        name="date"
+        label="Available Date"
+        control={control}
+        rules={{
+          required: "Available Date is required",
+        }}
+      />
       <ControlledPhotoInput
         name="photo"
         control={control}

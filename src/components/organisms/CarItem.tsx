@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   ImageSourcePropType,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import colors from "../../constants/colors";
 import { NavigationType } from "../../constants/types";
 
@@ -29,12 +29,17 @@ export interface CarItemProps {
 const CarItem = ({ item }: CarItemProps) => {
   const { id, name, price, imageUrl } = item;
   const navigation = useNavigation<NavigationType>();
+  const route = useRoute();
+  const isFavorite = route.name == "Favorites";
 
   const onPressHandler = () => {
     navigation.navigate("Car Details", { id });
   };
   return (
-    <TouchableOpacity onPress={onPressHandler} style={styles.container}>
+    <TouchableOpacity
+      onPress={onPressHandler}
+      style={[styles.container, isFavorite && { maxWidth: "100%" }]}
+    >
       {/* <View style={styles.discountContainer}>
         <Text style={styles.discount}>-{discount}%</Text>
       </View> */}
@@ -52,7 +57,7 @@ export default CarItem;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    maxWidth: "45%",
+    // maxWidth: "45%",
     height: 170,
     backgroundColor: colors.secondary,
     margin: 10,

@@ -51,11 +51,11 @@ const ControlledInput = <T extends Record<string, number>>({
           </Text>
           <View
             style={[
-              isPassword ? styles.passwordInput : null,
-              error && { borderColor: colors.errorBorder },
+              isPassword && styles.passwordInput,
               {
                 marginTop: 6,
                 marginBottom: error ? 5 : 12,
+                borderColor: error ? colors.errorBorder : colors.borderColor,
               },
             ]}
           >
@@ -77,6 +77,7 @@ const ControlledInput = <T extends Record<string, number>>({
                   ? { flex: 1 }
                   : {
                       width: "100%",
+                      borderWidth: 1,
                       borderColor: error
                         ? colors.errorBorder
                         : colors.borderColor,
