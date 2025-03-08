@@ -114,6 +114,7 @@ const styles = StyleSheet.create({
   errorText: {
     color: colors.errorText,
     fontSize: 12,
-    marginTop: 5,
+    marginTop: 2,
+    marginLeft: 2,
   },
 });

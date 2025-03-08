@@ -14,6 +14,7 @@ import { useNavigation } from "@react-navigation/native";
 import colors from "../constants/colors";
 import { NavigationType } from "../constants/types";
 import ControlledInput from "../components/atoms/ControlledInput";
+import { useLoginMutation } from "../redux/services/auth/api";
 
 type SignInForm = {
   email: string;
@@ -23,6 +24,7 @@ type SignInForm = {
 const Login = () => {
   const navigation = useNavigation<NavigationType>();
 
+  const [login] = useLoginMutation();
   const { control, handleSubmit, reset } = useForm<SignInForm>();
   const [hidePass, setHidePass] = useState(true);
 
@@ -33,8 +35,16 @@ const Login = () => {
     navigation.replace("SignUp");
   };
 
-  const onSubmit = (data: SignInForm) => {
-    // console.log(data);
+  const onSubmit = async (data: SignInForm) => {
+    try {
+      const response = await login({
+        email: "arditvezaj@gmail.com",
+        password: "password",
+      }).unwrap();
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
     reset();
     navigation.replace("Home");
   };

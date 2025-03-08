@@ -10,6 +10,7 @@ import { useNavigation } from "@react-navigation/native";
 import { NavigationType } from "../constants/types";
 import { FontAwesome6 } from "@expo/vector-icons";
 import DeleteAccountButton from "../components/atoms/DeleteAccountButton";
+import { useGetUserQuery } from "../redux/services/auth/api";
 
 interface userDetailsProps {
   label: string;
@@ -53,6 +54,11 @@ const Profile = () => {
   const editProfileHandler = () => {
     navigation.navigate("Edit Profile");
   };
+
+  const { data: profile, isLoading } = useGetUserQuery({});
+
+  !isLoading && console.log(profile, "profile");
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.innerContainer}>

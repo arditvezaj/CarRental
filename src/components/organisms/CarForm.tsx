@@ -154,7 +154,7 @@ const CarForm = ({
             maxLength={4}
             control={control}
             rules={{
-              required: "Engine is required",
+              required: "Engine power is required",
               validate: (value: string) => {
                 const engine = parseInt(value);
                 return (
@@ -174,7 +174,7 @@ const CarForm = ({
             maxLength={4}
             control={control}
             rules={{
-              required: "Year is required",
+              required: "First registration is required",
               validate: (value: string) => {
                 const year = parseInt(value);
                 return (

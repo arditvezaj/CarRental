@@ -165,7 +165,8 @@ const styles = StyleSheet.create({
   errorText: {
     color: colors.errorText,
     fontSize: 12,
-    marginTop: 4,
+    marginTop: 2,
+    marginLeft: 2,
   },
   modalOverlay: {
     flex: 1,

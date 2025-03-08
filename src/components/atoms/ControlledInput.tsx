@@ -54,7 +54,7 @@ const ControlledInput = <T extends Record<string, number>>({
               isPassword && styles.passwordInput,
               {
                 marginTop: 6,
-                marginBottom: error ? 5 : 12,
+                marginBottom: error ? 2 : 12,
                 borderColor: error ? colors.errorBorder : colors.borderColor,
               },
             ]}
@@ -150,6 +150,7 @@ const styles = StyleSheet.create({
     color: colors.errorText,
     fontSize: 12,
     marginBottom: 12,
+    marginLeft: 2,
   },
   iconContainer: {
     padding: 10,

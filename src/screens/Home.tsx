@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { View, Text, StyleSheet, SafeAreaView, FlatList } from "react-native";
 import { carsData } from "../data/dummy-data";
 import CarItem, { CarItemProps } from "../components/organisms/CarItem";
@@ -6,6 +6,8 @@ import SearchInput from "../components/molecules/SearchInput";
 import * as Notifications from "expo-notifications";
 import FilterButton from "../components/atoms/FilterButton";
 import PremiumCars from "../components/organisms/PremiumCars";
+import { useGetUsersQuery } from "../redux/services/users/api";
+import { useGetRolesQuery } from "../redux/services/roles/api";
 
 // Notifications.setNotificationHandler({
 //   handleNotification: async () => {
@@ -23,6 +25,12 @@ const Home = () => {
   const renderItem = ({ item }: CarItemProps) => {
     return <CarItem item={item} />;
   };
+
+  const { data: users, isLoading } = useGetUsersQuery({});
+
+  useEffect(() => {
+    !isLoading && console.log(users, "users");
+  }, []);
 
   // useEffect(() => {
   //   const configurePushNotifications = async () => {
