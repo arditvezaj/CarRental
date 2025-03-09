@@ -20,7 +20,7 @@ export interface CarItemProps {
     fuel?: string;
     year?: string | number;
     engine?: string | number;
-    date: Date | string;
+    date: Date;
     transmission?: string;
     price?: string | number;
     discount?: number;

@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Platform } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import {
   createNativeStackNavigator,
@@ -45,6 +45,7 @@ const commonScreenOptions: Partial<
   headerTitleStyle: {
     fontWeight: "bold",
   },
+  headerTitleAlign: "center",
   contentStyle: {
     backgroundColor: colors.primary,
   },
@@ -108,9 +109,12 @@ const MainTabs = () => (
     screenOptions={{
       ...commonScreenOptions,
       tabBarActiveTintColor: "#fff",
-      tabBarLabelStyle: { marginTop: -10, marginBottom: 0 },
+      tabBarLabelStyle: {
+        marginTop: -10,
+        marginBottom: Platform.OS == "android" ? 10 : 0,
+      },
       tabBarStyle: {
-        height: 90,
+        height: Platform.OS === "ios" ? 90 : 75,
         backgroundColor: colors.secondary,
         position: "relative",
       },

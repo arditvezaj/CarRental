@@ -14,6 +14,7 @@ import DateTimePicker, {
 import { Control, Controller } from "react-hook-form";
 import colors from "../../constants/colors";
 import { FontAwesome } from "@expo/vector-icons";
+import formatDate from "../../utils/formatDate";
 
 interface ControlledDateTimePickerProps {
   name: string;
@@ -55,14 +56,6 @@ const ControlledDateTimePicker = ({
     fieldOnChange(dateToSet);
     setTempDate(null);
     toggleShow();
-  };
-
-  const formatDate = (date: Date) => {
-    return date.toLocaleDateString("de-DE", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-    });
   };
 
   return (

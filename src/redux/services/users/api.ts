@@ -22,7 +22,7 @@ export const api = apiSlice.injectEndpoints({
             ]
           : [{ type: "Users", id: "LIST" }],
     }),
-    createWorker: builder.mutation({
+    createUser: builder.mutation({
       query: (body) => ({
         url: "/users",
         method: "POST",
@@ -30,11 +30,11 @@ export const api = apiSlice.injectEndpoints({
       }),
       invalidatesTags: [{ type: "Users", id: "LIST" }],
     }),
-    getWorkerById: builder.query({
+    getUserById: builder.query({
       query: (id) => ({ url: `/users/${id}` }),
       providesTags: (result, error, id) => [{ type: "Users", id }],
     }),
-    updateWorker: builder.mutation({
+    updateUser: builder.mutation({
       query: ({ id, ...body }) => ({
         url: `/users/${id}`,
         method: "PATCH",
@@ -42,14 +42,14 @@ export const api = apiSlice.injectEndpoints({
       }),
       invalidatesTags: (result, error, { id }) => [{ type: "Users", id }],
     }),
-    deleteWorker: builder.mutation({
+    deleteUser: builder.mutation({
       query: (id) => ({
         url: `/users/${id}`,
         method: "DELETE",
       }),
       invalidatesTags: [{ type: "Users", id: "LIST" }],
     }),
-    deleteWorkerImage: builder.mutation({
+    deleteUserImage: builder.mutation({
       query: (publicId) => ({
         url: `/users/image/${publicId}`,
         method: "DELETE",
@@ -62,10 +62,10 @@ export const api = apiSlice.injectEndpoints({
 export const {
   useLazyCheckEmailQuery,
   useGetUsersQuery,
-  useCreateWorkerMutation,
-  useGetWorkerByIdQuery,
+  useCreateUserMutation,
+  useGetUserByIdQuery,
   useLazyGetUsersQuery,
-  useUpdateWorkerMutation,
-  useDeleteWorkerMutation,
-  useDeleteWorkerImageMutation,
+  useUpdateUserMutation,
+  useDeleteUserMutation,
+  useDeleteUserImageMutation,
 } = api;

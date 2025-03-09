@@ -8,6 +8,7 @@ import {
 import colors from "../../constants/colors";
 import { CarItemProps } from "./CarItem";
 import { RootState } from "@/src/redux/store";
+import formatDate from "../../utils/formatDate";
 
 interface CarInfosProps extends CarItemProps {
   fromMyCars?: boolean;
@@ -36,17 +37,17 @@ const CarInfos = ({ item, fromMyCars }: CarInfosProps) => {
     dispatch(carIsFavorite ? removeFavorite({ id }) : addFavorite({ id }));
   };
 
-  const formatDate = (date: Date | string) => {
-    if (!date) return "Not available";
-    if (date instanceof Date) {
-      return date.toLocaleDateString("de-DE", {
-        day: "2-digit",
-        month: "2-digit",
-        year: "numeric",
-      });
-    }
-    return date;
-  };
+  // const formatDate = (date: Date | string) => {
+  //   if (!date) return "Not available";
+  //   if (date instanceof Date) {
+  //     return date.toLocaleDateString("de-DE", {
+  //       day: "2-digit",
+  //       month: "2-digit",
+  //       year: "numeric",
+  //     });
+  //   }
+  //   return date;
+  // };
 
   const fields = [
     {

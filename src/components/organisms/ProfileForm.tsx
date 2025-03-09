@@ -1,18 +1,23 @@
+import { useState } from "react";
 import { Text, TouchableOpacity, StyleSheet, ScrollView } from "react-native";
 import { useForm } from "react-hook-form";
 import ControlledInput from "../atoms/ControlledInput";
 import ControlledPhotoInput from "../atoms/ControlledPhotoInput";
 import colors from "../../constants/colors";
 import ControlledDateTimePicker from "../atoms/ControlledDateTimePicker";
+import DropdownPicker from "../molecules/DropdownPicker";
+import ControlledDropdown from "../atoms/ControlledDropdown";
 
 export interface ProfileFormData {
   name: string;
+  company: string;
   phoneNumber: string;
   email: string;
   password?: string;
   confirmPassword?: string;
   imageUrl: string;
   birthDate: Date | null;
+  role: string;
 }
 
 interface ProfileFormProps {
@@ -20,35 +25,61 @@ interface ProfileFormProps {
   onSubmit: (data: ProfileFormData) => void;
   submitButtonText: string;
   isEditMode?: boolean;
-  showLoginLink?: boolean;
   onLoginPress?: () => void;
 }
+
+const roles = [{ name: "Company" }, { name: "User" }];
 
 const ProfileForm = ({
   initialValues,
   onSubmit,
   submitButtonText,
   isEditMode = false,
-  showLoginLink = false,
   onLoginPress,
 }: ProfileFormProps) => {
-  const { control, handleSubmit, reset } = useForm<ProfileFormData>({
+  const { control, handleSubmit, watch } = useForm<ProfileFormData>({
     defaultValues: {
       name: initialValues?.name || "",
       phoneNumber: initialValues?.phoneNumber || "",
       email: initialValues?.email || "",
       password: "",
-      confirmPassword: "",
       imageUrl: initialValues?.imageUrl || "",
       birthDate: initialValues?.birthDate || null,
+      company: initialValues?.company || "",
+      role: initialValues?.role || "",
     },
   });
+  const password = watch("password");
+  const isCompany = watch("role") === "Company";
 
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-      <Text style={styles.title}>
+      {/* <Text style={styles.title}>
         {isEditMode ? "Edit your Profile" : "Sign Up with your credentials"}
-      </Text>
+      </Text> */}
+      {!isEditMode && (
+        <ControlledDropdown
+          control={control}
+          name="role"
+          label="Role"
+          data={roles}
+          placeholder="Select role"
+          rules={{
+            required: "Role is required",
+          }}
+        />
+      )}
+      {isCompany && (
+        <ControlledInput
+          control={control}
+          name="company"
+          label="Company Name"
+          placeholder="Company Name"
+          rules={{
+            required: "Company Name is required",
+          }}
+        />
+      )}
       <ControlledInput
         control={control}
         name="name"
@@ -77,6 +108,17 @@ const ProfileForm = ({
           required: "Birth Date is required",
         }}
       />
+      {isCompany && (
+        <ControlledInput
+          control={control}
+          name="address"
+          label="Address"
+          placeholder="Nr. 123, Street, City"
+          rules={{
+            required: "Address is required",
+          }}
+        />
+      )}
       <ControlledInput
         control={control}
         name="email"
@@ -117,10 +159,8 @@ const ProfileForm = ({
             secureTextEntry
             rules={{
               required: "Confirm Password is required",
-              minLength: {
-                value: 8,
-                message: "Confirm Password must be at least 8 characters",
-              },
+              validate: (value: string) =>
+                value === password || "Passwords do not match",
             }}
           />
         </>
@@ -128,6 +168,7 @@ const ProfileForm = ({
       <ControlledPhotoInput
         control={control}
         name="imageUrl"
+        label="Profile Picture"
         rules={{
           required: "Please upload a photo",
         }}
@@ -135,7 +176,7 @@ const ProfileForm = ({
       <TouchableOpacity style={styles.button} onPress={handleSubmit(onSubmit)}>
         <Text style={styles.buttonText}>{submitButtonText}</Text>
       </TouchableOpacity>
-      {showLoginLink && onLoginPress && (
+      {onLoginPress && (
         <TouchableOpacity style={styles.linkButton} onPress={onLoginPress}>
           <Text style={styles.link}>Already have an account? Login</Text>
         </TouchableOpacity>
@@ -148,8 +189,7 @@ export default ProfileForm;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    width: "100%",
+    paddingTop: 20,
   },
   title: {
     fontSize: 20,
@@ -175,7 +215,7 @@ const styles = StyleSheet.create({
     color: "#fff",
   },
   linkButton: {
-    paddingBottom: 30,
+    paddingBottom: 50,
   },
   link: {
     color: colors.secondary,

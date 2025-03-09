@@ -6,6 +6,7 @@ import { CarItemProps } from "../components/organisms/CarItem";
 
 export type RootStackParamList = {
   Home: undefined;
+  LoginFlow: undefined;
   Login: undefined;
   SignUp: undefined;
   "Car Rental": undefined;

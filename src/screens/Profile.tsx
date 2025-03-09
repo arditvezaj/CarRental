@@ -10,54 +10,66 @@ import { useNavigation } from "@react-navigation/native";
 import { NavigationType } from "../constants/types";
 import { FontAwesome6 } from "@expo/vector-icons";
 import DeleteAccountButton from "../components/atoms/DeleteAccountButton";
+import * as SecureStore from "expo-secure-store";
+// import formatDate from "../utils/fo";
+import { useAppDispatch } from "../redux/hooks";
 import { useGetUserQuery } from "../redux/services/auth/api";
-
+import { useLogoutMutation } from "../redux/services/auth/api";
+import { logoutAuth, setIsAuthenticated } from "../redux/modules/auth/slice";
+import formatDate from "../utils/formatDate";
 interface userDetailsProps {
   label: string;
   value: string;
 }
 
-const userDetails: userDetailsProps[] = [
-  {
-    label: "Name",
-    value: "John Doe",
-  },
-  {
-    label: "Email",
-    value: "john@doe.com",
-  },
-  {
-    label: "Phone",
-    value: "+1234567890",
-  },
-  { label: "Birthday", value: "01/01/1990" },
-  {
-    label: "Address",
-    value: "Some Street",
-  },
-  {
-    label: "City",
-    value: "New York",
-  },
-  {
-    label: "State",
-    value: "US",
-  },
-  {
-    label: "Zip",
-    value: "12345",
-  },
-];
-
 const Profile = () => {
   const navigation = useNavigation<NavigationType>();
+  const dispatch = useAppDispatch();
   const editProfileHandler = () => {
     navigation.navigate("Edit Profile");
   };
+  const [logout] = useLogoutMutation();
 
   const { data: profile, isLoading } = useGetUserQuery({});
 
-  !isLoading && console.log(profile, "profile");
+  if (!profile) return null;
+
+  const { name, companyName, email, phoneNumber, birthDate, role, address } =
+    profile;
+
+  const userDetails: userDetailsProps[] = [
+    {
+      label: "Name",
+      value: name,
+    },
+    {
+      label: "Email",
+      value: email,
+    },
+    {
+      label: "Phone",
+      value: phoneNumber,
+    },
+    { label: "Birthday", value: birthDate ? formatDate(birthDate) : "" },
+    {
+      label: "Address",
+      value: "Some Street",
+    },
+  ];
+
+  const logoutHandler = async () => {
+    try {
+      dispatch(logoutAuth());
+      dispatch(setIsAuthenticated(false));
+      await logout({});
+      await SecureStore.deleteItemAsync("access_token");
+      await SecureStore.deleteItemAsync("refresh_token");
+
+      navigation.replace("LoginFlow");
+    } catch (error) {
+      return;
+    }
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -68,13 +80,25 @@ const Profile = () => {
             <FontAwesome6 name="edit" size={24} color="green" />
           </TouchableOpacity>
         </View>
-        {userDetails.map((detail) => (
+        {role === "Company" && (
+          <View style={styles.item}>
+            <Text style={styles.label}>Company Name:</Text>
+            <Text style={styles.value}>{companyName}</Text>
+          </View>
+        )}
+        {userDetails.map((detail: userDetailsProps) => (
           <View key={detail.label} style={styles.item}>
             <Text style={styles.label}>{detail.label}:</Text>
             <Text style={styles.value}>{detail.value}</Text>
           </View>
         ))}
       </View>
+      <TouchableOpacity
+        onPress={logoutHandler}
+        style={[styles.innerContainer, { marginTop: 20 }]}
+      >
+        <Text style={styles.label}>Logout</Text>
+      </TouchableOpacity>
       <DeleteAccountButton />
     </SafeAreaView>
   );
