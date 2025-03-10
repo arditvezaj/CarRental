@@ -18,7 +18,7 @@ export interface CarItemProps {
     make?: string;
     model?: string;
     fuel?: string;
-    year?: string | number;
+    firstRegistration?: string | number;
     engine?: string | number;
     date: Date;
     transmission?: string;
@@ -44,7 +44,7 @@ const CarItem = ({ item, fromMyCars }: CarItemProps) => {
   return (
     <TouchableOpacity
       onPress={onPressHandler}
-      style={[styles.container, isFavorite && { maxWidth: "100%" }]}
+      style={[styles.container, { maxWidth: isFavorite ? "100%" : "45%" }]}
     >
       {/* <View style={styles.discountContainer}>
         <Text style={styles.discount}>-{discount}%</Text>

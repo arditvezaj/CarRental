@@ -6,6 +6,7 @@ import SearchInput from "../components/molecules/SearchInput";
 // import * as Notifications from "expo-notifications";
 import FilterButton from "../components/atoms/FilterButton";
 import PremiumCars from "../components/organisms/PremiumCars";
+import { useGetCarsQuery } from "../redux/services/cars/api";
 
 // Notifications.setNotificationHandler({
 //   handleNotification: async () => {
@@ -19,6 +20,8 @@ import PremiumCars from "../components/organisms/PremiumCars";
 
 const Home = () => {
   const [text, setText] = useState("");
+
+  const { data: cars } = useGetCarsQuery({ text });
 
   const renderItem = ({ item }: CarItemProps) => {
     return <CarItem item={item} />;
@@ -121,7 +124,7 @@ const Home = () => {
         <FilterButton />
       </View>
       <FlatList
-        data={carsData}
+        data={cars}
         keyExtractor={(item) => item.id}
         renderItem={renderItem}
         numColumns={2}

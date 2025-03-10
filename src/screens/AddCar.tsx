@@ -6,11 +6,13 @@ import {
   StyleSheet,
   ScrollView,
 } from "react-native";
+import { formatISO } from "date-fns";
 import { useForm } from "react-hook-form";
 import { useNavigation } from "@react-navigation/native";
 import { FontAwesome } from "@expo/vector-icons";
 import { NavigationType } from "../constants/types";
 import CarForm from "../components/organisms/CarForm";
+import { useCreateCarMutation } from "../redux/services/cars/api";
 
 interface AddCarFormData {
   make: string;
@@ -26,6 +28,8 @@ interface AddCarFormData {
 const AddCar = () => {
   const navigation = useNavigation<NavigationType>();
   const carFormRef = useRef<{ reset: () => void } | null>(null);
+
+  const [addCar] = useCreateCarMutation();
 
   const { reset } = useForm<AddCarFormData>({
     defaultValues: {
@@ -52,10 +56,18 @@ const AddCar = () => {
     navigation.goBack();
   };
 
-  const onSubmit = (data: AddCarFormData) => {
-    console.log(data);
-    resetHandler();
-    navigation.navigate("Car Rental");
+  const onSubmit = async (data: AddCarFormData) => {
+    data.date?.setHours(12, 0, 0, 0);
+    const formattedDate = data.date && formatISO(data.date);
+
+    try {
+      await addCar({ ...data, date: formattedDate }).unwrap();
+      console.log(data, "car added");
+      resetHandler();
+      navigation.navigate("Car Rental");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (

@@ -2,6 +2,7 @@ import {
   SafeAreaView,
   FlatList,
   StyleSheet,
+  View,
   TouchableOpacity,
   Text,
 } from "react-native";
@@ -12,6 +13,7 @@ import BookButton from "../components/atoms/BookButton";
 import { CarItemProps } from "../components/organisms/CarItem";
 import { NavigationType } from "../constants/types";
 import colors from "../constants/colors";
+import { useGetCarByIdQuery } from "../redux/services/cars/api";
 
 const CarDetails = () => {
   const navigation = useNavigation<NavigationType>();
@@ -21,44 +23,19 @@ const CarDetails = () => {
     fromMyCars?: boolean;
   };
 
-  const displayedCars = carsData.filter((carItem) => {
-    return carItem.id == id;
-  });
+  const { data: carData } = useGetCarByIdQuery(id);
 
-  const renderCarItem = ({ item }: CarItemProps) => {
-    return <CarInfos item={item} fromMyCars={fromMyCars} />;
-  };
+  if (!carData) return <Text>Car not found</Text>;
 
   const navigationHandler = () => {
-    const carData = displayedCars[0];
-    navigation.navigate("Edit Car", {
-      car: {
-        item: {
-          id: carData.id,
-          name: carData.name,
-          company: carData.company || "",
-          make: carData.make || "",
-          model: carData.model || "",
-          transmission: carData.transmission || "",
-          fuel: carData.fuel || "",
-          year: carData.year?.toString() || "",
-          price: carData.price?.toString() || "",
-          date: new Date(carData.date),
-          engine: carData.engine?.toString() || "",
-          imageUrl: carData.imageUrl,
-        },
-      },
-    });
+    navigation.navigate("Edit Car", { id });
   };
 
   return (
     <SafeAreaView style={styles.container}>
-      <FlatList
-        data={displayedCars}
-        keyExtractor={(item) => item.id}
-        renderItem={renderCarItem}
-        showsVerticalScrollIndicator={false}
-      />
+      <Text>
+        <CarInfos item={carData} fromMyCars={fromMyCars} />;
+      </Text>
       {fromMyCars ? (
         <TouchableOpacity style={styles.editButton} onPress={navigationHandler}>
           <Text style={styles.buttonText}>Edit Car</Text>

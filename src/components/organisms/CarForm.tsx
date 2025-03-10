@@ -167,9 +167,9 @@ const CarForm = ({
         </View>
         <View style={styles.input}>
           <ControlledInput
-            name="year"
+            name="firstRegistration"
             label="First registration"
-            placeholder="Year"
+            placeholder="First registration"
             keyboardType="numeric"
             maxLength={4}
             control={control}
@@ -217,6 +217,7 @@ const CarForm = ({
       </View>
       <ControlledPhotoInput
         name="imageUrl"
+        label="Car Photo"
         control={control}
         rules={{
           required: "Please upload a photo of the car",

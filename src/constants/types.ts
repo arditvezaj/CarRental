@@ -13,7 +13,7 @@ export type RootStackParamList = {
   "Car Details": { id: string; fromMyCars?: boolean };
   "My Cars": undefined;
   "Add Car": undefined;
-  "Edit Car": { car: CarItemProps };
+  "Edit Car": { id: string };
   Favorites: undefined;
   Profile: undefined;
   "Edit Profile": undefined;

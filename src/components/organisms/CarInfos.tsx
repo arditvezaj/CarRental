@@ -15,6 +15,8 @@ interface CarInfosProps extends CarItemProps {
 }
 
 const CarInfos = ({ item, fromMyCars }: CarInfosProps) => {
+  if (!item) return null;
+
   const {
     id,
     company,
@@ -23,7 +25,7 @@ const CarInfos = ({ item, fromMyCars }: CarInfosProps) => {
     date,
     engine,
     transmission,
-    year,
+    firstRegistration,
     fuel,
     imageUrl,
   } = item;
@@ -37,18 +39,6 @@ const CarInfos = ({ item, fromMyCars }: CarInfosProps) => {
     dispatch(carIsFavorite ? removeFavorite({ id }) : addFavorite({ id }));
   };
 
-  // const formatDate = (date: Date | string) => {
-  //   if (!date) return "Not available";
-  //   if (date instanceof Date) {
-  //     return date.toLocaleDateString("de-DE", {
-  //       day: "2-digit",
-  //       month: "2-digit",
-  //       year: "numeric",
-  //     });
-  //   }
-  //   return date;
-  // };
-
   const fields = [
     {
       name: "Transmission",
@@ -56,8 +46,8 @@ const CarInfos = ({ item, fromMyCars }: CarInfosProps) => {
       image: require("../../../assets/images/icons/transmision.png"),
     },
     {
-      name: "Year",
-      value: year,
+      name: "First registration",
+      value: firstRegistration,
       image: require("../../../assets/images/icons/transmision.png"),
     },
     {
@@ -72,7 +62,7 @@ const CarInfos = ({ item, fromMyCars }: CarInfosProps) => {
     },
     {
       name: "Available date",
-      value: formatDate(date),
+      value: date ? formatDate(date) : "Not available",
       image: require("../../../assets/images/icons/time.png"),
     },
   ];
@@ -94,7 +84,7 @@ const CarInfos = ({ item, fromMyCars }: CarInfosProps) => {
       <Image source={imageUrl} style={styles.image} />
       <View style={styles.horizontalContainer}>
         <Text style={styles.carName}>{name}</Text>
-        <Text style={styles.price}>${price}/day </Text>
+        <Text style={styles.price}>${price}/day</Text>
       </View>
       <View>
         <Text style={styles.price}>Specifications</Text>
