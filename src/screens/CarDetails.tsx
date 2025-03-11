@@ -1,16 +1,7 @@
-import {
-  SafeAreaView,
-  FlatList,
-  StyleSheet,
-  View,
-  TouchableOpacity,
-  Text,
-} from "react-native";
+import { SafeAreaView, StyleSheet, TouchableOpacity, Text } from "react-native";
 import { useRoute, useNavigation } from "@react-navigation/native";
-import { carsData } from "../data/dummy-data";
 import CarInfos from "../components/organisms/CarInfos";
 import BookButton from "../components/atoms/BookButton";
-import { CarItemProps } from "../components/organisms/CarItem";
 import { NavigationType } from "../constants/types";
 import colors from "../constants/colors";
 import { useGetCarByIdQuery } from "../redux/services/cars/api";

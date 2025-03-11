@@ -11,7 +11,6 @@ import { NavigationType } from "../constants/types";
 import { FontAwesome6 } from "@expo/vector-icons";
 import DeleteAccountButton from "../components/atoms/DeleteAccountButton";
 import * as SecureStore from "expo-secure-store";
-// import formatDate from "../utils/fo";
 import { useAppDispatch } from "../redux/hooks";
 import { useGetUserQuery } from "../redux/services/auth/api";
 import { useLogoutMutation } from "../redux/services/auth/api";
@@ -34,7 +33,7 @@ const Profile = () => {
 
   if (!profile) return null;
 
-  const { name, companyName, email, phoneNumber, birthDate, role, address } =
+  const { name, company, email, phoneNumber, birthDate, role, address } =
     profile;
 
   const userDetails: userDetailsProps[] = [
@@ -53,7 +52,7 @@ const Profile = () => {
     { label: "Birthday", value: birthDate ? formatDate(birthDate) : "" },
     {
       label: "Address",
-      value: "Some Street",
+      value: address,
     },
   ];
 
@@ -83,7 +82,7 @@ const Profile = () => {
         {role === "Company" && (
           <View style={styles.item}>
             <Text style={styles.label}>Company Name:</Text>
-            <Text style={styles.value}>{companyName}</Text>
+            <Text style={styles.value}>{company}</Text>
           </View>
         )}
         {userDetails.map((detail: userDetailsProps) => (

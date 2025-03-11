@@ -1,15 +1,19 @@
 import { FlatList, SafeAreaView, Text, StyleSheet } from "react-native";
 import { useSelector } from "react-redux";
 import CarItem from "../components/organisms/CarItem";
-import { carsData } from "../data/dummy-data";
-import { CarItemProps } from "../components/organisms/CarItem";
+import { CarFormData, CarItemProps } from "../constants/types";
 import { RootState } from "../redux/store";
+import { useGetCarsQuery } from "../redux/services/cars/api";
 
 const Favorites = () => {
   const favoriteCars = useSelector(
     (state: RootState) => state.favoriteCars.ids
   );
-  const favoriteCarsList = carsData.filter((carItem) => {
+  const { data: cars } = useGetCarsQuery({});
+
+  if (!cars) return null;
+
+  const favoriteCarsList = cars.filter((carItem: CarFormData) => {
     return favoriteCars.includes(carItem.id);
   });
 

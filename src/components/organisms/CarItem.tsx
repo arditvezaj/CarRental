@@ -1,44 +1,26 @@
-import {
-  View,
-  Text,
-  Image,
-  StyleSheet,
-  TouchableOpacity,
-  ImageSourcePropType,
-} from "react-native";
+import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import colors from "../../constants/colors";
-import { NavigationType } from "../../constants/types";
+import { NavigationType, CarItemProps } from "../../constants/types";
+import { useDeleteCarMutation } from "@/src/redux/services/cars/api";
 
-export interface CarItemProps {
-  item: {
-    id: string;
-    company?: string;
-    name: string;
-    make?: string;
-    model?: string;
-    fuel?: string;
-    firstRegistration?: string | number;
-    engine?: string | number;
-    date: Date;
-    transmission?: string;
-    price?: string | number;
-    discount?: number;
-    imageUrl: ImageSourcePropType;
-  };
+interface CarProps extends CarItemProps {
   fromMyCars?: boolean;
 }
 
-const CarItem = ({ item, fromMyCars }: CarItemProps) => {
+const CarItem = ({ item, fromMyCars }: CarProps) => {
   const { id, name, price, imageUrl } = item;
   const navigation = useNavigation<NavigationType>();
   const route = useRoute();
   const isFavorite = route.name == "Favorites";
 
-  const onPressHandler = () => {
+  const [deleteCar] = useDeleteCarMutation();
+
+  const onPressHandler = async () => {
+    // await deleteCar(id).unwrap();
     navigation.navigate("Car Details", {
       id,
-      fromMyCars: fromMyCars && fromMyCars,
+      fromMyCars,
     });
   };
   return (

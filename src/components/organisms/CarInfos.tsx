@@ -6,7 +6,7 @@ import {
   removeFavorite,
 } from "../../redux/modules/favorites/slice";
 import colors from "../../constants/colors";
-import { CarItemProps } from "./CarItem";
+import { CarItemProps } from "../../constants/types";
 import { RootState } from "@/src/redux/store";
 import formatDate from "../../utils/formatDate";
 

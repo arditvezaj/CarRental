@@ -4,27 +4,28 @@ import { NavigationType } from "../constants/types";
 import ProfileForm, {
   ProfileFormData,
 } from "../components/organisms/ProfileForm";
+import { useGetUserQuery } from "../redux/services/auth/api";
+import { useUpdateUserMutation } from "../redux/services/users/api";
 
 const EditProfile = () => {
   const navigation = useNavigation<NavigationType>();
+  const { data: profile } = useGetUserQuery({});
+  const [updateProfile] = useUpdateUserMutation();
 
-  const mockUserData: Partial<ProfileFormData> = {
-    name: "John Doe",
-    phoneNumber: "+1234567890",
-    email: "john@example.com",
-    imageUrl: require("@/assets/logo.png"),
-    birthDate: new Date("1990-01-01"),
-  };
+  const handleSubmit = async (data: ProfileFormData) => {
+    try {
+      await updateProfile({ id: profile.id, ...data }).unwrap();
 
-  const handleSubmit = (data: ProfileFormData) => {
-    console.log("Updated profile data:", data);
-    navigation.goBack();
+      navigation.goBack();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
     <SafeAreaView style={styles.container}>
       <ProfileForm
-        initialValues={mockUserData}
+        initialValues={profile}
         onSubmit={handleSubmit}
         submitButtonText="Save Changes"
         isEditMode

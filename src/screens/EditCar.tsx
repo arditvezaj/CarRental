@@ -1,20 +1,34 @@
 import { StyleSheet, SafeAreaView } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { NavigationType } from "../constants/types";
-import CarForm, { CarFormData } from "../components/organisms/CarForm";
+import { NavigationType, CarFormData } from "../constants/types";
+import CarForm from "../components/organisms/CarForm";
+import {
+  useGetCarByIdQuery,
+  useUpdateCarMutation,
+} from "../redux/services/cars/api";
 
-interface RouteParams {
-  car: { item: CarFormData };
-}
+type RouteProps = {
+  key: string;
+  params: {
+    id: string;
+  };
+  name: string;
+};
 
 const EditCar = () => {
   const navigation = useNavigation<NavigationType>();
-  const route = useRoute();
-  const { car } = route.params as RouteParams;
+  const { params } = useRoute<RouteProps>();
 
-  const handleSubmit = (data: CarFormData) => {
-    console.log("Updated car data:", data);
-    navigation.goBack();
+  const { data: carData } = useGetCarByIdQuery(params.id);
+  const [updateCar] = useUpdateCarMutation();
+
+  const handleSubmit = async (data: CarFormData) => {
+    try {
+      await updateCar({ ...data, id: params.id }).unwrap();
+      navigation.goBack();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const cancelHandler = () => {
@@ -24,7 +38,7 @@ const EditCar = () => {
   return (
     <SafeAreaView style={styles.container}>
       <CarForm
-        initialValues={car.item}
+        initialValues={carData}
         onSubmit={handleSubmit}
         onCancel={cancelHandler}
         submitButtonText="Save Changes"

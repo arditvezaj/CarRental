@@ -1,8 +1,8 @@
+import { ImageSourcePropType } from "react-native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { CompositeNavigationProp } from "@react-navigation/native";
 import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
 import { Control, Path } from "react-hook-form";
-import { CarItemProps } from "../components/organisms/CarItem";
 
 export type RootStackParamList = {
   Home: undefined;
@@ -25,6 +25,7 @@ export type RootStackParamList = {
   "Car Transmission": undefined;
   "Car Year": undefined;
 };
+
 export type NavigationType = CompositeNavigationProp<
   NativeStackNavigationProp<RootStackParamList>,
   BottomTabNavigationProp<RootStackParamList>
@@ -98,3 +99,23 @@ export type ControlledDropdownProps<T extends Record<string, string | number>> =
     data: { label: string; value: string }[];
     placeholder?: string;
   };
+
+export type CarFormData = {
+  id: string;
+  company: string;
+  name: string;
+  make: string;
+  model: string;
+  transmission: string;
+  fuel: string;
+  firstRegistration: string | number;
+  price: string | number;
+  date: Date | null;
+  engine: string;
+  imageUrl: ImageSourcePropType | undefined;
+  isPremium?: boolean;
+};
+
+export type CarItemProps = {
+  item: CarFormData;
+};

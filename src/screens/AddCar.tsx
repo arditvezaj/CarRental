@@ -10,20 +10,10 @@ import { formatISO } from "date-fns";
 import { useForm } from "react-hook-form";
 import { useNavigation } from "@react-navigation/native";
 import { FontAwesome } from "@expo/vector-icons";
-import { NavigationType } from "../constants/types";
+import { NavigationType, CarFormData } from "../constants/types";
 import CarForm from "../components/organisms/CarForm";
-import { useCreateCarMutation } from "../redux/services/cars/api";
 
-interface AddCarFormData {
-  make: string;
-  model: string;
-  transmission: string;
-  fuel: string;
-  year: string | number;
-  price: string | number;
-  date: Date | null;
-  imageUrl: string;
-}
+import { useCreateCarMutation } from "../redux/services/cars/api";
 
 const AddCar = () => {
   const navigation = useNavigation<NavigationType>();
@@ -31,18 +21,7 @@ const AddCar = () => {
 
   const [addCar] = useCreateCarMutation();
 
-  const { reset } = useForm<AddCarFormData>({
-    defaultValues: {
-      make: "",
-      model: "",
-      transmission: "",
-      fuel: "",
-      year: "",
-      price: "",
-      date: null,
-      imageUrl: "",
-    },
-  });
+  const { reset } = useForm();
 
   const resetHandler = () => {
     reset();
@@ -56,13 +35,12 @@ const AddCar = () => {
     navigation.goBack();
   };
 
-  const onSubmit = async (data: AddCarFormData) => {
+  const onSubmit = async (data: CarFormData) => {
     data.date?.setHours(12, 0, 0, 0);
     const formattedDate = data.date && formatISO(data.date);
 
     try {
       await addCar({ ...data, date: formattedDate }).unwrap();
-      console.log(data, "car added");
       resetHandler();
       navigation.navigate("Car Rental");
     } catch (error) {

@@ -18,6 +18,7 @@ export interface ProfileFormData {
   imageUrl: string;
   birthDate: Date | null;
   role: string;
+  address: string;
 }
 
 interface ProfileFormProps {
@@ -46,6 +47,7 @@ const ProfileForm = ({
       imageUrl: initialValues?.imageUrl || "",
       birthDate: initialValues?.birthDate || null,
       company: initialValues?.company || "",
+      address: initialValues?.address || "",
       role: initialValues?.role || "",
     },
   });
@@ -54,10 +56,7 @@ const ProfileForm = ({
 
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-      {/* <Text style={styles.title}>
-        {isEditMode ? "Edit your Profile" : "Sign Up with your credentials"}
-      </Text> */}
-      {!isEditMode && (
+      {isEditMode && (
         <ControlledDropdown
           control={control}
           name="role"
@@ -69,17 +68,17 @@ const ProfileForm = ({
           }}
         />
       )}
-      {isCompany && (
-        <ControlledInput
-          control={control}
-          name="company"
-          label="Company Name"
-          placeholder="Company Name"
-          rules={{
-            required: "Company Name is required",
-          }}
-        />
-      )}
+      {/* {isCompany && ( */}
+      <ControlledInput
+        control={control}
+        name="company"
+        label="Company Name"
+        placeholder="Company Name"
+        rules={{
+          required: "Company Name is required",
+        }}
+      />
+      {/* )} */}
       <ControlledInput
         control={control}
         name="name"
@@ -189,7 +188,7 @@ export default ProfileForm;
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 20,
+    paddingVertical: 20,
   },
   title: {
     fontSize: 20,
@@ -207,7 +206,7 @@ const styles = StyleSheet.create({
     padding: 12,
     borderRadius: 8,
     marginTop: 10,
-    marginBottom: 15,
+    marginBottom: 45,
   },
   buttonText: {
     fontSize: 18,

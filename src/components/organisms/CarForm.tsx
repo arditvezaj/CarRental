@@ -20,19 +20,8 @@ import {
 } from "../../constants/filters";
 import colors from "../../constants/colors";
 import { FontAwesome } from "@expo/vector-icons";
-
-export interface CarFormData {
-  name: string;
-  make: string;
-  model: string;
-  transmission: string;
-  fuel: string;
-  year: string | number;
-  price: string | number;
-  date: Date | null;
-  engine: string;
-  imageUrl: string;
-}
+import { CarFormData } from "../../constants/types";
+import { useGetUserQuery } from "../../redux/services/auth/api";
 
 interface CarFormProps {
   initialValues?: Partial<CarFormData>;
@@ -51,9 +40,12 @@ const CarForm = ({
   isEditMode = false,
   formRef,
 }: CarFormProps) => {
+  const { data: user } = useGetUserQuery({});
+
   const { control, handleSubmit, reset, watch, setValue } =
     useForm<CarFormData>({
       defaultValues: {
+        company: user?.company,
         name: initialValues?.name || "",
         make: initialValues?.make || "",
         model: initialValues?.model || "",
@@ -61,9 +53,9 @@ const CarForm = ({
         date: initialValues?.date ? new Date(initialValues.date) : null,
         engine: initialValues?.engine || "",
         transmission: initialValues?.transmission || "",
-        year: initialValues?.year || "",
+        firstRegistration: initialValues?.firstRegistration || "",
         fuel: initialValues?.fuel || "",
-        imageUrl: initialValues?.imageUrl || "",
+        imageUrl: initialValues?.imageUrl || undefined,
       },
     });
 
@@ -84,7 +76,6 @@ const CarForm = ({
     }
   }, [selectedMake]);
 
-  // Initialize models if we have initial make
   useEffect(() => {
     if (initialValues?.make) {
       getModelsByMake(initialValues.make);
@@ -104,7 +95,6 @@ const CarForm = ({
 
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-      {isEditMode && <Text style={styles.title}>Edit Car Details</Text>}
       <ControlledInput
         name="name"
         label="Name"
@@ -243,8 +233,7 @@ export default CarForm;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    width: "100%",
+    paddingTop: 20,
   },
   title: {
     fontSize: 20,
