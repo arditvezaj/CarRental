@@ -49,7 +49,7 @@ const Profile = () => {
       label: "Phone",
       value: phoneNumber,
     },
-    { label: "Birthday", value: birthDate ? formatDate(birthDate) : "" },
+    { label: "Birthdate", value: birthDate ? formatDate(birthDate) : "" },
     {
       label: "Address",
       value: address,
@@ -81,7 +81,7 @@ const Profile = () => {
         </View>
         {role === "Company" && (
           <View style={styles.item}>
-            <Text style={styles.label}>Company Name:</Text>
+            <Text style={styles.label}>Company:</Text>
             <Text style={styles.value}>{company}</Text>
           </View>
         )}

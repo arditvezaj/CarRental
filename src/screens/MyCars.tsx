@@ -5,7 +5,7 @@ import { useGetCarsQuery } from "../redux/services/cars/api";
 import { useGetUserQuery } from "../redux/services/auth/api";
 
 const MyCars = () => {
-  const { data: cars } = useGetCarsQuery({});
+  const { data: cars } = useGetCarsQuery("");
   const { data: user } = useGetUserQuery({});
 
   if (!cars || !user) return null;

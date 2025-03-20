@@ -5,21 +5,22 @@ import ProfileForm, {
   ProfileFormData,
 } from "../components/organisms/ProfileForm";
 import { useCreateUserMutation } from "../redux/services/users/api";
-import { useCreateCompanyMutation } from "../redux/services/companies/api";
+import { useSendVerificationCodeMutation } from "../redux/services/auth/api";
 
 const SignUp = () => {
   const navigation = useNavigation<NavigationType>();
 
   const [addUser] = useCreateUserMutation();
-  const [addCompany] = useCreateCompanyMutation();
+  const [sendVerification] = useSendVerificationCodeMutation();
 
   const handleSubmit = async (data: ProfileFormData) => {
     try {
-      data.role === "Company"
-        ? await addCompany(data).unwrap()
-        : await addUser(data).unwrap();
+      await addUser(data).unwrap();
 
-      navigation.replace("Home");
+      const response = await sendVerification({ email: data.email }).unwrap();
+      console.log(response);
+
+      navigation.replace("Verify Email", { email: data.email });
     } catch (error) {
       console.log(error);
     }

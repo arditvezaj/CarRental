@@ -13,7 +13,7 @@ const SearchInput = ({ text, setText }: SearchInputProps) => {
       <MaterialIcons name="search" size={24} color="#B3B3B3" />
       <TextInput
         value={text}
-        onChangeText={(e) => setText(e)}
+        onChangeText={(e: string) => setText(e)}
         placeholder="Search Cars"
         placeholderTextColor="#808080"
         style={styles.textInput}

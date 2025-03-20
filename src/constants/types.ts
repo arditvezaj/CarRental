@@ -24,6 +24,7 @@ export type RootStackParamList = {
   "Car Fuel": undefined;
   "Car Transmission": undefined;
   "Car Year": undefined;
+  "Verify Email": { email: string };
 };
 
 export type NavigationType = CompositeNavigationProp<
@@ -112,7 +113,7 @@ export type CarFormData = {
   price: string | number;
   date: Date | null;
   engine: string;
-  imageUrl: ImageSourcePropType | undefined;
+  imageUrl: ImageSourcePropType | undefined | string;
   isPremium?: boolean;
 };
 

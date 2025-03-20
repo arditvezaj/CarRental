@@ -9,7 +9,7 @@ const Favorites = () => {
   const favoriteCars = useSelector(
     (state: RootState) => state.favoriteCars.ids
   );
-  const { data: cars } = useGetCarsQuery({});
+  const { data: cars } = useGetCarsQuery("");
 
   if (!cars) return null;
 
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginHorizontal: 5,
-    marginTop: 20,
+    marginTop: 10,
   },
   text: {
     fontSize: 16,

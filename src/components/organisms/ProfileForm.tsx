@@ -1,11 +1,9 @@
-import { useState } from "react";
 import { Text, TouchableOpacity, StyleSheet, ScrollView } from "react-native";
 import { useForm } from "react-hook-form";
 import ControlledInput from "../atoms/ControlledInput";
 import ControlledPhotoInput from "../atoms/ControlledPhotoInput";
 import colors from "../../constants/colors";
 import ControlledDateTimePicker from "../atoms/ControlledDateTimePicker";
-import DropdownPicker from "../molecules/DropdownPicker";
 import ControlledDropdown from "../atoms/ControlledDropdown";
 
 export interface ProfileFormData {
@@ -56,7 +54,7 @@ const ProfileForm = ({
 
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-      {isEditMode && (
+      {!isEditMode && (
         <ControlledDropdown
           control={control}
           name="role"
@@ -68,17 +66,17 @@ const ProfileForm = ({
           }}
         />
       )}
-      {/* {isCompany && ( */}
-      <ControlledInput
-        control={control}
-        name="company"
-        label="Company Name"
-        placeholder="Company Name"
-        rules={{
-          required: "Company Name is required",
-        }}
-      />
-      {/* )} */}
+      {isCompany && (
+        <ControlledInput
+          control={control}
+          name="company"
+          label="Company Name"
+          placeholder="Company Name"
+          rules={{
+            required: "Company Name is required",
+          }}
+        />
+      )}
       <ControlledInput
         control={control}
         name="name"

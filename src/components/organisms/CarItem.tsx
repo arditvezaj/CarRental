@@ -31,7 +31,7 @@ const CarItem = ({ item, fromMyCars }: CarProps) => {
       {/* <View style={styles.discountContainer}>
         <Text style={styles.discount}>-{discount}%</Text>
       </View> */}
-      <Image source={imageUrl} style={styles.image} />
+      <Image source={{ uri: String(imageUrl) }} style={styles.image} />
       <View style={styles.innerContainer}>
         <Text style={styles.name}>{name}</Text>
         <Text style={styles.price}>${price}/day</Text>

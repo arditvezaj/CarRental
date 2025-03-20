@@ -4,7 +4,12 @@ export const api = apiSlice.injectEndpoints({
   overrideExisting: true,
   endpoints: (builder) => ({
     getCars: builder.query({
-      query: () => "/cars",
+      query: (search) => ({
+        url: `/cars`,
+        params: {
+          search,
+        },
+      }),
       providesTags: (result) =>
         result
           ? [
@@ -48,7 +53,7 @@ export const api = apiSlice.injectEndpoints({
         url: `/cars/image/${publicId}`,
         method: "DELETE",
       }),
-      invalidatesTags: [{ type: "Companies", id: "LIST" }],
+      invalidatesTags: [{ type: "Cars", id: "LIST" }],
     }),
   }),
 });

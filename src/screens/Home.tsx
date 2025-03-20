@@ -4,13 +4,16 @@ import CarItem from "../components/organisms/CarItem";
 import SearchInput from "../components/molecules/SearchInput";
 import FilterButton from "../components/atoms/FilterButton";
 import PremiumCars from "../components/organisms/PremiumCars";
-import { useGetCarsQuery } from "../redux/services/cars/api";
 import { CarItemProps } from "../constants/types";
+import useDebounce from "../hooks/useDebounce";
+import { useGetCarsQuery } from "../redux/services/cars/api";
 
 const Home = () => {
-  const [text, setText] = useState("");
+  const [search, setSearch] = useState("");
 
-  const { data: cars } = useGetCarsQuery({ text });
+  const debounceSearch = useDebounce(search.toLowerCase(), 500);
+
+  const { data: cars } = useGetCarsQuery(debounceSearch);
 
   const renderItem = ({ item }: CarItemProps) => {
     return <CarItem item={item} />;
@@ -19,7 +22,7 @@ const Home = () => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.searchContainer}>
-        <SearchInput text={text} setText={setText} />
+        <SearchInput text={search} setText={setSearch} />
         <FilterButton />
       </View>
       <FlatList
@@ -33,7 +36,7 @@ const Home = () => {
             <Text style={styles.title}>Popular Cars</Text>
           </>
         }
-        ListEmptyComponent={<Text>No cars found</Text>}
+        ListEmptyComponent={<Text>No cars found.</Text>}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.contentList}
       />
@@ -55,7 +58,6 @@ const styles = StyleSheet.create({
   },
   title: {
     marginLeft: 10,
-    marginTop: 10,
     fontSize: 16,
     fontWeight: "600",
   },

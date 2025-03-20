@@ -57,8 +57,8 @@ const Login = () => {
     setLoginError(null);
     try {
       const response = await login({
-        email: "arditvezaj@gmail.com",
-        password: "password",
+        email: "arditvezaj11@gmail.com",
+        password: "12345678",
       }).unwrap();
       dispatch(loginAuth({ user: response }));
       dispatch(apiSlice.util.invalidateTags(["UserProfile"]));

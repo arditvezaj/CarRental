@@ -48,7 +48,7 @@ const CarInfos = ({ item, fromMyCars }: CarInfosProps) => {
     {
       name: "First registration",
       value: firstRegistration,
-      image: require("../../../assets/images/icons/transmision.png"),
+      image: require("../../../assets/images/icons/firstRegistration.jpg"),
     },
     {
       name: "Fuel",
@@ -81,7 +81,7 @@ const CarInfos = ({ item, fromMyCars }: CarInfosProps) => {
           />
         </TouchableOpacity>
       )}
-      <Image source={imageUrl} style={styles.image} />
+      <Image source={{ uri: String(imageUrl) }} style={styles.image} />
       <View style={styles.horizontalContainer}>
         <Text style={styles.carName}>{name}</Text>
         <Text style={styles.price}>${price}/day</Text>
@@ -101,7 +101,7 @@ const CarInfos = ({ item, fromMyCars }: CarInfosProps) => {
         <View style={styles.date} key={field.name}>
           <Image source={field.image} style={styles.smallIcon} />
           <Text>{field.name}: </Text>
-          <Text>{field.value}</Text>
+          <Text style={styles.boxText}>{field.value}</Text>
         </View>
       ))}
     </View>

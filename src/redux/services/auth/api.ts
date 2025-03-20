@@ -3,6 +3,20 @@ import { apiSlice } from "@/src/redux/services/api-slice";
 export const api = apiSlice.injectEndpoints({
   overrideExisting: true,
   endpoints: (builder) => ({
+    sendVerificationCode: builder.mutation({
+      query: (body) => ({
+        url: "/auth/send-verification",
+        method: "POST",
+        body,
+      }),
+    }),
+    verifyCode: builder.mutation({
+      query: (body) => ({
+        url: "/auth/verify-code",
+        method: "POST",
+        body,
+      }),
+    }),
     getUser: builder.query({
       query: () => "/auth/profile",
       providesTags: ["UserProfile"],
@@ -43,4 +57,6 @@ export const {
   useSignupMutation,
   useLogoutMutation,
   useEncryptPasswordMutation,
+  useSendVerificationCodeMutation,
+  useVerifyCodeMutation,
 } = api;

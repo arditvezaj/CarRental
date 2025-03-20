@@ -31,6 +31,11 @@ import CarYears from "./src/screens/FilterCars/Years";
 import Favorites from "./src/screens/Favorites";
 import Profile from "./src/screens/Profile";
 import EditProfile from "./src/screens/EditProfile";
+import Bookings from "./src/screens/Bookings";
+import Deals from "./src/screens/Deals";
+import VerifyEmail from "./src/screens/VerifyEmail";
+
+import { useGetUserQuery } from "./src/redux/services/auth/api";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -59,6 +64,7 @@ const LoginStack = () => (
       options={{ headerShown: false }}
     />
     <Stack.Screen name="SignUp" component={SignUp} />
+    <Stack.Screen name="Verify Email" component={VerifyEmail} />
   </Stack.Navigator>
 );
 
@@ -104,82 +110,119 @@ const ProfileStack = () => (
   </Stack.Navigator>
 );
 
-const MainTabs = () => (
-  <Tab.Navigator
-    screenOptions={{
-      ...commonScreenOptions,
-      tabBarActiveTintColor: "#fff",
-      tabBarLabelStyle: {
-        marginTop: -10,
-        marginBottom: Platform.OS == "android" ? 10 : 0,
-      },
-      tabBarStyle: {
-        height: Platform.OS === "ios" ? 90 : 75,
-        backgroundColor: colors.secondary,
-        position: "relative",
-      },
-    }}
-  >
-    <Tab.Screen
-      name="HomeTab"
-      component={HomeStack}
-      options={{
-        headerShown: false,
-        title: "Home",
-        tabBarIcon: ({ color }) => (
-          <FontAwesome size={28} name="home" color={color} />
-        ),
-      }}
-    />
-    <Tab.Screen
-      name="MyCarsTab"
-      component={MyCarsStack}
-      options={{
-        headerShown: false,
-        title: "My Cars",
-        tabBarIcon: ({ color }) => (
-          <FontAwesome5 size={28} name="car" color={color} />
-        ),
-      }}
-    />
-    <Tab.Screen
-      name="AddCarTab"
-      component={AddCarStack}
-      options={{
-        headerShown: false,
-        title: "Add Car",
-        tabBarIcon: () => (
-          <View style={styles.tabIcon}>
-            <FontAwesome5 size={24} name="plus" color={colors.secondary} />
-          </View>
-        ),
-        tabBarLabel: () => null,
-      }}
-    />
-    <Tab.Screen
-      name="FavoritesTab"
-      component={FavoritesStack}
-      options={{
-        headerShown: false,
-        title: "Favorites",
-        tabBarIcon: ({ color }) => (
-          <FontAwesome size={28} name="heart" color={color} />
-        ),
-      }}
-    />
-    <Tab.Screen
-      name="ProfileTab"
-      component={ProfileStack}
-      options={{
-        headerShown: false,
-        title: "Profile",
-        tabBarIcon: ({ color }) => (
-          <FontAwesome size={28} name="user" color={color} />
-        ),
-      }}
-    />
-  </Tab.Navigator>
+const DealsStack = () => (
+  <Stack.Navigator screenOptions={commonScreenOptions}>
+    <Stack.Screen name="Deals" component={Deals} />
+  </Stack.Navigator>
 );
+
+const BookingsStack = () => (
+  <Stack.Navigator screenOptions={commonScreenOptions}>
+    <Stack.Screen name="Bookings" component={Bookings} />
+  </Stack.Navigator>
+);
+
+const MainTabs = () => {
+  const { data: user } = useGetUserQuery({});
+  const isCompany = user?.role === "company";
+
+  return (
+    <Tab.Navigator
+      screenOptions={{
+        ...commonScreenOptions,
+        tabBarActiveTintColor: "#fff",
+        tabBarLabelStyle: {
+          marginTop: -10,
+          marginBottom: Platform.OS == "android" ? 10 : 0,
+        },
+        tabBarStyle: {
+          height: Platform.OS === "ios" ? 90 : 75,
+          backgroundColor: colors.secondary,
+          position: "relative",
+        },
+      }}
+    >
+      <Tab.Screen
+        name="HomeTab"
+        component={HomeStack}
+        options={{
+          headerShown: false,
+          title: "Home",
+          tabBarIcon: ({ color }) => (
+            <FontAwesome size={28} name="home" color={color} />
+          ),
+        }}
+      />
+      {!isCompany ? (
+        <>
+          <Tab.Screen
+            name="MyCarsTab"
+            component={MyCarsStack}
+            options={{
+              headerShown: false,
+              title: "My Cars",
+              tabBarIcon: ({ color }) => (
+                <FontAwesome5 size={28} name="car" color={color} />
+              ),
+            }}
+          />
+          <Tab.Screen
+            name="AddCarTab"
+            component={AddCarStack}
+            options={{
+              headerShown: false,
+              title: "Add Car",
+              tabBarIcon: () => (
+                <View style={styles.tabIcon}>
+                  <FontAwesome5
+                    size={24}
+                    name="plus"
+                    color={colors.secondary}
+                  />
+                </View>
+              ),
+              tabBarLabel: () => null,
+            }}
+          />
+        </>
+      ) : (
+        <Tab.Screen
+          name="BookingsTab"
+          component={BookingsStack}
+          options={{
+            headerShown: false,
+            title: "Bookings",
+            tabBarIcon: ({ color }) => (
+              <FontAwesome5 size={28} name="car" color={color} />
+            ),
+          }}
+        />
+      )}
+      <Tab.Screen
+        name="FavoritesTab"
+        component={FavoritesStack}
+        options={{
+          headerShown: false,
+          title: "Favorites",
+          tabBarIcon: ({ color }) => (
+            <FontAwesome size={28} name="heart" color={color} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="ProfileTab"
+        component={ProfileStack}
+        options={{
+          headerShown: false,
+          title: "Profile",
+          tabBarIcon: ({ color }) => (
+            <FontAwesome size={28} name="user" color={color} />
+          ),
+        }}
+      />
+    </Tab.Navigator>
+  );
+};
 
 export default function App() {
   return (
