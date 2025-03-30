@@ -84,7 +84,7 @@ const CarInfos = ({ item, fromMyCars }: CarInfosProps) => {
       <Image source={{ uri: String(imageUrl) }} style={styles.image} />
       <View style={styles.horizontalContainer}>
         <Text style={styles.carName}>{name}</Text>
-        <Text style={styles.price}>${price}/day</Text>
+        <Text style={styles.price}>€{price}/day</Text>
       </View>
       <View>
         <Text style={styles.price}>Specifications</Text>

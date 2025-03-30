@@ -39,6 +39,7 @@ const CarYears = () => {
     if (
       newYearFrom &&
       yearTo?.length == 4 &&
+      text.length !== 4 &&
       newYearFrom > parseInt(yearTo, 10)
     ) {
       Alert.alert(
@@ -66,12 +67,13 @@ const CarYears = () => {
 
     if (
       yearFrom?.length == 4 &&
+      text.length == 4 &&
       newYearTo &&
       parseInt(yearFrom, 10) > newYearTo
     ) {
       Alert.alert(
         "Invalid Input",
-        "Year From must be less than or equal to Year To",
+        "Year From must be less than or equal to Year To3",
         [
           {
             text: "OK",
@@ -87,6 +89,7 @@ const CarYears = () => {
       dispatch(setYearFrom(reduxYearFrom));
     }
   };
+
   const validateYears = () => {
     const from = parseInt(yearFrom, 10);
     const to = parseInt(yearTo, 10);
@@ -127,12 +130,15 @@ const CarYears = () => {
 
   useEffect(() => {
     const backAction = () => {
-      if (yearFrom || yearTo) {
-        if (!validateYears()) {
-          return true;
-        }
-        handleDone();
+      if (!validateYears()) {
+        Alert.alert(
+          "Invalid Input",
+          "Please enter valid years before going back."
+        );
+        return true;
       }
+
+      handleDone();
       return false;
     };
 
@@ -146,7 +152,7 @@ const CarYears = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>Year:</Text>
+      <Text style={styles.title}>First registration:</Text>
       <TextInput
         style={styles.input}
         placeholder="From"

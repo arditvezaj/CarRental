@@ -73,12 +73,12 @@ const HomeStack = () => (
     <Stack.Screen name="Car Rental" component={Home} />
     <Stack.Screen name="Car Details" component={CarDetails} />
     <Stack.Screen name="Filter Cars" component={FilterCars} />
-    <Stack.Screen name="Car Makes" component={CarMakes} />
-    <Stack.Screen name="Car Models" component={CarModels} />
-    <Stack.Screen name="Car Price" component={CarPrices} />
-    <Stack.Screen name="Car Fuel" component={CarFuel} />
-    <Stack.Screen name="Car Transmission" component={CarTransmission} />
-    <Stack.Screen name="Car Year" component={CarYears} />
+    <Stack.Screen name="Makes" component={CarMakes} />
+    <Stack.Screen name="Models" component={CarModels} />
+    <Stack.Screen name="Price" component={CarPrices} />
+    <Stack.Screen name="Fuel" component={CarFuel} />
+    <Stack.Screen name="Transmission" component={CarTransmission} />
+    <Stack.Screen name="First Registration" component={CarYears} />
   </Stack.Navigator>
 );
 

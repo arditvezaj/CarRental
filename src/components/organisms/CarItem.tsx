@@ -14,7 +14,7 @@ const CarItem = ({ item, fromMyCars }: CarProps) => {
   const route = useRoute();
   const isFavorite = route.name == "Favorites";
 
-  const [deleteCar] = useDeleteCarMutation();
+  // const [deleteCar] = useDeleteCarMutation();
 
   const onPressHandler = async () => {
     // await deleteCar(id).unwrap();
@@ -34,7 +34,7 @@ const CarItem = ({ item, fromMyCars }: CarProps) => {
       <Image source={{ uri: String(imageUrl) }} style={styles.image} />
       <View style={styles.innerContainer}>
         <Text style={styles.name}>{name}</Text>
-        <Text style={styles.price}>${price}/day</Text>
+        <Text style={styles.price}>€{price}/day</Text>
       </View>
     </TouchableOpacity>
   );

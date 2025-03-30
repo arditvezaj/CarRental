@@ -1,8 +1,10 @@
+import { useState } from "react";
 import {
   SafeAreaView,
   FlatList,
   TextInput,
   View,
+  Text,
   StyleSheet,
 } from "react-native";
 import { allCarMakes } from "../../constants/filters";
@@ -17,6 +19,10 @@ interface CarMakeProps {
 }
 
 const CarMakes = () => {
+  const [text, setText] = useState("");
+  const filteredMakes = allCarMakes.filter((item) =>
+    item.name.toLowerCase().startsWith(text.toLowerCase())
+  );
   const make = useSelector((state: RootState) => state.filtersReducer.make);
   const dispatch = useDispatch();
   const makeHandler = (value: string) => dispatch(setMake(value));
@@ -40,13 +46,21 @@ const CarMakes = () => {
     <SafeAreaView style={styles.container}>
       <View style={styles.searchContainer}>
         <MaterialIcons name="search" size={24} color="#B3B3B3" />
-        <TextInput placeholder="Filter makes" style={styles.input} />
+        <TextInput
+          value={text}
+          onChangeText={(e: string) => setText(e)}
+          placeholder="Search makes"
+          style={styles.input}
+        />
       </View>
       <FlatList
-        data={allCarMakes}
+        data={filteredMakes}
         keyExtractor={(item) => item.id.toString()}
         showsVerticalScrollIndicator={false}
         renderItem={renderItem}
+        ListEmptyComponent={
+          <Text style={{ marginTop: 20 }}>No makes found.</Text>
+        }
       />
     </SafeAreaView>
   );
@@ -67,7 +81,6 @@ const styles = StyleSheet.create({
     marginTop: 20,
     borderRadius: 12,
     paddingHorizontal: 15,
-    paddingVertical: 8,
   },
   item: {
     paddingVertical: 14,

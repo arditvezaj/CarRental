@@ -1,9 +1,12 @@
+import { useState, useEffect } from "react";
 import {
   SafeAreaView,
   Text,
   TextInput,
   TouchableOpacity,
   StyleSheet,
+  Alert,
+  BackHandler,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,15 +18,59 @@ import { NavigationType } from "@/src/constants/types";
 const CarPrices = () => {
   const navigation = useNavigation<NavigationType>();
   const dispatch = useDispatch();
-  const priceFrom = useSelector(
+  const reduxPriceFrom = useSelector(
     (state: RootState) => state.filtersReducer.priceFrom
   );
-  const priceTo = useSelector(
+  const reduxPriceTo = useSelector(
     (state: RootState) => state.filtersReducer.priceTo
   );
 
-  const filterHandler = () => {
-    navigation.navigate("Filter Cars");
+  const [priceFrom, setLocalPriceFrom] = useState(
+    reduxPriceFrom ? reduxPriceFrom.toString() : ""
+  );
+  const [priceTo, setLocalPriceTo] = useState(
+    reduxPriceTo ? reduxPriceTo.toString() : ""
+  );
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    const from = parseInt(priceFrom, 10);
+    const to = parseInt(priceTo, 10);
+
+    if (!priceFrom || !priceTo) {
+      setError(""); // Clear error when fields are empty
+      return;
+    }
+
+    if (from < 0) {
+      setError("Price From must be a positive number");
+    } else if (to < 0) {
+      setError("Price To must be a positive number");
+    } else if (from > to) {
+      setError("Price From must be less than or equal to Price To");
+    } else {
+      setError(""); // Clear error if everything is valid
+      dispatch(setPriceFrom(from));
+      dispatch(setPriceTo(to));
+    }
+  }, [priceFrom, priceTo]); // Run validation when prices change
+
+  const handlePriceFromChange = (text: string) => {
+    setLocalPriceFrom(text);
+  };
+
+  const handlePriceToChange = (text: string) => {
+    setLocalPriceTo(text);
+  };
+
+  const handleDone = () => {
+    if (error) {
+      Alert.alert("Invalid Input", error, [{ text: "OK" }]);
+      return;
+    }
+    dispatch(setPriceFrom(parseInt(priceFrom, 10) || ""));
+    dispatch(setPriceTo(parseInt(priceTo, 10) || ""));
+    navigation.goBack();
   };
 
   return (
@@ -34,16 +81,17 @@ const CarPrices = () => {
         placeholder="From"
         keyboardType="numeric"
         value={priceFrom}
-        onChangeText={(e) => dispatch(setPriceFrom(e))}
+        onChangeText={handlePriceFromChange}
       />
       <TextInput
         style={styles.input}
         placeholder="To"
         keyboardType="numeric"
         value={priceTo}
-        onChangeText={(e) => dispatch(setPriceTo(e))}
+        onChangeText={handlePriceToChange}
       />
-      <TouchableOpacity style={styles.button} onPress={filterHandler}>
+      {error ? <Text style={styles.errorText}>{error}</Text> : null}
+      <TouchableOpacity style={styles.button} onPress={handleDone}>
         <Text style={styles.buttonText}>Done</Text>
       </TouchableOpacity>
     </SafeAreaView>
@@ -88,5 +136,10 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 16,
     fontWeight: "700",
+  },
+  errorText: {
+    color: colors.errorText,
+    fontSize: 14,
+    marginBottom: 10,
   },
 });
