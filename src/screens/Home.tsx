@@ -52,6 +52,7 @@ const Home = () => {
     ) {
       return false;
     }
+    if (car.isPremium !== null) return false;
 
     return true;
   });

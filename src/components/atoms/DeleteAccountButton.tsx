@@ -5,13 +5,13 @@ import colors from "@/src/constants/colors";
 
 import ModalContainer from "../organisms/ModalContainer";
 
-// import { useGetUserQuery } from "@/redux/services/auth/api";
-// import { useDeleteWorkerMutation } from "@/redux/services/workers/api";
+import { useGetUserQuery } from "@/src/redux/services/auth/api";
+import { useDeleteUserMutation } from "@/src/redux/services/users/api";
 
 const DeleteAccountButton = () => {
   const [deleteModal, setDeleteModal] = useState(false);
-  // const [deleteAccount] = useDeleteWorkerMutation();
-  // const { data: user } = useGetUserQuery({});
+  const [deleteAccount] = useDeleteUserMutation();
+  const { data: user } = useGetUserQuery({});
 
   const toggleDeleteModal = () => {
     setDeleteModal((prevState: boolean) => !prevState);
@@ -20,7 +20,7 @@ const DeleteAccountButton = () => {
   const deleteAccountHandler = async () => {
     toggleDeleteModal();
 
-    // await deleteAccount(user.id).unwrap();
+    await deleteAccount(user.id).unwrap();
   };
   return (
     <>
@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
     maxHeight: 45,
     flexDirection: "row",
     justifyContent: "center",
-    backgroundColor: colors.errorBorder,
+    backgroundColor: "#A52A2A",
     borderRadius: 10,
     paddingVertical: 13,
     marginTop: 20,
