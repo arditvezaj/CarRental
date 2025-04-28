@@ -1,48 +1,39 @@
-import { useLayoutEffect } from "react";
-import { SafeAreaView, FlatList, StyleSheet } from "react-native";
-import { NavigationProp, RouteProp } from "@react-navigation/native";
-import { carsData } from "../data/dummy-data";
+import { SafeAreaView, StyleSheet, TouchableOpacity, Text } from "react-native";
+import { useRoute, useNavigation } from "@react-navigation/native";
 import CarInfos from "../components/organisms/CarInfos";
 import BookButton from "../components/atoms/BookButton";
-import { CarItemProps } from "../components/organisms/CarItem";
+import { NavigationType } from "../constants/types";
+import colors from "../constants/colors";
+import { useGetCarByIdQuery } from "../redux/services/cars/api";
 
-interface CarDetailsProps {
-  route?: RouteProp<{ "Car Details": { id: string } }>;
-  navigation?: NavigationProp<{ "Car Details": { id: string } }>;
-}
+const CarDetails = () => {
+  const navigation = useNavigation<NavigationType>();
+  const route = useRoute();
+  const { id, fromMyCars } = route.params as {
+    id: string;
+    fromMyCars?: boolean;
+  };
 
-interface ItemProps {
-  item: CarItemProps;
-}
+  const { data: carData } = useGetCarByIdQuery(id);
 
-const CarDetails = ({ route, navigation }: CarDetailsProps) => {
-  const id = route && route.params.id;
+  if (!carData) return <Text>Car not found</Text>;
 
-  const displayedCars = carsData.filter((carItem) => {
-    return carItem.id == id;
-  });
-
-  // useLayoutEffect(() => {
-  //   const carName = carsData.find((car) => car.id === id)?.name;
-
-  //   navigation.setOptions({
-  //     name: carName,
-  //   });
-  // }, [id, navigation]);
-
-  const renderCarItem = ({ item }: ItemProps) => {
-    return <CarInfos item={item} />;
+  const navigationHandler = () => {
+    navigation.navigate("Edit Car", { id });
   };
 
   return (
     <SafeAreaView style={styles.container}>
-      <FlatList
-        data={displayedCars}
-        keyExtractor={(item) => item.id}
-        renderItem={renderCarItem}
-        showsVerticalScrollIndicator={false}
-      />
-      <BookButton />
+      <Text>
+        <CarInfos item={carData} fromMyCars={fromMyCars} />;
+      </Text>
+      {fromMyCars ? (
+        <TouchableOpacity style={styles.editButton} onPress={navigationHandler}>
+          <Text style={styles.buttonText}>Edit Car</Text>
+        </TouchableOpacity>
+      ) : (
+        <BookButton />
+      )}
     </SafeAreaView>
   );
 };
@@ -53,5 +44,17 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginHorizontal: 15,
+  },
+  editButton: {
+    backgroundColor: colors.secondary,
+    padding: 15,
+    borderRadius: 8,
+    alignItems: "center",
+    marginBottom: 25,
+  },
+  buttonText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "700",
   },
 });

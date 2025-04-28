@@ -1,44 +1,40 @@
-import {
-  View,
-  Text,
-  Image,
-  StyleSheet,
-  TouchableOpacity,
-  ImageSourcePropType,
-} from "react-native";
-import { useNavigation, NavigationProp } from "@react-navigation/native";
+import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import colors from "../../constants/colors";
+import { NavigationType, CarItemProps } from "../../constants/types";
+import { useDeleteCarMutation } from "@/src/redux/services/cars/api";
 
-export interface CarItemProps {
-  id: string;
-  company?: string;
-  name: string;
-  fuel?: string;
-  year?: number;
-  engine?: number;
-  date?: string;
-  transmission?: string;
-  price?: number;
-  discount?: number;
-  imageUrl: ImageSourcePropType;
+interface CarProps extends CarItemProps {
+  fromMyCars?: boolean;
 }
 
-const CarItem = ({ id, name, price, imageUrl }: CarItemProps) => {
-  const navigation =
-    useNavigation<NavigationProp<{ "Car Details": { id: string } }>>();
+const CarItem = ({ item, fromMyCars }: CarProps) => {
+  const { id, name, price, imageUrl } = item;
+  const navigation = useNavigation<NavigationType>();
+  const route = useRoute();
+  const isFavorite = route.name == "Favorites";
 
-  const onPressHandler = () => {
-    navigation.navigate("Car Details", { id });
+  // const [deleteCar] = useDeleteCarMutation();
+
+  const onPressHandler = async () => {
+    // await deleteCar(id).unwrap();
+    navigation.navigate("Car Details", {
+      id,
+      fromMyCars,
+    });
   };
   return (
-    <TouchableOpacity onPress={onPressHandler} style={styles.container}>
+    <TouchableOpacity
+      onPress={onPressHandler}
+      style={[styles.container, { maxWidth: isFavorite ? "100%" : "45%" }]}
+    >
       {/* <View style={styles.discountContainer}>
         <Text style={styles.discount}>-{discount}%</Text>
       </View> */}
-      <Image source={imageUrl} style={styles.image} />
+      <Image source={{ uri: String(imageUrl) }} style={styles.image} />
       <View style={styles.innerContainer}>
         <Text style={styles.name}>{name}</Text>
-        <Text style={styles.price}>${price}/day</Text>
+        <Text style={styles.price}>€{price}/day</Text>
       </View>
     </TouchableOpacity>
   );
@@ -49,7 +45,6 @@ export default CarItem;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    maxWidth: "45%",
     height: 170,
     backgroundColor: colors.secondary,
     margin: 10,
@@ -72,7 +67,7 @@ const styles = StyleSheet.create({
     zIndex: 999,
   },
   discount: {
-    color: "white",
+    color: "#fff",
   },
   image: {
     borderTopLeftRadius: 10,

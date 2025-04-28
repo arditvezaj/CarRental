@@ -1,146 +1,74 @@
 import { useState } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  SafeAreaView,
-  FlatList,
-  ScrollView,
-} from "react-native";
-import { carsData } from "../data/dummy-data";
-import CarItem, { CarItemProps } from "../components/organisms/CarItem";
+import { View, Text, StyleSheet, SafeAreaView, FlatList } from "react-native";
+import CarItem from "../components/organisms/CarItem";
 import SearchInput from "../components/molecules/SearchInput";
-import * as Notifications from "expo-notifications";
 import FilterButton from "../components/atoms/FilterButton";
 import PremiumCars from "../components/organisms/PremiumCars";
-
-interface HomeProps {
-  item: CarItemProps;
-}
-
-Notifications.setNotificationHandler({
-  handleNotification: async () => {
-    return {
-      shouldPlaySound: false,
-      shouldSetBadge: false,
-      shouldShowAlert: true,
-    };
-  },
-});
+import { CarFormData, CarItemProps } from "../constants/types";
+import useDebounce from "../hooks/useDebounce";
+import { useGetCarsQuery } from "../redux/services/cars/api";
+import { useSelector } from "react-redux";
+import { RootState } from "../redux/store";
 
 const Home = () => {
-  const [text, setText] = useState("");
+  const [search, setSearch] = useState("");
+  const debounceSearch = useDebounce(search.toLowerCase(), 500);
 
-  const renderItem = ({ item }: HomeProps) => {
-    return (
-      <CarItem
-        id={item.id}
-        name={item.name}
-        discount={item.discount}
-        price={item.price}
-        imageUrl={item.imageUrl}
-      />
-    );
+  const { data: cars } = useGetCarsQuery(debounceSearch);
+
+  const make = useSelector((state: RootState) => state.filtersReducer.make);
+  const model = useSelector((state: RootState) => state.filtersReducer.model);
+  const priceFrom = useSelector(
+    (state: RootState) => state.filtersReducer.priceFrom
+  );
+  const priceTo = useSelector(
+    (state: RootState) => state.filtersReducer.priceTo
+  );
+  const yearFrom = useSelector(
+    (state: RootState) => state.filtersReducer.yearFrom
+  );
+  const yearTo = useSelector((state: RootState) => state.filtersReducer.yearTo);
+  const fuel = useSelector((state: RootState) => state.filtersReducer.fuel);
+  const transmission = useSelector(
+    (state: RootState) => state.filtersReducer.transmission
+  );
+
+  const carsList = cars?.filter((car: CarFormData) => {
+    if (make && make !== "All" && make !== car.make) return false;
+    if (model && model !== "All" && model !== car.model) return false;
+    if (priceFrom && priceFrom !== "" && Number(car.price) < Number(priceFrom))
+      return false;
+    if (priceTo && priceTo !== "" && Number(car.price) > Number(priceTo))
+      return false;
+    if (yearFrom && yearFrom !== "" && car.firstRegistration < yearFrom) {
+      return false;
+    }
+    if (yearTo && yearTo !== "" && car.firstRegistration > yearTo) return false;
+    if (fuel && fuel !== "All" && fuel !== car.fuel) return false;
+    if (
+      transmission &&
+      transmission !== "All" &&
+      transmission !== car.transmission
+    ) {
+      return false;
+    }
+    if (car.isPremium !== null) return false;
+
+    return true;
+  });
+
+  const renderItem = ({ item }: CarItemProps) => {
+    return <CarItem item={item} />;
   };
-
-  // useEffect(() => {
-  //   const configurePushNotifications = async () => {
-  //     const { status } = await Notifications.getPermissionsAsync();
-  //     let finalStatus = status;
-
-  //     if (finalStatus !== "granted") {
-  //       const { status } = await Notifications.requestPermissionsAsync();
-  //       finalStatus = status;
-  //     }
-
-  //     if (finalStatus !== "granted") {
-  //       Alert.alert(
-  //         "Permission required",
-  //         "Failed to get push token for push notification!"
-  //       );
-  //       return;
-  //     }
-
-  //     const pushTokenData = await Notifications.getExpoPushTokenAsync();
-  //     console.log(pushTokenData);
-
-  //     if (Platform.OS === "android") {
-  //       Notifications.setNotificationChannelAsync("default", {
-  //         name: "default",
-  //         importance: Notifications.AndroidImportance.DEFAULT,
-  //       });
-  //     }
-  //   };
-
-  //   configurePushNotifications();
-  // }, []);
-
-  // useEffect(() => {
-  //   const subscription1 = Notifications.addNotificationReceivedListener(
-  //     (notification) => {
-  //       const userName = notification.request.content.data.userName;
-  //       // console.log(userName);
-  //     }
-  //   );
-
-  //   const subscription2 = Notifications.addNotificationResponseReceivedListener(
-  //     (response) => {
-  //       const userName = response.notification.request.content.data.userName;
-  //       // console.log(userName);
-  //     }
-  //   );
-
-  //   return () => {
-  //     subscription1.remove();
-  //     subscription2.remove();
-  //   };
-  // }, []);
-
-  // const scheduleBNNotification = () => {
-  //   Notifications.scheduleNotificationAsync({
-  //     content: {
-  //       title: "Car Rental",
-  //       body: "Your car is due to be returned!",
-  //       data: {
-  //         userName: "John",
-  //       },
-  //     },
-  //     trigger: {
-  //       seconds: 5,
-  //     },
-  //   });
-  // };
-
-  // const sendPushNotificationHandler = () => {
-  //   fetch("https://exp.host/--/api/v2/push/send", {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify({
-  //       to: "ExponentPushToken[b2gYk9M54JQB71WTUJ4zW8]",
-  //       title: "Car Rental",
-  //       body: "Your car is due to be returned!",
-  //       data: {
-  //         userName: "John",
-  //       },
-  //     }),
-  //   });
-  // };
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* <Button title="Schedule Notification" onPress={scheduleBNNotification} />
-      <Button
-        title="Send Push Notification"
-        onPress={sendPushNotificationHandler}
-      /> */}
       <View style={styles.searchContainer}>
-        <SearchInput text={text} setText={setText} />
+        <SearchInput text={search} setText={setSearch} />
         <FilterButton />
       </View>
       <FlatList
-        data={carsData}
+        data={carsList}
         keyExtractor={(item) => item.id}
         renderItem={renderItem}
         numColumns={2}
@@ -150,7 +78,7 @@ const Home = () => {
             <Text style={styles.title}>Popular Cars</Text>
           </>
         }
-        ListEmptyComponent={<Text>No cars found</Text>}
+        ListEmptyComponent={<Text>No cars found.</Text>}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.contentList}
       />
@@ -172,7 +100,6 @@ const styles = StyleSheet.create({
   },
   title: {
     marginLeft: 10,
-    marginTop: 10,
     fontSize: 16,
     fontWeight: "600",
   },

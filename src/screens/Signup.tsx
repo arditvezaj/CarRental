@@ -1,36 +1,42 @@
-import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  SafeAreaView,
-  StyleSheet,
-} from "react-native";
-import { useNavigation, NavigationProp, NavigationContainerProps } from "@react-navigation/native";
-import colors from "../constants/colors";
+import { SafeAreaView, StyleSheet } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { NavigationType } from "../constants/types";
+import ProfileForm, {
+  ProfileFormData,
+} from "../components/organisms/ProfileForm";
+import { useCreateUserMutation } from "../redux/services/users/api";
+import { useSendVerificationCodeMutation } from "../redux/services/auth/api";
 
 const SignUp = () => {
-  const navigation = useNavigation<NavigationProp<{ Home: undefined }>>();
+  const navigation = useNavigation<NavigationType>();
+
+  const [addUser] = useCreateUserMutation();
+  const [sendVerification] = useSendVerificationCodeMutation();
+
+  const handleSubmit = async (data: ProfileFormData) => {
+    try {
+      await addUser(data).unwrap();
+
+      const response = await sendVerification({ email: data.email }).unwrap();
+      console.log(response);
+
+      navigation.replace("Verify Email", { email: data.email });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleLoginPress = () => {
+    navigation.replace("Login");
+  };
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>SignUp with your credentials</Text>
-      <View style={styles.innerContainer}>
-        <Text style={styles.label}>Email:</Text>
-        <TextInput style={styles.input} textContentType="emailAddress" />
-        <Text style={styles.label}>Password:</Text>
-        <TextInput
-          style={styles.input}
-          textContentType="password"
-          secureTextEntry
-        />
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => navigation.navigate("Home")}
-        >
-          <Text style={styles.buttonText}>SignUp</Text>
-        </TouchableOpacity>
-      </View>
+      <ProfileForm
+        onSubmit={handleSubmit}
+        submitButtonText="Sign Up"
+        onLoginPress={handleLoginPress}
+      />
     </SafeAreaView>
   );
 };
@@ -41,45 +47,5 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginHorizontal: 20,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: "700",
-    color: "white",
-    marginTop: 70,
-    textAlign: "center",
-  },
-  innerContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    marginBottom: 140,
-  },
-  label: { color: "white", fontSize: 18, fontWeight: "700" },
-  input: {
-    width: "100%",
-    color: "#000",
-    backgroundColor: "white",
-    height: 44,
-    fontSize: 18,
-    marginBottom: 30,
-    marginTop: 8,
-    padding: 10,
-    borderWidth: 1,
-    borderColor: "#E6E8EC",
-    borderRadius: 8,
-  },
-  button: {
-    width: "100%",
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: colors.secondary,
-    padding: 12,
-    borderRadius: 8,
-  },
-  buttonText: {
-    fontSize: 18,
-    fontWeight: "700",
-    color: "#fff",
   },
 });

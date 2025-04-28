@@ -5,10 +5,19 @@ import { useDispatch, useSelector } from "react-redux";
 import { setFuel } from "../../redux/modules/filters/slice";
 import { RootState } from "@/src/redux/store";
 
+type CarFuelProps = {
+  item: { id: number; name: string };
+};
+
 const CarFuel = () => {
   const fuel = useSelector((state: RootState) => state.filtersReducer.fuel);
   const dispatch = useDispatch();
+
   const fuelHandler = (value: string) => dispatch(setFuel(value));
+
+  const renderItem = ({ item }: CarFuelProps) => (
+    <InnerSearchItem name={item.name} value={fuel} setState={fuelHandler} />
+  );
 
   return (
     <SafeAreaView style={styles.container}>
@@ -16,13 +25,7 @@ const CarFuel = () => {
         data={carFuel}
         keyExtractor={(item) => item.id.toString()}
         showsVerticalScrollIndicator={false}
-        renderItem={({ item }) => (
-          <InnerSearchItem
-            name={item.name}
-            value={fuel}
-            setState={fuelHandler}
-          />
-        )}
+        renderItem={renderItem}
       />
     </SafeAreaView>
   );

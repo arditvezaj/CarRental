@@ -16,6 +16,7 @@ const ChevronIcon = ({ isOpened }: { isOpened: boolean }) => {
 interface Props {
   data: CarDetailsProps[] | { name: string }[];
   selectedItem: string;
+  value: string;
   onSelect: (select: { name: string }) => void;
   placeholder: string;
   errorMessage?: string;
@@ -23,28 +24,26 @@ interface Props {
 
 const DropdownPicker = ({
   data,
+  value,
   selectedItem,
   onSelect,
   placeholder,
   errorMessage,
 }: Props) => {
   return (
-    <View style={styles.wrapper}>
+    <>
       <SelectDropdown
         data={data}
         onSelect={onSelect}
-        renderButton={(isOpened) => (
+        renderButton={(selectedItem, isOpened) => (
           <View
             style={[
               styles.container,
               errorMessage &&
-                errorMessage.length > 0 && { borderColor: "#EE374A" },
+                errorMessage.length > 0 && { borderColor: colors.errorBorder },
             ]}
           >
-            <Text style={styles.buttonText}>
-              {selectedItem ? selectedItem : placeholder}
-            </Text>
-            {/* <Text>{isOpened ? "1" : "0"}</Text> */}
+            <Text style={styles.buttonText}>{value ? value : placeholder}</Text>
             <ChevronIcon isOpened={isOpened} />
           </View>
         )}
@@ -64,29 +63,26 @@ const DropdownPicker = ({
       {errorMessage && errorMessage.length > 0 && (
         <Text style={styles.errorText}>{errorMessage}</Text>
       )}
-    </View>
+    </>
   );
 };
 
 export default DropdownPicker;
 
 const styles = StyleSheet.create({
-  wrapper: {
-    width: "100%",
-  },
   errorText: {
-    color: "#FF0D10",
+    color: colors.errorText,
     fontSize: 12,
-    marginTop: -12,
+    marginTop: -10,
     marginBottom: 10,
     marginLeft: 2,
   },
   container: {
-    marginTop: 7,
-    marginBottom: 15,
+    marginTop: 6,
+    marginBottom: 12,
     borderWidth: 1,
-    borderColor: "#e0e0e0",
-    backgroundColor: "#f2f2f2",
+    borderColor: colors.borderColor,
+    backgroundColor: "#fff",
     height: 45,
     borderRadius: 8,
     flexDirection: "row",
@@ -96,7 +92,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     flex: 1,
-    fontSize: 15,
+    fontSize: 14,
     fontWeight: "500",
   },
   menuList: {
@@ -109,11 +105,11 @@ const styles = StyleSheet.create({
     paddingVertical: 13,
     paddingLeft: 20,
     borderWidth: 1,
-    borderColor: colors.secondary,
+    borderColor: colors.borderColor,
   },
   itemText: {
     flex: 1,
-    fontSize: 15,
+    fontSize: 14,
     fontWeight: "500",
   },
 });

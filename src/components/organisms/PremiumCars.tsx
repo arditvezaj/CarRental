@@ -7,22 +7,29 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from "react-native";
-
-const premiumCars = [
-  { id: "1", name: "Mercedes Benz", price: 100 },
-  {
-    id: "2",
-    name: "BMW",
-    price: 120,
-  },
-  { id: "3", name: "Audi", price: 110 },
-  { id: "4", name: "Tesla", price: 150 },
-];
+import { useNavigation } from "@react-navigation/native";
+import {
+  CarFormData,
+  CarItemProps,
+  NavigationType,
+} from "@/src/constants/types";
+import { useGetCarsQuery } from "@/src/redux/services/cars/api";
 
 const PremiumCars = () => {
-  const renderItem = ({ item }: any) => {
+  const navigation = useNavigation<NavigationType>();
+  const { data: cars } = useGetCarsQuery({});
+  if (!cars) return null;
+
+  const premiumCarsList = cars.filter(
+    (carItem: CarFormData) => carItem.isPremium
+  );
+
+  const renderItem = ({ item }: CarItemProps) => {
     return (
-      <TouchableOpacity style={styles.item}>
+      <TouchableOpacity
+        style={styles.item}
+        onPress={() => navigation.navigate("Car Details", { id: item.id })}
+      >
         <Image
           source={require("@/assets/images/cars/audi.jpeg")}
           style={styles.image}
@@ -35,11 +42,11 @@ const PremiumCars = () => {
     );
   };
 
-  return (
+  return premiumCarsList.length > 0 ? (
     <View style={styles.container}>
       <Text style={styles.title}>Premium Cars</Text>
       <FlatList
-        data={premiumCars}
+        data={premiumCarsList}
         horizontal
         keyExtractor={(item) => item.id}
         renderItem={renderItem}
@@ -48,7 +55,7 @@ const PremiumCars = () => {
         contentContainerStyle={{ gap: 2 }}
       />
     </View>
-  );
+  ) : null;
 };
 
 export default PremiumCars;

@@ -1,20 +1,22 @@
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
-
-import { AntDesign, FontAwesome } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addFavorite,
   removeFavorite,
 } from "../../redux/modules/favorites/slice";
 import colors from "../../constants/colors";
-import { CarItemProps } from "./CarItem";
+import { CarItemProps } from "../../constants/types";
 import { RootState } from "@/src/redux/store";
+import formatDate from "../../utils/formatDate";
 
-interface CarInfosProps {
-  item: CarItemProps;
+interface CarInfosProps extends CarItemProps {
+  fromMyCars?: boolean;
 }
 
-const CarInfos = ({ item }: CarInfosProps) => {
+const CarInfos = ({ item, fromMyCars }: CarInfosProps) => {
+  if (!item) return null;
+
   const {
     id,
     company,
@@ -23,7 +25,7 @@ const CarInfos = ({ item }: CarInfosProps) => {
     date,
     engine,
     transmission,
-    year,
+    firstRegistration,
     fuel,
     imageUrl,
   } = item;
@@ -44,9 +46,9 @@ const CarInfos = ({ item }: CarInfosProps) => {
       image: require("../../../assets/images/icons/transmision.png"),
     },
     {
-      name: "Year",
-      value: year,
-      image: require("../../../assets/images/icons/transmision.png"),
+      name: "First registration",
+      value: firstRegistration,
+      image: require("../../../assets/images/icons/firstRegistration.jpg"),
     },
     {
       name: "Fuel",
@@ -60,7 +62,7 @@ const CarInfos = ({ item }: CarInfosProps) => {
     },
     {
       name: "Available date",
-      value: date,
+      value: date ? formatDate(date) : "Not available",
       image: require("../../../assets/images/icons/time.png"),
     },
   ];
@@ -70,23 +72,19 @@ const CarInfos = ({ item }: CarInfosProps) => {
       <View style={styles.companyContainer}>
         <Text style={styles.company}>{company}</Text>
       </View>
-      <TouchableOpacity style={styles.heart} onPress={toggleFavorite}>
-        <AntDesign
-          name={carIsFavorite ? "heart" : "hearto"}
-          size={25}
-          color="#990f02"
-        />
-      </TouchableOpacity>
-      <Image source={imageUrl} style={styles.image} />
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "space-between",
-          width: "100%",
-        }}
-      >
+      {!fromMyCars && (
+        <TouchableOpacity style={styles.heart} onPress={toggleFavorite}>
+          <AntDesign
+            name={carIsFavorite ? "heart" : "hearto"}
+            size={25}
+            color="#990f02"
+          />
+        </TouchableOpacity>
+      )}
+      <Image source={{ uri: String(imageUrl) }} style={styles.image} />
+      <View style={styles.horizontalContainer}>
         <Text style={styles.carName}>{name}</Text>
-        <Text style={styles.price}>${price}/day </Text>
+        <Text style={styles.price}>€{price}/day</Text>
       </View>
       <View>
         <Text style={styles.price}>Specifications</Text>
@@ -103,7 +101,7 @@ const CarInfos = ({ item }: CarInfosProps) => {
         <View style={styles.date} key={field.name}>
           <Image source={field.image} style={styles.smallIcon} />
           <Text>{field.name}: </Text>
-          <Text>{field.value}</Text>
+          <Text style={styles.boxText}>{field.value}</Text>
         </View>
       ))}
     </View>
@@ -131,7 +129,7 @@ const styles = StyleSheet.create({
   company: {
     fontSize: 20,
     fontWeight: "700",
-    color: "white",
+    color: "#fff",
   },
   boxesContainer: {
     flexDirection: "row",
@@ -141,7 +139,7 @@ const styles = StyleSheet.create({
   box: {
     width: "31.4%",
     height: 100,
-    backgroundColor: "white",
+    backgroundColor: "#fff",
     borderRadius: 6,
     justifyContent: "center",
     alignItems: "center",
@@ -167,16 +165,21 @@ const styles = StyleSheet.create({
     height: 30,
     marginRight: 15,
   },
+  horizontalContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "100%",
+  },
   carName: {
     marginVertical: 5,
     fontSize: 20,
     fontWeight: "700",
-    color: "white",
+    color: "#fff",
   },
   price: {
     fontSize: 18,
     fontWeight: "700",
-    color: "white",
+    color: "#fff",
     marginVertical: 5,
   },
   heart: {
@@ -194,7 +197,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: 10,
     paddingVertical: 8,
-    backgroundColor: "white",
+    backgroundColor: "#fff",
     borderRadius: 6,
     marginVertical: 5,
   },

@@ -5,6 +5,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { setTransmission } from "../../redux/modules/filters/slice";
 import { RootState } from "@/src/redux/store";
 
+type CarTransmissionProps = {
+  item: { name: string };
+};
+
 const CarTransmission = () => {
   const transmission = useSelector(
     (state: RootState) => state.filtersReducer.transmission
@@ -13,19 +17,21 @@ const CarTransmission = () => {
   const transmissionHandler = (value: string) =>
     dispatch(setTransmission(value));
 
+  const renderItem = ({ item }: CarTransmissionProps) => (
+    <InnerSearchItem
+      name={item.name}
+      value={transmission}
+      setState={transmissionHandler}
+    />
+  );
+
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
         data={carTransmissions}
         keyExtractor={(item) => item.id.toString()}
         showsVerticalScrollIndicator={false}
-        renderItem={({ item }) => (
-          <InnerSearchItem
-            name={item.name}
-            value={transmission}
-            setState={transmissionHandler}
-          />
-        )}
+        renderItem={renderItem}
       />
     </SafeAreaView>
   );
@@ -37,15 +43,5 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginHorizontal: 20,
-  },
-  item: {
-    paddingVertical: 14,
-    borderBottomWidth: 1,
-    borderBottomColor: "#E6E8EC",
-  },
-  label: {
-    color: "#fff",
-    fontSize: 17,
-    fontWeight: "600",
   },
 });

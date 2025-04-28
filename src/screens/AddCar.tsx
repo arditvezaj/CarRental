@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useRef } from "react";
 import {
   View,
   Text,
@@ -6,72 +6,46 @@ import {
   StyleSheet,
   ScrollView,
 } from "react-native";
+import { formatISO } from "date-fns";
 import { useForm } from "react-hook-form";
-import { useNavigation, NavigationProp } from "@react-navigation/native";
-import {
-  allCarMakes,
-  carModels,
-  carTransmissions,
-  carFuel,
-  CarModelProps,
-} from "../constants/filters";
-import colors from "../constants/colors";
+import { useNavigation } from "@react-navigation/native";
 import { FontAwesome } from "@expo/vector-icons";
-import ControlledInput from "../components/atoms/ControlledInput";
-import ControlledDropdown from "../components/atoms/ControlledDropdown";
+import { NavigationType, CarFormData } from "../constants/types";
+import CarForm from "../components/organisms/CarForm";
 
-interface AddCarFormData {
-  make: string;
-  model: string;
-  transmission: string;
-  fuel: string;
-  year: string;
-  price: string;
-}
+import { useCreateCarMutation } from "../redux/services/cars/api";
 
 const AddCar = () => {
-  const navigation =
-    useNavigation<NavigationProp<{ "Car Rental": undefined }>>();
-  const { control, handleSubmit, reset, watch, setValue } =
-    useForm<AddCarFormData>({
-      defaultValues: {
-        make: "",
-        model: "",
-        transmission: "",
-        fuel: "",
-        year: "",
-        price: "",
-      },
-    });
+  const navigation = useNavigation<NavigationType>();
+  const carFormRef = useRef<{ reset: () => void } | null>(null);
 
-  const [models, setModels] = useState<{ name: string }[]>([]);
-  const selectedMake = watch("make");
+  const [addCar] = useCreateCarMutation();
 
-  function getModelsByMake(make: keyof CarModelProps | string) {
-    const models = carModels[make as keyof CarModelProps] || [];
-    return setModels(models.map((model) => ({ name: model })));
-  }
-
-  useEffect(() => {
-    if (selectedMake) {
-      getModelsByMake(selectedMake);
-      setValue("model", "");
-    }
-  }, [selectedMake]);
+  const { reset } = useForm();
 
   const resetHandler = () => {
     reset();
-    setModels([]);
+    if (carFormRef.current) {
+      carFormRef.current.reset();
+    }
   };
 
   const cancelHandler = () => {
     resetHandler();
-    navigation.navigate("Car Rental");
+    navigation.goBack();
   };
 
-  const onSubmit = (data: AddCarFormData) => {
-    resetHandler();
-    navigation.navigate("Car Rental");
+  const onSubmit = async (data: CarFormData) => {
+    data.date?.setHours(12, 0, 0, 0);
+    const formattedDate = data.date && formatISO(data.date);
+
+    try {
+      await addCar({ ...data, date: formattedDate }).unwrap();
+      resetHandler();
+      navigation.navigate("Car Rental");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -83,85 +57,12 @@ const AddCar = () => {
           <Text style={styles.buttonText}>Reset</Text>
         </TouchableOpacity>
       </View>
-      <ControlledDropdown
-        name="make"
-        label="Make"
-        control={control}
-        data={allCarMakes.slice(1)}
-        placeholder="Select Make"
-        rules={{ required: "Make is required" }}
+      <CarForm
+        submitButtonText="Add"
+        onSubmit={onSubmit}
+        onCancel={cancelHandler}
+        formRef={carFormRef}
       />
-      {selectedMake && (
-        <ControlledDropdown
-          name="model"
-          label="Model"
-          control={control}
-          data={models}
-          placeholder="Select Model"
-          rules={{ required: "Model is required" }}
-        />
-      )}
-      <ControlledDropdown
-        name="transmission"
-        label="Transmission"
-        control={control}
-        data={carTransmissions.slice(1)}
-        placeholder="Select Transmission"
-        rules={{ required: "Transmission is required" }}
-      />
-      <ControlledDropdown
-        name="fuel"
-        label="Fuel"
-        control={control}
-        data={carFuel.slice(1)}
-        placeholder="Select Fuel"
-        rules={{ required: "Fuel is required" }}
-      />
-      <ControlledInput
-        name="year"
-        label="Year"
-        placeholder="Year"
-        keyboardType="numeric"
-        maxLength={4}
-        control={control}
-        rules={{
-          required: "Year is required",
-          validate: (value: string) => {
-            const year = parseInt(value);
-            return (
-              (year >= 1950 && year <= 2025) ||
-              "Please enter a valid year (1950-2025)"
-            );
-          },
-        }}
-      />
-      <ControlledInput
-        name="price"
-        label="Price"
-        placeholder="Price"
-        keyboardType="numeric"
-        control={control}
-        rules={{
-          required: "Price is required",
-          pattern: {
-            value: /^\d+(\.\d{1,2})?$/,
-            message: "Please enter a valid price",
-          },
-        }}
-        returnKeyType="done"
-      />
-      <View style={styles.buttonsContainer}>
-        <TouchableOpacity style={styles.closeButton} onPress={cancelHandler}>
-          <Text style={styles.buttonText}>Cancel</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={handleSubmit(onSubmit)}
-        >
-          <FontAwesome name="check" size={20} color="#fff" />
-          <Text style={styles.buttonText}>Add</Text>
-        </TouchableOpacity>
-      </View>
     </ScrollView>
   );
 };
@@ -177,28 +78,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginVertical: 10,
+    marginTop: 10,
   },
   title: {
     fontSize: 20,
     fontWeight: "700",
-  },
-  buttonsContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginTop: 10,
-    paddingBottom: 15,
-  },
-  button: {
-    width: "47%",
-    height: 44,
-    backgroundColor: colors.secondary,
-    borderRadius: 8,
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    gap: 7,
-    marginTop: 10,
   },
   resetButton: {
     width: 100,
@@ -209,15 +93,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     gap: 7,
-  },
-  closeButton: {
-    width: "47%",
-    height: 44,
-    backgroundColor: "grey",
-    borderRadius: 8,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 10,
   },
   buttonText: {
     color: "#fff",

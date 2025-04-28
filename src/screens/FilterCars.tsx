@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useRef, useEffect } from "react";
 import {
   SafeAreaView,
   View,
@@ -11,7 +11,7 @@ import SearchItem from "../components/organisms/SearchItem";
 import { useSelector, useDispatch } from "react-redux";
 import colors from "../constants/colors";
 import { FontAwesome } from "@expo/vector-icons";
-import { useNavigation, NavigationProp } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import {
   setMake,
   setModel,
@@ -23,10 +23,10 @@ import {
   setYearTo,
 } from "../redux/modules/filters/slice";
 import { RootState } from "../redux/store";
+import { NavigationType } from "../constants/types";
 
 const FilterCars = () => {
-  const navigation =
-    useNavigation<NavigationProp<{ "Car Rental": undefined }>>();
+  const navigation = useNavigation<NavigationType>();
   const dispatch = useDispatch();
   const make = useSelector((state: RootState) => state.filtersReducer.make);
   const model = useSelector((state: RootState) => state.filtersReducer.model);
@@ -67,10 +67,14 @@ const FilterCars = () => {
     year = yearFrom + " - " + yearTo;
   }
 
+  const prevMakeRef = useRef<string | null>(make);
+
   useEffect(() => {
-    if (make) {
+    if (make && make !== prevMakeRef.current) {
       dispatch(setModel("All"));
     }
+
+    prevMakeRef.current = make;
   }, [make]);
 
   const resetHandler = () => {
@@ -85,23 +89,32 @@ const FilterCars = () => {
   };
 
   const array = [
-    { id: "1", name: "Make", path: "Car Makes", value: make },
-    { id: "2", name: "Model", path: "Car Models", value: model },
+    { id: "1", name: "Make", path: "Makes", value: make },
+    { id: "2", name: "Model", path: "Models", value: model },
     {
       id: "3",
       name: "Price",
-      path: "Car Price",
+      path: "Price",
       value: price,
     },
-    { id: "4", name: "Year", path: "Car Year", value: year },
-    { id: "5", name: "Fuel", path: "Car Fuel", value: fuel },
+    {
+      id: "4",
+      name: "First registration",
+      path: "First Registration",
+      value: year,
+    },
+    { id: "5", name: "Fuel", path: "Fuel", value: fuel },
     {
       id: "6",
       name: "Transmission",
-      path: "Car Transmission",
+      path: "Transmission",
       value: transmission,
     },
   ];
+
+  const filterHandler = () => {
+    navigation.navigate("Car Rental");
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -118,12 +131,7 @@ const FilterCars = () => {
           <FontAwesome name="undo" size={20} color="#fff" />
           <Text style={styles.buttonText}>Reset</Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => {
-            navigation.navigate("Car Rental");
-          }}
-        >
+        <TouchableOpacity style={styles.button} onPress={filterHandler}>
           <FontAwesome name="search" size={20} color="#fff" />
           <Text style={styles.buttonText}>Apply</Text>
         </TouchableOpacity>
@@ -141,7 +149,7 @@ const styles = StyleSheet.create({
   item: {
     padding: 10,
     borderBottomWidth: 1,
-    borderBottomColor: "#E6E8EC",
+    borderBottomColor: colors.borderColor,
   },
   buttonsContainer: {
     flexDirection: "row",
